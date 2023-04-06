@@ -15,7 +15,6 @@ namespace winrt::Player::implementation
         void OnNavigationFailed(IInspectable const&, Microsoft::UI::Xaml::Navigation::NavigationFailedEventArgs const&);
 
     private:
-        void MakeAppUnique();
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
 
     private:
@@ -23,5 +22,7 @@ namespace winrt::Player::implementation
         // and initialize at other time
         // or use default constructor or other constructor
         Microsoft::UI::Xaml::Window window{ nullptr };
+        // use for disable multi-instance, keep A-Za-z, and no '\'
+        std::wstring_view appname{L"PlayerWinRT"};
     };
 }

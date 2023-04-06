@@ -4,30 +4,33 @@
 #include "pch.h"
 
 #include "App.xaml.h"
-#include "MainPage.xaml.h"
 #include "RootPage.xaml.h"
 // for ::IWindowNative
 #include <Microsoft.UI.Xaml.Window.h>
 
+#include "Win32Helper.h"
+
 using namespace winrt;
 using namespace Windows::Foundation;
+using namespace Microsoft::UI;
+using namespace Microsoft::UI::Windowing;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Navigation;
 using namespace Player;
 using namespace Player::implementation;
 
-using namespace std::literals;
-
 /// <summary>
-/// Initializes the singleton application object.  This is the first line of authored code
+/// Initializes the singleton application object. This is the first line of authored code
 /// executed, and as such is the logical equivalent of main() or WinMain().
 /// </summary>
 App::App()
 {
     InitializeComponent();
 
-    MakeAppUnique();
+    Win32Helper::DisableMultiInstanceEntry(appname, 1u);
+    // another way
+    // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
     UnhandledException([this](IInspectable const&, UnhandledExceptionEventArgs const& e)
@@ -41,52 +44,16 @@ App::App()
 #endif
 }
 /// <summary>
-/// make app only have one instance
-/// </summary>
-void App::MakeAppUnique() {
-    // use user's temp folder name as part of mutex name
-    auto constexpr extra{ L"PlayerWinMutex\0"sv };
-    // name buffer
-    auto name{ std::to_array<wchar_t, MAX_PATH + 2 + extra.size() + 1>({}) };
-    // get tmp folder, not guaranteed path availablity
-    auto length{ GetTempPathW(static_cast<DWORD>(name.size()), &name[0]) };
-    // add extra to path
-    std::memcpy(&name[length], extra.data(), extra.size() + 1);
-
-    // if mutex is held by another instance, NO NEED TO USE GetLastError
-    if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
-        // enumerate all direct child windows of desktop
-        for (auto pre{ ::FindWindowExW(nullptr, nullptr, nullptr, nullptr) };
-            // return null if at the end
-            pre != nullptr;
-            // pass the pre as the 2nd argument to get next handle
-            pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr))
-        {
-            // check if window has the specified property
-            // set in MainWindow constructor
-            if (::GetPropW(pre, L"PlayerWinRT")) {
-                // show and restore window
-                ::ShowWindow(pre, SW_RESTORE);
-                // activate, set foreground and get forcus
-                ::SetForegroundWindow(pre);
-                // exit app, DO NOT USE this->EXIT BECAUSE NOT CONSTRUCTED
-                ::ExitProcess(1u);
-            }
-        }
-    }
-}
-/// <summary>
 /// C++ version that is almost 100% imitation of the C# version of the WinUI3 Gallery.
 /// Create or get the rootFrame.
 /// </summary>
 Frame App::GetRootFrame() {
 
-    Frame rootFrame{ nullptr };
-
-    Player::RootPage rootPage = window.Content().try_as<Player::RootPage>();
+    auto rootFrame{ Frame{ nullptr } };
+    auto rootPage = window.Content().try_as<Player::RootPage>();
 
     if (!rootPage) {
-        rootPage = Player::RootPage();
+        rootPage = Player::RootPage{};
         rootFrame = rootPage.FindName(L"rootFrame").try_as<Frame>();
         // show how to Navigate rootFrame.Navigate(xaml_typename<Player::MainPage>());
         if(!rootFrame) throw hresult_class_not_available(L"Root frame not found");
@@ -111,7 +78,19 @@ Frame App::GetRootFrame() {
 /// </param>
 void App::OnLaunched(LaunchActivatedEventArgs const&)
 {
-    window = Window();
+    // lazy initialize
+    window = Window{};
+
+    // make root Frame and Main Page
+    auto rootFrame{ GetRootFrame() };
+
+    // use custom title bar and make title bar draggable
+    window.ExtendsContentIntoTitleBar(true);
+    window.SetTitleBar(window.Content().as<Player::RootPage>().FindName(L"AppTitleBar").as<Border>());
+    window.Title(appname);
+
+    // todo: use appwindow instead of window
+    // https://zhuanlan.zhihu.com/p/603180596
 
     HWND hWnd;
     window.as<::IWindowNative>()->get_WindowHandle(&hWnd);
@@ -119,15 +98,14 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     // make app only have one instance
     window.Activated([this, hWnd](IInspectable const&, WindowActivatedEventArgs const&) {
         // set window property to find instance
-        ::SetPropW(hWnd, L"PlayerWinRT", hWnd);
+        Win32Helper::DisableMultiInstanceWindow(hWnd, appname);
         });
-    
-    // make root Frame and Main Page
-    Frame rootFrame = GetRootFrame();
 
-    // use custom title bar and make title bar draggable
-    window.ExtendsContentIntoTitleBar(true);
-    window.SetTitleBar(window.Content().as<Player::RootPage>().FindName(L"AppTitleBar").as<Border>());
+    // set window icon
+    auto wndID = ::GetWindowIdFromWindow(hWnd);
+    auto appwindow = AppWindow::GetFromWindowId(wndID);
+    // https://www.aconvert.com/cn/icon/png-to-ico/
+    appwindow.SetIcon(L"Assets/PlayerWinRT.ico");
 
     window.Activate();
 }
