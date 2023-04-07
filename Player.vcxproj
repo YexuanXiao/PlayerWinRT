@@ -161,6 +161,10 @@
       <DependentUpon>EditLibrary.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Equalizer.xaml.h">
+      <DependentUpon>Equalizer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -181,6 +185,10 @@
     </ClCompile>
     <ClCompile Include="EditLibrary.xaml.cpp">
       <DependentUpon>EditLibrary.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Equalizer.xaml.cpp">
+      <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
@@ -206,6 +214,10 @@
     </Midl>
     <Midl Include="EditLibrary.idl">
       <DependentUpon>EditLibrary.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Equalizer.idl">
+      <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="RootPage.idl">
@@ -293,6 +305,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EditLibrary.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Equalizer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">

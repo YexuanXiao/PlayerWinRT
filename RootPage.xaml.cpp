@@ -48,6 +48,16 @@ namespace winrt::Player::implementation
             if (tagname == L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
+                dialog.Title(winrt::box_value(L"About"));
+                dialog.CloseButtonText(L"Cancel");
+                dialog.DefaultButton(ContentDialogButton::Close);
+                auto page{ Player::About{} };
+                dialog.Content(page);
+                static_cast<void>(co_await dialog.ShowAsync());
+            }
+            else if(tagname==L"about") {
+                auto dialog{ ContentDialog{} };
+                dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"Add Library"));
                 dialog.PrimaryButtonText(L"Add");
                 dialog.CloseButtonText(L"Cancel");
@@ -57,15 +67,17 @@ namespace winrt::Player::implementation
                 auto result{ co_await dialog.ShowAsync() };
                 // use return value
             }
-            else if(tagname==L"about") {
+            else if (tagname == L"equalizer") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(L"About"));
+                dialog.Title(winrt::box_value(L"Equalizer"));
+                dialog.PrimaryButtonText(L"Save");
                 dialog.CloseButtonText(L"Cancel");
                 dialog.DefaultButton(ContentDialogButton::Close);
-                auto page{ Player::About{} };
+                auto page{ Player::Equalizer{} };
                 dialog.Content(page);
-                static_cast<void>(co_await dialog.ShowAsync());
+                auto result{ co_await dialog.ShowAsync() };
+                // use return value
             }
         }
     }

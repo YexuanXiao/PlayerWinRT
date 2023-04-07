@@ -222,5 +222,8 @@
     <Page Include="About.xaml">
       <Filter>Pages</Filter>
     </Page>
+    <Page Include="Equalizer.xaml">
+      <Filter>Pages</Filter>
+    </Page>
   </ItemGroup>
 </Project>
