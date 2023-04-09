@@ -7,7 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid ColumnDefinitions="Auto, 10, Auto" RowDefinitions="*, *, *, *" Width="400">
+    <Grid Width="400">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <TextBlock Text="Name" VerticalAlignment="Center"/>
         <TextBlock Text="Protocol" Grid.Row="1" VerticalAlignment="Center"/>
         <TextBlock Text="Address" Grid.Row="2" VerticalAlignment="Center"/>
@@ -52,6 +63,11 @@
                     <MenuFlyoutItem Text="Connect">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE703;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Cloud">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE753;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem Text="System">

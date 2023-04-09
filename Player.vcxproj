@@ -173,6 +173,10 @@
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Settings.xaml.h">
+      <DependentUpon>Settings.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Win32Helper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +206,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Settings.xaml.cpp">
+      <DependentUpon>Settings.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="About.idl">
@@ -222,6 +230,10 @@
     </Midl>
     <Midl Include="RootPage.idl">
       <DependentUpon>RootPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Settings.idl">
+      <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
   </ItemGroup>
@@ -293,6 +305,9 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Assets\test.flac">
+      <FileType>Document</FileType>
+    </Media>
     <None Include="packages.config" />
     <None Include="Player_TemporaryKey.pfx" />
     <None Include="README.md" />
@@ -311,6 +326,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

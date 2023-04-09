@@ -8,5 +8,6 @@ namespace Player
     {
         RootPage();
         String AppTitleText;
+        Microsoft.UI.Xaml.Controls.Frame GetRootFrame();
     }
 }

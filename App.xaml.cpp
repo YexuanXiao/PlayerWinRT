@@ -29,7 +29,7 @@ App::App()
     InitializeComponent();
 
     Win32Helper::DisableMultiInstanceEntry(appname, 1u);
-    // another way
+    // alternate way
     // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
@@ -50,7 +50,7 @@ App::App()
 Frame App::GetRootFrame() {
 
     auto rootFrame{ Frame{ nullptr } };
-    auto rootPage = window.Content().try_as<Player::RootPage>();
+    auto rootPage{ window.Content().try_as<Player::RootPage>() };
 
     if (!rootPage) {
         rootPage = Player::RootPage{};
@@ -81,8 +81,14 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     // lazy initialize
     window = Window{};
 
-    // make root Frame and Main Page
-    auto rootFrame{ GetRootFrame() };
+    // make rootPage
+    auto rootPage{ window.Content().try_as<Player::RootPage>() };
+    if (!rootPage) {
+        rootPage = Player::RootPage{};
+        auto rootFrame{ rootPage.GetRootFrame() };
+        rootFrame.NavigationFailed({ this,&App::OnNavigationFailed });
+        window.Content(rootPage);
+    }
 
     // use custom title bar and make title bar draggable
     window.ExtendsContentIntoTitleBar(true);

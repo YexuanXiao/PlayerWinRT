@@ -225,5 +225,13 @@
     <Page Include="Equalizer.xaml">
       <Filter>Pages</Filter>
     </Page>
+    <Page Include="Settings.xaml">
+      <Filter>Pages</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\test.flac">
+      <Filter>Assets</Filter>
+    </Media>
   </ItemGroup>
 </Project>

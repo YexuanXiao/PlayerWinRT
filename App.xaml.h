@@ -16,7 +16,6 @@ namespace winrt::Player::implementation
 
     private:
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
-
     private:
         // lazy initialization, use nullptr constructor
         // and initialize at other time

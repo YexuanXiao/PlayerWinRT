@@ -9,6 +9,7 @@
 
 #include "EditLibrary.xaml.h"
 #include "About.xaml.h"
+#include "Settings.xaml.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -24,8 +25,6 @@ namespace winrt::Player::implementation
     RootPage::RootPage()
     {
         InitializeComponent();
-        for (auto i : MainLibraryList().MenuItems()) {
-        }
     }
     hstring RootPage::AppTitleText() {
 #if defined _DEBUG
@@ -41,11 +40,12 @@ namespace winrt::Player::implementation
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView, NavigationViewItemInvokedEventArgs args) {
         if (args.IsSettingsInvoked()) {
+            rootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
         else {
             auto tagname{ winrt::unbox_value<winrt::hstring>(
                 args.InvokedItemContainer().Tag()) };
-            if (tagname == L"add") {
+            if (tagname == L"about") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"About"));
@@ -55,7 +55,7 @@ namespace winrt::Player::implementation
                 dialog.Content(page);
                 static_cast<void>(co_await dialog.ShowAsync());
             }
-            else if(tagname==L"about") {
+            else if(tagname==L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"Add Library"));
@@ -81,7 +81,7 @@ namespace winrt::Player::implementation
             }
         }
     }
-    void RootPage::Navigate(NavigationViewItem item) {
-
+    Frame RootPage::GetRootFrame() {
+        return rootFrame();
     }
 }

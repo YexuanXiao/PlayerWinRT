@@ -16,8 +16,7 @@ namespace winrt::Player::implementation
         void AppTitleText(winrt::hstring const&);
         Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs);
         void Navigation_Loaded(IInspectable const& , Microsoft::UI::Xaml::RoutedEventArgs const&);
-    private:
-        void Navigate(Microsoft::UI::Xaml::Controls::NavigationViewItem);
+        Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
     };
 }
 
