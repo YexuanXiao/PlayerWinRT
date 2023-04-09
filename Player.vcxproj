@@ -165,6 +165,10 @@
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="MusicInfo.xaml.h">
+      <DependentUpon>MusicInfo.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -193,6 +197,10 @@
     </ClCompile>
     <ClCompile Include="Equalizer.xaml.cpp">
       <DependentUpon>Equalizer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="MusicInfo.xaml.cpp">
+      <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
@@ -226,6 +234,10 @@
     </Midl>
     <Midl Include="Equalizer.idl">
       <DependentUpon>Equalizer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="MusicInfo.idl">
+      <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="RootPage.idl">
@@ -305,9 +317,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Assets\test.flac">
-      <FileType>Document</FileType>
-    </Media>
     <None Include="packages.config" />
     <None Include="Player_TemporaryKey.pfx" />
     <None Include="README.md" />
@@ -323,6 +332,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Equalizer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">

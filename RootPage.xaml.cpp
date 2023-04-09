@@ -9,6 +9,7 @@
 
 #include "EditLibrary.xaml.h"
 #include "About.xaml.h"
+#include "MusicInfo.xaml.h"
 #include "Settings.xaml.h"
 
 using namespace winrt;
@@ -50,7 +51,6 @@ namespace winrt::Player::implementation
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"About"));
                 dialog.CloseButtonText(L"Cancel");
-                dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::About{} };
                 dialog.Content(page);
                 static_cast<void>(co_await dialog.ShowAsync());
@@ -80,6 +80,16 @@ namespace winrt::Player::implementation
                 // use return value
             }
         }
+    }
+    IAsyncAction RootPage::MusicInfo_Click(IInspectable const&, RoutedEventArgs const& e)
+    {
+        auto dialog{ ContentDialog{} };
+        dialog.XamlRoot(XamlRoot());
+        dialog.Title(winrt::box_value(L"Muic Info"));
+        dialog.CloseButtonText(L"Close");
+        auto page{ Player::MusicInfo{} };
+        dialog.Content(page);
+        static_cast<void>(co_await dialog.ShowAsync());
     }
     Frame RootPage::GetRootFrame() {
         return rootFrame();
