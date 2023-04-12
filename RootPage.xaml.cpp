@@ -12,10 +12,13 @@
 #include "MusicInfo.xaml.h"
 #include "Settings.xaml.h"
 
+#include <SettingsHelper.h>
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Input;
+
 using namespace Windows::Foundation;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -44,18 +47,20 @@ namespace winrt::Player::implementation
             rootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
         else {
-            auto tagname{ winrt::unbox_value<winrt::hstring>(
+            auto tagName{ winrt::unbox_value<winrt::hstring>(
                 args.InvokedItemContainer().Tag()) };
-            if (tagname == L"about") {
+            auto theme{ SettingsHelper::LoadTheme() };
+            if (tagName == L"about") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"About"));
                 dialog.CloseButtonText(L"Cancel");
                 auto page{ Player::About{} };
                 dialog.Content(page);
+                dialog.RequestedTheme(theme);
                 static_cast<void>(co_await dialog.ShowAsync());
             }
-            else if(tagname==L"add") {
+            else if(tagName==L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"Add Library"));
@@ -64,10 +69,11 @@ namespace winrt::Player::implementation
                 dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::EditLibrary{} };
                 dialog.Content(page);
+                dialog.RequestedTheme(theme);
                 auto result{ co_await dialog.ShowAsync() };
                 // use return value
             }
-            else if (tagname == L"equalizer") {
+            else if (tagName == L"equalizer") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(L"Equalizer"));
@@ -76,6 +82,7 @@ namespace winrt::Player::implementation
                 dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::Equalizer{} };
                 dialog.Content(page);
+                dialog.RequestedTheme(theme);
                 auto result{ co_await dialog.ShowAsync() };
                 // use return value
             }
@@ -85,7 +92,7 @@ namespace winrt::Player::implementation
     {
         auto dialog{ ContentDialog{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(L"Muic Info"));
+        dialog.Title(winrt::box_value(L"Music Info"));
         dialog.CloseButtonText(L"Close");
         auto page{ Player::MusicInfo{} };
         dialog.Content(page);

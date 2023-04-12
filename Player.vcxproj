@@ -181,6 +181,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Win32Helper.h" />
   </ItemGroup>
   <ItemGroup>

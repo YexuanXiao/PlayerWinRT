@@ -10,7 +10,7 @@ namespace Win32Helper {
     /// </summary>
     /// <param name="appname">size lesser than 16, zero ending</param>
     /// <param name="exitcode">exit code</param>
-    void DisableMultiInstanceEntry(const std::wstring_view appname, const UINT exitcode) {
+    inline void DisableMultiInstanceEntry(const std::wstring_view appname, const UINT exitcode) {
         using namespace std::literals;
         auto const max_size{ 16 };
         assert(appname.size() < max_size);
@@ -32,10 +32,10 @@ namespace Win32Helper {
                 // pass the pre as the 2nd argument to get next handle
                 pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr))
             {
-                // check if window has the specified property
+                // check if window_ has the specified property
                 // set in MainWindow constructor
                 if (::GetPropW(pre, appname.data())) {
-                    // show and restore window
+                    // show and restore window_
                     ::ShowWindow(pre, SW_RESTORE);
                     // activate, set foreground and get forcus
                     ::SetForegroundWindow(pre);
@@ -47,11 +47,11 @@ namespace Win32Helper {
 
     /// <summary>
     /// Make app only has one instance
-    /// call at window initialized
+    /// call at window_ initialized
     /// </summary>
     /// <param name="appname">size lesser than 16</param>
-    /// <param name="handle">handle of window</param>
-    void DisableMultiInstanceWindow(const HWND handle, const std::wstring_view appname) {
+    /// <param name="handle">handle of window_</param>
+    inline void DisableMultiInstanceWindow(const HWND handle, const std::wstring_view appname) {
         ::SetPropW(handle, appname.data(), handle);
     }
 }

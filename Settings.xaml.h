@@ -10,7 +10,7 @@ namespace winrt::Player::implementation
     struct Settings : SettingsT<Settings>
     {
         Settings();
-        void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
+        void Color_Changed(Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&);
     };
 }
 

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
+    <ClInclude Include="SettingsHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -194,6 +195,12 @@
     <Filter Include="Pages">
       <UniqueIdentifier>{50134849-498f-47c3-94f6-9c9e4cb73ee4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pages\Standalone">
+      <UniqueIdentifier>{36998327-80e3-4a70-98a1-ceef3f0b95ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pages\Dependent">
+      <UniqueIdentifier>{fd2c3053-9ede-4222-b547-fcaf3d8d2eda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
@@ -215,21 +222,23 @@
     </Font>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="RootPage.xaml" />
     <Page Include="EditLibrary.xaml">
-      <Filter>Pages</Filter>
-    </Page>
-    <Page Include="About.xaml">
-      <Filter>Pages</Filter>
+      <Filter>Pages\Standalone</Filter>
     </Page>
     <Page Include="Equalizer.xaml">
-      <Filter>Pages</Filter>
-    </Page>
-    <Page Include="Settings.xaml">
-      <Filter>Pages</Filter>
+      <Filter>Pages\Standalone</Filter>
     </Page>
     <Page Include="MusicInfo.xaml">
-      <Filter>Pages</Filter>
+      <Filter>Pages\Standalone</Filter>
+    </Page>
+    <Page Include="About.xaml">
+      <Filter>Pages\Standalone</Filter>
+    </Page>
+    <Page Include="RootPage.xaml">
+      <Filter>Pages\Standalone</Filter>
+    </Page>
+    <Page Include="Settings.xaml">
+      <Filter>Pages\Dependent</Filter>
     </Page>
   </ItemGroup>
 </Project>

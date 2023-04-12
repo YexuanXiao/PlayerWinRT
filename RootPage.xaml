@@ -188,7 +188,7 @@
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
         </NavigationView>
-        <Grid Grid.Column="1" Grid.Row="1" Width="{Binding ElementName=MainNavigation, Path=Width}" Background="White">
+        <Grid Grid.Column="1" Grid.Row="1" Width="{Binding ElementName=MainNavigation, Path=Width}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
@@ -221,7 +221,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Border Margin="4" CornerRadius="2" BorderBrush="#C9C9C9" BorderThickness="1" Grid.RowSpan="2">
+                        <Border Margin="4" CornerRadius="2" BorderBrush="{StaticResource SmokeFillColorDefaultBrush}" BorderThickness="1" Grid.RowSpan="2">
                             <Image Source="/Assets/StoreLogo.scale-400.png" Height="70" Width="70"/>
                         </Border>
                         <Border Margin="10,10,0,0" Grid.Column="1">
@@ -240,10 +240,12 @@
                 <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE892;" FontSize="16"/>
                 </Button>
-                <Grid Name="MainPlayButton" Margin="4,0,8,0">
-                    <Ellipse Fill="{StaticResource AccentFillColorDefaultBrush}" Height="50" Width="50" />
-                    <Ellipse Fill="{StaticResource ApplicationPageBackgroundThemeBrush}" Height="42" Width="42" />
-                    <FontIcon Glyph="&#xE768;" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,0,0,0"/>
+                <Grid>
+
+                    <Button Name="MainPlayButton" Margin="4,0,8,0" Height="50" Width="50" CornerRadius="100">
+                        <FontIcon Glyph="&#xE768;" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,0,0,0" Width="Auto"/>
+                    </Button>
+                    <Border Margin="4,0,8,0" CornerRadius="100" BorderBrush="{StaticResource AccentFillColorDefaultBrush}" Height="50" Width="50" BorderThickness="4" />
                 </Grid>
                 <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE893;" FontSize="16" />

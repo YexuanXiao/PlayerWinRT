@@ -20,6 +20,7 @@ namespace winrt::Player::implementation
     About::About()
     {
         InitializeComponent();
+
         auto version{ Windows::ApplicationModel::Package::Current().Id().Version() };
         auto str{ std::wostringstream{} };
         // todo: use fastio
