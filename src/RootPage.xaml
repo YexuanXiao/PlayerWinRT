@@ -17,43 +17,42 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border
-            Grid.Column="1"
-            Canvas.ZIndex="0"
-            IsHitTestVisible="True">
-            <Grid
-                Height="48"
-                Margin="12,0,0,0"
-                VerticalAlignment="Top"
-                Padding="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <Grid Height="48"
+              Name="AppTitleBar"
+              Margin="48,0,0,0"
+              Grid.Column="1"
+              Canvas.ZIndex="0"
+              VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
                 <Image
+                    x:Name="AppFontIcon"
                     Width="24"
                     Height="24"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="/Assets/Square44x44Logo.png" />
                 <TextBlock
-                    Margin="12,0,0,0"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind AppTitleText}"/>
-            </Grid>
-        </Border>
-
+                        Margin="12,0,0,0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind AppTitleText}"/>
+            </StackPanel>
+        </Grid>
         <NavigationView
             Name="MainNavigation"
             Grid.Column="1"
             Canvas.ZIndex="0"
             IsPaneOpen="False"
             OpenPaneLength="300"
-            IsBackButtonVisible="Collapsed"
+            AlwaysShowHeader="False"
             IsBackEnabled="False"
-            Margin="0,48,0,0"
+            IsBackButtonVisible="Collapsed"
+            IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Navigation_ItemInvoked"
             Loaded="Navigation_Loaded">
 
@@ -76,12 +75,13 @@
 
             <Frame
                 Name="rootFrame" />
+            <NavigationView.PaneHeader>
+                <StackPanel Orientation="Horizontal" Margin="-24,48,0,0" Height="32">
+                    <FontIcon FontSize="18" Margin="0,0,12,0" Glyph="&#xE723;" VerticalAlignment="Center"/>
+                    <TextBlock Text="Current" VerticalAlignment="Center" />
+                </StackPanel>
+            </NavigationView.PaneHeader>
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Current" Name="Current">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE723;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
                 <NavigationViewItem
                     Name="MainLibraryList"
                     Content="Librarys"
@@ -229,8 +229,7 @@
                     <FontIcon Glyph="&#xE892;" FontSize="16"/>
                 </Button>
                 <Grid>
-
-                    <Button Name="MainPlayButton" Margin="4,0,8,0" Height="50" Width="50" CornerRadius="100">
+                    <Button Name="MainPlayButton" Margin="4,0,8,0" Height="50" Width="50" CornerRadius="100" Background="Transparent">
                         <FontIcon Glyph="&#xE768;" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,0,0,0" Width="Auto"/>
                     </Button>
                     <Border Margin="4,0,8,0" CornerRadius="100" BorderBrush="{StaticResource AccentFillColorDefaultBrush}" Height="50" Width="50" BorderThickness="4" />

@@ -8,6 +8,9 @@
 #include <Microsoft.UI.Xaml.Window.h>
 
 #include "Win32Helper.h"
+#include "SettingsHelper.h"
+#include <ShellScalingApi.h>
+#include <RootPage.xaml.h>
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -60,14 +63,52 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 
     // make rootPage
     auto rootPage{ window_.Content().try_as<Player::RootPage>() };
-    if (!rootPage) {
+    if (!rootPage) [[likely]] {
         rootPage = Player::RootPage{};
         auto rootFrame{ rootPage.GetRootFrame() };
         window_.Content(rootPage);
     }
+    auto appTitleBar{ rootPage.GetAppTitleBar() };
 
-    HWND hWnd;
+    // initialize AppWindow
+    auto hWnd{ HWND{} };
     window_.as<::IWindowNative>()->get_WindowHandle(&hWnd);
+    auto wndId{ GetWindowIdFromWindow(hWnd) };
+    appWindow_ = AppWindow::GetFromWindowId(wndId);
+    // https://www.aconvert.com/cn/icon/png-to-ico/
+    appWindow_.SetIcon(L"Assets/PlayerWinRT.ico");
+
+#define Windows10 false
+
+    if (AppWindowTitleBar::IsCustomizationSupported() && !Windows10) [[likely]]
+
+#undef Windows10
+    {
+        appWindow_.Changed({ this,&App::AppWindow_Changed });
+        auto titleBar{ appWindow_.TitleBar() };
+        titleBar.ExtendsContentIntoTitleBar(true);
+        appTitleBar.Loaded({ this,&App::AppTitleBar_Loaded });
+        appTitleBar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
+
+        // set titlebar theme
+        auto theme{ SettingsHelper::LoadTheme() };
+        SettingsHelper::SetTitleBarTheme(titleBar, theme);
+
+        rootPage.ActualThemeChanged([this](FrameworkElement const& sender, IInspectable const&) {
+
+            auto titleBar{ appWindow_.TitleBar() };
+            if (!titleBar.ExtendsContentIntoTitleBar())
+                return;
+            SettingsHelper::SetTitleBarTheme(titleBar, sender.ActualTheme());
+            });
+    }
+    else
+    {
+        // In the case that title bar customization is not supported, fallback to WindowChrome
+
+        window_.ExtendsContentIntoTitleBar(true);
+        window_.SetTitleBar(appTitleBar);
+    }
 
     // make app only have one instance
     window_.Activated([this, hWnd](IInspectable const&, WindowActivatedEventArgs const&) {
@@ -75,21 +116,49 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
         Win32Helper::DisableMultiInstanceWindow(hWnd, appname);
         });
 
-    // set window_ icon
-    auto wndID = Microsoft::UI::GetWindowIdFromWindow(hWnd);
-    auto appWindow = AppWindow::GetFromWindowId(wndID);
-    // https://www.aconvert.com/cn/icon/png-to-ico/
-    appWindow.SetIcon(L"Assets/PlayerWinRT.ico");
-
-    // title bar
-    auto titleBar{ appWindow.TitleBar() };
-    titleBar.ExtendsContentIntoTitleBar(true);
-    titleBar.ButtonBackgroundColor(Colors::Transparent());
-    titleBar.ButtonInactiveBackgroundColor(Colors::Transparent());
-    window_.SizeChanged([appWindow](IInspectable const&, WindowSizeChangedEventArgs const& args) {
-        auto rect{ RectInt32{48, 0, static_cast<int32_t>(args.Size().Width) - 48, 48} };
-        appWindow.TitleBar().SetDragRectangles(winrt::array_view(&rect, &rect + 1));
-        });
-
     window_.Activate();
+}
+
+void App::AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs const& args) {
+    // todo: https://learn.microsoft.com/zh-cn/windows/apps/develop/title-bar?tabs=wasdk#full-customization-example
+}
+void App::AppTitleBar_Loaded(IInspectable const&, RoutedEventArgs const&) {
+    assert(AppWindowTitleBar::IsCustomizationSupported());
+    SetDragRegionForCustomTitleBar();
+}
+void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs const&) {
+    assert(AppWindowTitleBar::IsCustomizationSupported());
+    assert(appWindow_.TitleBar().ExtendsContentIntoTitleBar());
+    SetDragRegionForCustomTitleBar();
+}
+double App::GetScaleAdjustment() {
+    auto hWnd{ HWND{} };
+    window_.as<::IWindowNative>()->get_WindowHandle(&hWnd);
+    auto wndId{ GetWindowIdFromWindow(hWnd) };
+    auto displayArea{ DisplayArea::GetFromWindowId(wndId, DisplayAreaFallback::Primary) };
+    auto hMonitor{ ::GetMonitorFromDisplayId(displayArea.DisplayId()) };
+    auto dpiX{ UINT{} };
+    auto dpiY{ UINT{} };
+#pragma comment(lib, "Shcore.lib")
+    ::GetDpiForMonitor(hMonitor, MDT_DEFAULT, &dpiX, &dpiY);
+    auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
+    return scaleFactorPercent / 100.;
+}
+void App::SetDragRegionForCustomTitleBar() {
+    assert(AppWindowTitleBar::IsCustomizationSupported());
+    auto titleBar{ appWindow_.TitleBar() };
+    assert(titleBar.ExtendsContentIntoTitleBar());
+    auto scaleAdjustment{ GetScaleAdjustment() };
+    auto rootPage{ window_.Content().as<Player::RootPage>() };
+    auto appTitleBar{ rootPage.GetAppTitleBar() };
+    auto rect{ RectInt32{ } };
+    rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
+    rect.Y = 0;
+    rect.Height = static_cast<int32_t>(appTitleBar.ActualHeight() * scaleAdjustment);
+#if defined _DEBUG
+    rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);
+#else
+    rect.Width = appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset();
+#endif
+    appWindow_.TitleBar().SetDragRectangles(winrt::array_view(&rect, &rect + 1));
 }

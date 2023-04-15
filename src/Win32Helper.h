@@ -10,7 +10,7 @@ namespace Win32Helper {
     /// </summary>
     /// <param name="appname">size lesser than 16, zero ending</param>
     /// <param name="exitcode">exit code</param>
-    inline void DisableMultiInstanceEntry(const std::wstring_view appname, const UINT exitcode) {
+    inline void DisableMultiInstanceEntry(std::wstring_view const appname, UINT const exitcode) {
         using namespace std::literals;
         auto const max_size{ 16 };
         assert(appname.size() < max_size);
@@ -24,17 +24,17 @@ namespace Win32Helper {
         // mutex name can't contain '\'
         std::replace(&name[0], &name[length], '\\', '/');
         // if mutex is held by another instance, NO NEED TO USE GetLastError
-        if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
+        if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) [[likely]] {
             // enumerate all direct child windows of desktop
             for (auto pre{ ::FindWindowExW(nullptr, nullptr, nullptr, nullptr) };
                 // return null if at the end
                 pre != nullptr;
                 // pass the pre as the 2nd argument to get next handle
-                pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr))
+                pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr)) [[likely]]
             {
                 // check if window_ has the specified property
                 // set in MainWindow constructor
-                if (::GetPropW(pre, appname.data())) {
+                if (::GetPropW(pre, appname.data())) [[unlikely]] {
                     // show and restore window_
                     ::ShowWindow(pre, SW_RESTORE);
                     // activate, set foreground and get forcus
@@ -51,7 +51,7 @@ namespace Win32Helper {
     /// </summary>
     /// <param name="appname">size lesser than 16</param>
     /// <param name="handle">handle of window_</param>
-    inline void DisableMultiInstanceWindow(const HWND handle, const std::wstring_view appname) {
+    inline void DisableMultiInstanceWindow(HWND const handle, std::wstring_view const appname) {
         ::SetPropW(handle, appname.data(), handle);
     }
 }

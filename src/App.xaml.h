@@ -17,7 +17,14 @@ namespace winrt::Player::implementation
         // and initialize at other time
         // or use default constructor or other constructor
         Microsoft::UI::Xaml::Window window_{ nullptr };
+        Microsoft::UI::Windowing::AppWindow appWindow_{nullptr};
         // use for disable multi-instance, keep A-Za-z, and no '\'
         std::wstring_view appname{L"PlayerWinRT"};
+
+        void AppWindow_Changed(Microsoft::UI::Windowing::AppWindow, Microsoft::UI::Windowing::AppWindowChangedEventArgs const&);
+        void AppTitleBar_Loaded(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
+        void AppTitleBar_SizeChanged(IInspectable const&, Microsoft::UI::Xaml::SizeChangedEventArgs const&);
+        void SetDragRegionForCustomTitleBar();
+        double GetScaleAdjustment();
     };
 }

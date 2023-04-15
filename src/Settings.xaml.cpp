@@ -23,23 +23,31 @@ namespace winrt::Player::implementation
 	{
 		InitializeComponent();
 	}
-	void Settings::Color_Changed(IInspectable const& sender, SelectionChangedEventArgs const&)
+	void Settings::Theme_Changed(IInspectable const& sender, SelectionChangedEventArgs const&)
 	{
-		auto radioButton{ sender.as<RadioButtons>().SelectedItem()
-			.try_as<RadioButton>() };
+		auto radioButton{ sender.as<RadioButtons>().SelectedItem().try_as<RadioButton>() };
 		// if no item select, return
 		if (radioButton == nullptr) return;
 
 		auto tagName{ winrt::unbox_value<winrt::hstring>(radioButton.Tag()) };
-		auto theme{ ElementTheme{ 0 } };
+		auto theme{ ElementTheme::Default };
 
 		if (tagName == L"dark") {
-			theme = ElementTheme{ 2 };
+			theme = ElementTheme::Dark;
 		}
 		else if (tagName == L"light") {
-			theme = ElementTheme{ 1 };
+			theme = ElementTheme::Light;
 		}
 		auto xamlRoot{ XamlRoot() };
 		SettingsHelper::SetTheme(xamlRoot,theme);
 	}
+
+	void Settings::Theme_Loaded(IInspectable const& sender, RoutedEventArgs const&)
+	{
+		auto radioButtons{ sender.as<RadioButtons>() };
+		auto pre{ SettingsHelper::LoadTheme() };
+		radioButtons.SelectedIndex(static_cast<int32_t>(pre));
+	}
 }
+
+

@@ -12,7 +12,7 @@
 #include "MusicInfo.xaml.h"
 #include "Settings.xaml.h"
 
-#include <SettingsHelper.h>
+#include "SettingsHelper.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -41,12 +41,15 @@ namespace winrt::Player::implementation
     }
     void RootPage::Navigation_Loaded(IInspectable const&, RoutedEventArgs const&) {
         // you can also add items in code behind
+        auto theme{ SettingsHelper::LoadTheme() };
+        auto xamlRoot{ XamlRoot() };
+        SettingsHelper::SetTheme(xamlRoot, theme);
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView, NavigationViewItemInvokedEventArgs args) {
         if (args.IsSettingsInvoked()) {
             rootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
-        else {
+        else [[likely]] {
             auto tagName{ winrt::unbox_value<winrt::hstring>(
                 args.InvokedItemContainer().Tag()) };
             auto theme{ SettingsHelper::LoadTheme() };
@@ -100,5 +103,8 @@ namespace winrt::Player::implementation
     }
     Frame RootPage::GetRootFrame() {
         return rootFrame();
+    }
+    Grid RootPage::GetAppTitleBar() {
+        return AppTitleBar();
     }
 }

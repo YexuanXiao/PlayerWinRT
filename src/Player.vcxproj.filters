@@ -9,6 +9,7 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="SettingsHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -155,9 +156,7 @@
     <Page Include="MusicInfo.xaml">
       <Filter>Pages\Standalone</Filter>
     </Page>
-    <Page Include="RootPage.xaml">
-      <Filter>Pages\Standalone</Filter>
-    </Page>
+    <Page Include="RootPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

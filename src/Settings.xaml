@@ -32,10 +32,10 @@
                     <TextBlock Text="Application Theme"/>
                 </StackPanel>
             </Expander.Header>
-            <RadioButtons MaxColumns="1" SelectedIndex="2" SelectionChanged="Color_Changed" Margin="40,0,0,0">
+            <RadioButtons MaxColumns="1" SelectionChanged="Theme_Changed" Margin="40,0,0,0" Loaded="Theme_Loaded">
+                <RadioButton Content="Use System Default" Tag="default"/>
                 <RadioButton Content="Light" Tag="light"/>
                 <RadioButton Content="Dark" Tag="dark"/>
-                <RadioButton Content="Use System Default" Tag="default"/>
             </RadioButtons>
         </Expander>
         <Expander Grid.Row="3"
@@ -49,7 +49,7 @@
                     <TextBlock Text="Theme Color" />
                 </StackPanel>
             </Expander.Header>
-            <RadioButtons MaxColumns="1" SelectedIndex="1" Margin="40,0,0,0">
+            <RadioButtons MaxColumns="1" Margin="40,0,0,0">
                 <RadioButton Content="Hot" Tag="hot"/>
                 <RadioButton Content="Use System Default" Tag="default"/>
             </RadioButtons>

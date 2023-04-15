@@ -17,6 +17,7 @@ namespace winrt::Player::implementation
         Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs);
         void Navigation_Loaded(IInspectable const& , Microsoft::UI::Xaml::RoutedEventArgs const&);
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
+        Microsoft::UI::Xaml::Controls::Grid GetAppTitleBar();
         Windows::Foundation::IAsyncAction MusicInfo_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
     };
 }

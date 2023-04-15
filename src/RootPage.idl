@@ -9,5 +9,6 @@ namespace Player
         RootPage();
         String AppTitleText;
         Microsoft.UI.Xaml.Controls.Frame GetRootFrame();
+        Microsoft.UI.Xaml.Controls.Grid GetAppTitleBar();
     }
 }
