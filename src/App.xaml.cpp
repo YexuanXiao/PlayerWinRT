@@ -9,8 +9,7 @@
 
 #include "Win32Helper.h"
 #include "SettingsHelper.h"
-#include <ShellScalingApi.h>
-#include <RootPage.xaml.h>
+#include "RootPage.xaml.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -71,15 +70,13 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     auto appTitleBar{ rootPage.GetAppTitleBar() };
 
     // initialize AppWindow
-    auto hWnd{ HWND{} };
-    window_.as<::IWindowNative>()->get_WindowHandle(&hWnd);
-    auto wndId{ GetWindowIdFromWindow(hWnd) };
+    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_) };
     appWindow_ = AppWindow::GetFromWindowId(wndId);
     // https://www.aconvert.com/cn/icon/png-to-ico/
     appWindow_.SetIcon(L"Assets/PlayerWinRT.ico");
 
 #define Windows10 false
-
+    // test Windows 10 branch on Windows 11
     if (AppWindowTitleBar::IsCustomizationSupported() && !Windows10) [[likely]]
 
 #undef Windows10
@@ -105,15 +102,14 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     else
     {
         // In the case that title bar customization is not supported, fallback to WindowChrome
-
         window_.ExtendsContentIntoTitleBar(true);
         window_.SetTitleBar(appTitleBar);
     }
 
     // make app only have one instance
-    window_.Activated([this, hWnd](IInspectable const&, WindowActivatedEventArgs const&) {
+    window_.Activated([this](IInspectable const& sender, WindowActivatedEventArgs const&) {
         // set window_ property to find instance
-        Win32Helper::DisableMultiInstanceWindow(hWnd, appname);
+        Win32Helper::DisableMultiInstanceWindow(sender.as<Window>(), appname);
         });
 
     window_.Activate();
@@ -132,15 +128,10 @@ void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs cons
     SetDragRegionForCustomTitleBar();
 }
 double App::GetScaleAdjustment() {
-    auto hWnd{ HWND{} };
-    window_.as<::IWindowNative>()->get_WindowHandle(&hWnd);
-    auto wndId{ GetWindowIdFromWindow(hWnd) };
+    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_)};
     auto displayArea{ DisplayArea::GetFromWindowId(wndId, DisplayAreaFallback::Primary) };
     auto hMonitor{ ::GetMonitorFromDisplayId(displayArea.DisplayId()) };
-    auto dpiX{ UINT{} };
-    auto dpiY{ UINT{} };
-#pragma comment(lib, "Shcore.lib")
-    ::GetDpiForMonitor(hMonitor, MDT_DEFAULT, &dpiX, &dpiY);
+    auto dpiX{ Win32Helper::GetDpiXForMonitor(hMonitor)};
     auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
     return scaleFactorPercent / 100.;
 }
@@ -149,16 +140,16 @@ void App::SetDragRegionForCustomTitleBar() {
     auto titleBar{ appWindow_.TitleBar() };
     assert(titleBar.ExtendsContentIntoTitleBar());
     auto scaleAdjustment{ GetScaleAdjustment() };
-    auto rootPage{ window_.Content().as<Player::RootPage>() };
-    auto appTitleBar{ rootPage.GetAppTitleBar() };
+    auto appTitleBar{ window_.Content().as<Player::RootPage>().GetAppTitleBar() };
     auto rect{ RectInt32{ } };
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
     rect.Y = 0;
     rect.Height = static_cast<int32_t>(appTitleBar.ActualHeight() * scaleAdjustment);
 #if defined _DEBUG
+    // make application tool bar clickable
     rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);
 #else
     rect.Width = appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset();
 #endif
-    appWindow_.TitleBar().SetDragRectangles(winrt::array_view(&rect, &rect + 1));
+    titleBar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
 }

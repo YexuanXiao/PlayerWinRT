@@ -1,9 +1,10 @@
 #pragma once
 
-#include<pch.h>
+#include <pch.h>
+#include <ShellScalingApi.h>
+#include <Microsoft.UI.Xaml.Window.h>
 
 namespace Win32Helper {
-
     /// <summary>
     /// Make app only has one instance
     /// call at entry point
@@ -45,13 +46,30 @@ namespace Win32Helper {
         }
     }
 
+    /// warp ::GetDpiForMonitor
+    inline UINT GetDpiXForMonitor(HMONITOR hmonitor) {
+        auto dpiX{ UINT{} };
+        auto dpiY{ UINT{} };
+#pragma comment(lib, "Shcore.lib")
+        ::GetDpiForMonitor(hmonitor, MDT_DEFAULT, &dpiX, &dpiY);
+        return dpiX;
+    }
+    inline HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
+        auto hWnd{ HWND{} };
+        window.as<::IWindowNative>()->get_WindowHandle(&hWnd);
+        return hWnd;
+    }
+    inline winrt::Microsoft::UI::WindowId GetWindowIdFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
+        return winrt::Microsoft::UI::GetWindowIdFromWindow(GetHandleFromWindow(window));
+    }
     /// <summary>
     /// Make app only has one instance
     /// call at window_ initialized
     /// </summary>
     /// <param name="appname">size lesser than 16</param>
     /// <param name="handle">handle of window_</param>
-    inline void DisableMultiInstanceWindow(HWND const handle, std::wstring_view const appname) {
+    inline void DisableMultiInstanceWindow(winrt::Microsoft::UI::Xaml::Window const& window, std::wstring_view const appname) {
+        auto handle{ GetHandleFromWindow(window) };
         ::SetPropW(handle, appname.data(), handle);
     }
 }

@@ -104,6 +104,13 @@ namespace winrt::Player::implementation
     Frame RootPage::GetRootFrame() {
         return rootFrame();
     }
+    /// <summary>
+    ///  RootPage::GetAppTitleBar has two functions: 1. To be compatible with Windows 10,
+    /// it needs to get the title bar element for Window::SetTitleBar;
+    /// 2. It calculates the draggable area through the AppTitleBar element itself.
+    /// If no need to compable with Windows 10, this function can be changed to GetDragRectangles,
+    /// directly obtains the draggable area.
+    /// </summary>
     Grid RootPage::GetAppTitleBar() {
         return AppTitleBar();
     }
