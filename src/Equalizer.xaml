@@ -6,7 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <Style
+            x:Key="ItemSlider"
+            BasedOn="{StaticResource DefaultSliderStyle}"
+            TargetType="Slider">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Maximum" Value="15" />
+            <Setter Property="Minimum" Value="-15" />
+            <Setter Property="TickFrequency" Value="3" />
+            <Setter Property="Grid.ColumnSpan" Value="3" />
+            <Setter Property="TickPlacement" Value="Outside" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
@@ -34,107 +46,97 @@
             HorizontalAlignment="Right"
             Text="15dB" />
 
-        <TextBlock Grid.Row="1" Text="31" />
-        <TextBlock Grid.Row="2" Text="63" />
-        <TextBlock Grid.Row="3" Text="125" />
-        <TextBlock Grid.Row="4" Text="300" />
-        <TextBlock Grid.Row="5" Text="500" />
-        <TextBlock Grid.Row="6" Text="1k" />
-        <TextBlock Grid.Row="7" Text="2k" />
-        <TextBlock Grid.Row="8" Text="4k" />
-        <TextBlock Grid.Row="9" Text="8k" />
-        <TextBlock Grid.Row="10" Text="16k" />
+        <TextBlock
+            Grid.Row="1"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="31" />
+        <TextBlock
+            Grid.Row="2"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="63" />
+        <TextBlock
+            Grid.Row="3"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="125" />
+        <TextBlock
+            Grid.Row="4"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="300" />
+        <TextBlock
+            Grid.Row="5"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="500" />
+        <TextBlock
+            Grid.Row="6"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="1k" />
+        <TextBlock
+            Grid.Row="7"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="2k" />
+        <TextBlock
+            Grid.Row="8"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="4k" />
+        <TextBlock
+            Grid.Row="9"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="8k" />
+        <TextBlock
+            Grid.Row="10"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="16k" />
 
         <Slider
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="2"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="3"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="4"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="5"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="6"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="7"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="8"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="9"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
         <Slider
             Grid.Row="10"
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Width="300"
-            Maximum="15"
-            Minimum="-15"
-            TickFrequency="3"
-            TickPlacement="Outside" />
+            Style="{StaticResource ItemSlider}" />
 
     </Grid>
 </Page>

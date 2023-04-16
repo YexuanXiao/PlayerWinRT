@@ -6,24 +6,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Page.Resources>
+        <Style
+            x:Key="PlayerEllipsis"
+            BasedOn="{StaticResource EllipsisButton}"
+            TargetType="Button">
+            <Setter Property="Width" Value="43" />
+            <Setter Property="Height" Value="47" />
+        </Style>
+        <Style x:Key="PlayButtonSmall" TargetType="Button">
+            <Setter Property="Width" Value="36" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style x:Key="PlayButtonLarge" TargetType="Button">
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="BorderThickness" Value="4" />
+        </Style>
+    </Page.Resources>
+    <Grid MinWidth="{StaticResource BreakpointTiny}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <Grid
             Name="AppTitleBar"
-            Grid.Column="1"
             Height="48"
             Margin="48,0,0,0"
             VerticalAlignment="Top"
-            Canvas.ZIndex="0">
+            Canvas.ZIndex="-1000">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -32,12 +44,12 @@
                 <Image
                     Width="24"
                     Height="24"
+                    Margin="0,2,12,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="/Assets/Square44x44Logo.png" />
                 <TextBlock
                     Grid.Column="1"
-                    Margin="12,0,0,0"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind AppTitleText}" />
@@ -45,13 +57,10 @@
         </Grid>
         <NavigationView
             Name="MainNavigation"
-            Grid.Column="1"
             AlwaysShowHeader="False"
             Canvas.ZIndex="0"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
-            IsPaneOpen="False"
-            IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Navigation_ItemInvoked"
             Loaded="Navigation_Loaded"
             OpenPaneLength="300">
@@ -72,20 +81,12 @@
             </NavigationView.AutoSuggestBox>
 
             <Frame Name="rootFrame" />
-            <NavigationView.PaneHeader>
-                <StackPanel
-                    Height="32"
-                    Margin="-24,48,0,0"
-                    Orientation="Horizontal">
-                    <FontIcon
-                        Margin="0,0,12,0"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        Glyph="&#xE723;" />
-                    <TextBlock x:Uid="Current" VerticalAlignment="Center" />
-                </StackPanel>
-            </NavigationView.PaneHeader>
             <NavigationView.MenuItems>
+                <NavigationViewItem Content="Current_PlaceHolder" Tag="current">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon x:Uid="Current" Symbol="Home" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem
                     Name="MainLibraryList"
                     x:Uid="Librarys"
@@ -173,6 +174,7 @@
             </NavigationView.FooterMenuItems>
         </NavigationView>
         <Grid
+            Name="Player"
             Grid.Row="1"
             Grid.Column="1"
             Width="{Binding ElementName=MainNavigation, Path=Width}"
@@ -215,111 +217,82 @@
                     FontSize="11"
                     Text="0:00:00" />
             </Grid>
-            <StackPanel
+            <Button
+                x:Uid="Playing"
                 Grid.Row="2"
+                Width="Auto"
+                Margin="2,-7,0,-1"
                 HorizontalAlignment="Left"
-                Orientation="Horizontal">
-                <Button
-                    x:Uid="Playing"
-                    Width="Auto"
-                    Margin="0,-7,0,-1"
-                    Style="{StaticResource EllipsisButton}">
-                    <Grid Padding="2,0,4,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Border
-                            Grid.RowSpan="2"
-                            Margin="4"
-                            BorderBrush="{StaticResource SmokeFillColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="2">
-                            <Image
-                                Width="70"
-                                Height="70"
-                                Source="/Assets/StoreLogo.scale-400.png" />
-                        </Border>
-                        <Border Grid.Column="1" Margin="10,10,0,0">
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="19"
-                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                Text="英雄のタクト-起源-" />
-                        </Border>
-                        <Border
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="10,0,0,10">
-                            <TextBlock
-                                VerticalAlignment="Top"
-                                FontSize="13"
-                                Opacity="0.7"
-                                Text="末廣健一郎" />
-                        </Border>
-                    </Grid>
-                </Button>
-            </StackPanel>
+                Style="{StaticResource EllipsisButton}">
+                <Grid Margin="-2,0,0,0" Padding="2,0,1,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Margin="4"
+                        BorderBrush="{StaticResource SmokeFillColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="2">
+                        <Image
+                            Width="70"
+                            Height="70"
+                            Source="/Assets/StoreLogo.scale-400.png" />
+                    </Border>
+                    <StackPanel Name="PlayerTitle" Grid.Column="1">
+                        <TextBlock
+                            Margin="10,15,10,2"
+                            VerticalAlignment="Center"
+                            FontSize="19"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="英雄のタクト-起源-"
+                            TextWrapping="NoWrap" />
+                        <TextBlock
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Top"
+                            FontSize="13"
+                            Opacity="0.7"
+                            Text="末廣健一郎" />
+                    </StackPanel>
+                </Grid>
+            </Button>
             <StackPanel
                 Grid.Row="2"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
                 <Button
+                    Name="Shuffle"
                     x:Uid="Shuffle"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE8B1;" />
                 </Button>
-                <Button
-                    x:Uid="Previous"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                <Button x:Uid="Previous" Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE892;" />
                 </Button>
-                <Grid>
-                    <Button
-                        Name="MainPlayButton"
-                        x:Uid="Play"
-                        Width="50"
-                        Height="50"
-                        Margin="4,1,8,0"
-                        Background="Transparent"
-                        CornerRadius="100">
-                        <FontIcon
-                            Width="Auto"
-                            Margin="2,0,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="23"
-                            Glyph="&#xE768;" />
-                    </Button>
-                    <Border
-                        Width="50"
-                        Height="50"
-                        Margin="4,0,8,0"
-                        BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
-                        BorderThickness="4"
-                        CornerRadius="100" />
-                </Grid>
                 <Button
-                    x:Uid="Next"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                    Name="PlayButton"
+                    x:Uid="Play"
+                    Margin="2,0,6,0"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
+                    CornerRadius="1000"
+                    Style="{StaticResource PlayButtonLarge}">
+                    <FontIcon
+                        Name="PlayIcon"
+                        Margin="2,0,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="23"
+                        Glyph="&#xE768;" />
+                </Button>
+                <Button x:Uid="Next" Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE893;" />
                 </Button>
                 <Button
+                    Name="Repeat"
                     x:Uid="Repeat"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xF5E7;" />
                 </Button>
             </StackPanel>
@@ -329,31 +302,21 @@
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
                 <Button
+                    Name="Volume"
                     x:Uid="Volume"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE767;" />
                 </Button>
-                <Button
-                    x:Uid="FullScreen"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                <Button x:Uid="FullScreen" Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE740;" />
                 </Button>
-                <Button
-                    x:Uid="Expand"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                <Button x:Uid="Expand" Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xEE47;" />
                 </Button>
                 <Button
+                    Name="More"
                     x:Uid="More"
-                    Width="43"
-                    Height="47"
-                    Style="{StaticResource EllipsisButton}">
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE712;" />
                     <Button.Flyout>
                         <MenuFlyout>
@@ -372,5 +335,53 @@
                 </Button>
             </StackPanel>
         </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointMedium}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainNavigation.IsPaneOpen" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointSmall}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainNavigation.IsPaneOpen" Value="False" />
+                        <Setter Target="PlayButton.Style" Value="{StaticResource PlayButtonLarge}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointTiny}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PlayButton.Style" Value="{StaticResource PlayButtonSmall}" />
+                        <Setter Target="PlayIcon.FontSize" Value="16" />
+                        <Setter Target="More.Visibility" Value="Collapsed" />
+                        <Setter Target="Repeat.Visibility" Value="Collapsed" />
+                        <Setter Target="Shuffle.Visibility" Value="Collapsed" />
+                        <Setter Target="Player.ColumnDefinitions" Value="1*,1*,1*" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PlayButton.Style" Value="{StaticResource PlayButtonSmall}" />
+                        <Setter Target="PlayIcon.FontSize" Value="16" />
+                        <Setter Target="More.Visibility" Value="Collapsed" />
+                        <Setter Target="PlayerTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="Repeat.Visibility" Value="Collapsed" />
+                        <Setter Target="Shuffle.Visibility" Value="Collapsed" />
+                        <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

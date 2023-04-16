@@ -161,6 +161,10 @@
     <value>取消</value>
     <comment>Dialog Button</comment>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Dialog Button</comment>
+  </data>
   <data name="Color.Text" xml:space="preserve">
     <value>主题色</value>
     <comment>Settings Page</comment>
@@ -169,7 +173,7 @@
     <value>该项目不属于微软。</value>
     <comment>About Page</comment>
   </data>
-  <data name="Current.Text" xml:space="preserve">
+  <data name="Current.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>当前</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -196,6 +200,10 @@
   <data name="Edit.Text" xml:space="preserve">
     <value>编辑</value>
     <comment>RootPage List Button</comment>
+  </data>
+  <data name="EditLibrary.Content" xml:space="preserve">
+    <value>编辑库</value>
+    <comment>RootPage Navigation</comment>
   </data>
   <data name="ElapsedTime.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>已用时间</value>
@@ -242,7 +250,7 @@
     <comment>Edit Library Page</comment>
   </data>
   <data name="Librarys.Content" xml:space="preserve">
-    <value>音乐</value>
+    <value>音乐库</value>
     <comment>RootPage Navigation</comment>
   </data>
   <data name="Light.Content" xml:space="preserve">

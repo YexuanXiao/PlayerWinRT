@@ -161,6 +161,10 @@
     <value>Cancel</value>
     <comment>Dialog Button</comment>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+    <comment>Dialog Button</comment>
+  </data>
   <data name="Color.Text" xml:space="preserve">
     <value>Theme Color</value>
     <comment>Settings Page</comment>
@@ -169,7 +173,7 @@
     <value>The project not affiliated with Microsoft.</value>
     <comment>About Page</comment>
   </data>
-  <data name="Current.Text" xml:space="preserve">
+  <data name="Current.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Current</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -196,6 +200,10 @@
   <data name="Edit.Text" xml:space="preserve">
     <value>Edit</value>
     <comment>RootPage List Button</comment>
+  </data>
+  <data name="EditLibrary.Content" xml:space="preserve">
+    <value>Edit Library</value>
+    <comment>RootPage Navigation</comment>
   </data>
   <data name="ElapsedTime.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Elapsed Time</value>

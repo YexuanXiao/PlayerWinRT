@@ -6,8 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Padding="60">
+    <Page.Resources>
+        <Style
+            x:Key="SubtitleText"
+            BasedOn="{StaticResource SubtitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,30,0,15" />
+        </Style>
+        <Style x:Key="ItemExpander" TargetType="Expander">
+            <Setter Property="Margin" Value="0,1,0,1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="ExpandDirection" Value="Down" />
+            <Setter Property="IsExpanded" Value="True" />
+        </Style>
+    </Page.Resources>
+    <Grid Name="Container">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -19,18 +33,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock
+            x:Uid="Settings"
+            Margin="0,-20,0,0"
+            Style="{StaticResource TitleTextBlockStyle}" />
         <TextBlock
             x:Uid="Personal"
             Grid.Row="1"
-            Margin="0,10,0,4"
-            Style="{StaticResource SubtitleTextBlockStyle}" />
-        <Expander
-            Grid.Row="2"
-            Margin="0,1,0,1"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
-            ExpandDirection="Down">
+            Style="{StaticResource SubtitleText}" />
+        <Expander Grid.Row="2" Style="{StaticResource ItemExpander}">
             <Expander.Header>
                 <StackPanel Orientation="Horizontal">
                     <FontIcon Margin="0,0,16,0" Glyph="&#xF08C;" />
@@ -47,12 +58,7 @@
                 <RadioButton x:Uid="Dark" Tag="dark" />
             </RadioButtons>
         </Expander>
-        <Expander
-            Grid.Row="3"
-            Margin="0,1,0,1"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
-            ExpandDirection="Down">
+        <Expander Grid.Row="3" Style="{StaticResource ItemExpander}">
             <Expander.Header>
                 <StackPanel Orientation="Horizontal">
                     <FontIcon Margin="0,0,16,0" Glyph="&#xE790;" />
@@ -64,5 +70,26 @@
                 <RadioButton x:Uid="Default" Tag="default" />
             </RadioButtons>
         </Expander>
+        <VisualStateManager.VisualStateGroups>
+            <!--  Visual states reflect the application's window size  -->
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointSmall}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Container.Padding" Value="60" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Container.Padding" Value="15,60,15,60" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
