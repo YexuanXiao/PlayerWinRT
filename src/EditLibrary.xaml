@@ -19,35 +19,35 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Name" VerticalAlignment="Center"/>
-        <TextBlock Text="Protocol" Grid.Row="1" VerticalAlignment="Center"/>
-        <TextBlock Text="Address" Grid.Row="2" VerticalAlignment="Center"/>
-        <TextBlock Text="Icon" Grid.Row="3" VerticalAlignment="Center"/>
+        <TextBlock x:Uid="Name" VerticalAlignment="Center"/>
+        <TextBlock x:Uid="Protocol" Grid.Row="1" VerticalAlignment="Center"/>
+        <TextBlock x:Uid="Address" Grid.Row="2" VerticalAlignment="Center"/>
+        <TextBlock x:Uid="Icon" Grid.Row="3" VerticalAlignment="Center"/>
         <TextBlock Text=":" Grid.Column="1" VerticalAlignment="Center"/>
         <TextBlock Text=":" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
         <TextBlock Text=":" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
         <TextBlock Text=":" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"/>
         <TextBox Grid.Column="3" Width="300" Margin="0,20,0,20"/>
         <SplitButton Grid.Column="3" Grid.Row="1">
-            <TextBlock>Protocol</TextBlock>
+            <TextBlock x:Uid="Protocol"/>
             <SplitButton.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Text="Local" Tag="local">
+                    <MenuFlyoutItem x:Uid="Local" Tag="local">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE770;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Samba" Tag="samba">
+                    <MenuFlyoutItem x:Uid="Samba" Tag="samba">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xEC27;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="WebDAV" Tag="webdav">
+                    <MenuFlyoutItem x:Uid="WebDAV" Tag="webdav">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE968;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="FTP" Tag="ftp">
+                    <MenuFlyoutItem x:Uid="FTP" Tag="ftp">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE839;" />
                         </MenuFlyoutItem.Icon>

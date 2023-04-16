@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About.Content" xml:space="preserve">
+    <value>关于</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+    <comment>Dialog Button</comment>
+  </data>
+  <data name="AddLibrary.Content" xml:space="preserve">
+    <value>添加库</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Address.Text" xml:space="preserve">
+    <value>地址</value>
+    <comment>Edit Library Page</comment>
+  </data>
+  <data name="Album.Text" xml:space="preserve">
+    <value>专辑</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Albums.Content" xml:space="preserve">
+    <value>专辑</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Artist.Text" xml:space="preserve">
+    <value>专辑艺术家</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Artists.Content" xml:space="preserve">
+    <value>艺术家</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Author.Text" xml:space="preserve">
+    <value>作者</value>
+    <comment>About Page</comment>
+  </data>
+  <data name="Bitrate.Text" xml:space="preserve">
+    <value>比特率</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+    <comment>Dialog Button</comment>
+  </data>
+  <data name="Color.Text" xml:space="preserve">
+    <value>主题色</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="CopyNote.Text" xml:space="preserve">
+    <value>该项目不属于微软。</value>
+    <comment>About Page</comment>
+  </data>
+  <data name="Current.Text" xml:space="preserve">
+    <value>当前</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Dark.Content" xml:space="preserve">
+    <value>深色</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Default.Content" xml:space="preserve">
+    <value>使用系统设置</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Delete.Text" xml:space="preserve">
+    <value>删除</value>
+    <comment>RootPage List Button</comment>
+  </data>
+  <data name="Down.Text" xml:space="preserve">
+    <value>向下</value>
+    <comment>RootPage List Button</comment>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>时长</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Edit.Text" xml:space="preserve">
+    <value>编辑</value>
+    <comment>RootPage List Button</comment>
+  </data>
+  <data name="ElapsedTime.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>已用时间</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Equalizer.Content" xml:space="preserve">
+    <value>均衡器</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Expand.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>展开</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Folders.Content" xml:space="preserve">
+    <value>文件夹</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Format.Text" xml:space="preserve">
+    <value>格式</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="FTP.Text" xml:space="preserve">
+    <value>FTP</value>
+    <comment>Protocol</comment>
+  </data>
+  <data name="FullScreen.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>全屏</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Genre.Text" xml:space="preserve">
+    <value>流派</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Genres.Content" xml:space="preserve">
+    <value>流派</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Hot.Content" xml:space="preserve">
+    <value>热情</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Icon.Text" xml:space="preserve">
+    <value>图标</value>
+    <comment>Edit Library Page</comment>
+  </data>
+  <data name="Librarys.Content" xml:space="preserve">
+    <value>音乐</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Light.Content" xml:space="preserve">
+    <value>浅色</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Local.Text" xml:space="preserve">
+    <value>本地</value>
+    <comment>Protocol</comment>
+  </data>
+  <data name="More.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="MusicFolder.Content" xml:space="preserve">
+    <value>音乐文件夹</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="MusicInfo.Text" xml:space="preserve">
+    <value>音乐信息</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Name.Text" xml:space="preserve">
+    <value>名字</value>
+    <comment>Edit Library Page</comment>
+  </data>
+  <data name="Next.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>下一首</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="OpenInExplorer.Text" xml:space="preserve">
+    <value>打开文件位置</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Path.Text" xml:space="preserve">
+    <value>文件路径</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Personal.Text" xml:space="preserve">
+    <value>个性化</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Play.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>播放</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Playing.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>正在播放</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="PlayList.Content" xml:space="preserve">
+    <value>播放列表</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Previous.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>上一首</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Protocol.Text" xml:space="preserve">
+    <value>协议</value>
+    <comment>Edit Library Page</comment>
+  </data>
+  <data name="RemainingTime.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>剩余时间</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Repeat.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>重复</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Samba.Text" xml:space="preserve">
+    <value>Samba</value>
+    <comment>Protocol</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+    <comment>Dialog Button</comment>
+  </data>
+  <data name="Search.PlaceholderText" xml:space="preserve">
+    <value>搜索</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="SelectDevices.Text" xml:space="preserve">
+    <value>选择输出设备</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>设置</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Shuffle.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>随机</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="Singer.Text" xml:space="preserve">
+    <value>歌手</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Songs.Content" xml:space="preserve">
+    <value>歌曲</value>
+    <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>应用主题</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Title.Text" xml:space="preserve">
+    <value>标题</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Track.Text" xml:space="preserve">
+    <value>音轨</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="Up.Text" xml:space="preserve">
+    <value>向上</value>
+    <comment>RootPage List Button</comment>
+  </data>
+  <data name="Version.Text" xml:space="preserve">
+    <value>版本</value>
+    <comment>About Page</comment>
+  </data>
+  <data name="Volume.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>音量</value>
+    <comment>RootPage Player</comment>
+  </data>
+  <data name="WebDAV.Text" xml:space="preserve">
+    <value>WebDAV</value>
+    <comment>Protocol</comment>
+  </data>
+  <data name="Year.Text" xml:space="preserve">
+    <value>年份</value>
+    <comment>Music Info Page</comment>
+  </data>
+  <data name="YexuanXiao.Text" xml:space="preserve">
+    <value>萧叶轩</value>
+    <comment>About Page</comment>
+  </data>
+</root>

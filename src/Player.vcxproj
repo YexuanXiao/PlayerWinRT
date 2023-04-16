@@ -188,6 +188,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsHelper.cpp" />
+    <ClCompile Include="Win32Helper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="About.idl">
@@ -284,6 +285,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\Resources.language-en-US.resw" />
+    <PRIResource Include="Strings\Resources.language-zh-CN.resw" />
   </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

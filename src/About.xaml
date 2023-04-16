@@ -20,14 +20,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Version"/>
+            <TextBlock x:Uid="Version"/>
             <TextBlock Text=":" Grid.Column="1"/>
             <TextBlock Name="Version" Grid.Column="2"/>
-            <TextBlock Text="Author" Grid.Row="1"/>
+            <TextBlock x:Uid="Author" Grid.Row="1"/>
             <TextBlock Text=":" Grid.Row="1" Grid.Column="1"/>
-            <TextBlock Text="YexuanXiao" Grid.Row="1" Grid.Column="2"/>
-        </Grid> 
-        <TextBlock Text="This project not affiliated with Microsoft nor supervised by them in any way." TextWrapping="Wrap" Margin="0,10,0,10"/>
+            <TextBlock x:Uid="YexuanXiao" Grid.Row="1" Grid.Column="2"/>
+        </Grid>
+        <TextBlock x:Uid="CopyNote" TextWrapping="Wrap" Margin="0,10,0,10"/>
         <HyperlinkButton NavigateUri="https://github.com/YexuanXiao">
             <StackPanel Orientation="Horizontal">
                 <PathIcon Margin="-3,-3,-16,-3" VerticalAlignment="Center"

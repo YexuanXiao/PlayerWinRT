@@ -10,6 +10,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SettingsHelper.cpp" />
+    <ClCompile Include="Win32Helper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -130,6 +131,9 @@
     <Filter Include="Pages\Dependent">
       <UniqueIdentifier>{7e1202d0-6da1-478b-ad3f-8145ddf95c68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Strings">
+      <UniqueIdentifier>{695139ab-fa6a-4b3f-b8c4-bae7f231455a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
@@ -160,5 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\Resources.language-en-US.resw">
+      <Filter>Strings</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\Resources.language-zh-CN.resw">
+      <Filter>Strings</Filter>
+    </PRIResource>
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace winrt::Player::implementation
         RootPage();
         winrt::hstring AppTitleText();
         void AppTitleText(winrt::hstring const&);
-        Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs);
+        Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView const&, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const&);
         void Navigation_Loaded(IInspectable const& , Microsoft::UI::Xaml::RoutedEventArgs const&);
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
         Microsoft::UI::Xaml::Controls::Grid GetAppTitleBar();

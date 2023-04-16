@@ -63,8 +63,8 @@
                     VerticalAlignment="Center"
                     x:FieldModifier="public"
                     KeyboardAcceleratorPlacementMode="Hidden"
-                    PlaceholderText="Search"
-                    QueryIcon="Find">
+                    QueryIcon="Find"
+                    x:Uid="Search">
                     <AutoSuggestBox.KeyboardAccelerators>
                         <KeyboardAccelerator
                             Key="F"
@@ -78,40 +78,40 @@
             <NavigationView.PaneHeader>
                 <StackPanel Orientation="Horizontal" Margin="-24,48,0,0" Height="32">
                     <FontIcon FontSize="18" Margin="0,0,12,0" Glyph="&#xE723;" VerticalAlignment="Center"/>
-                    <TextBlock Text="Current" VerticalAlignment="Center" />
+                    <TextBlock x:Uid="Current" VerticalAlignment="Center" />
                 </StackPanel>
             </NavigationView.PaneHeader>
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     Name="MainLibraryList"
-                    Content="Librarys"
+                    x:Uid="Librarys"
                     IsExpanded="True">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Library"/>
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem Content="Music Folder">
+                        <NavigationViewItem x:Uid="MusicFolder">
                             <NavigationViewItem.Icon>
                                 <FontIcon Glyph="&#xEA69;" />
                             </NavigationViewItem.Icon>
                             <NavigationViewItem.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Text="Up">
+                                    <MenuFlyoutItem x:Uid="Up">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE70E;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Down">
+                                    <MenuFlyoutItem x:Uid="Down">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE70D;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Edit">
+                                    <MenuFlyoutItem x:Uid="Edit">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE70F;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Delete">
+                                    <MenuFlyoutItem x:Uid="Delete">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE74D;" />
                                         </MenuFlyoutItem.Icon>
@@ -119,7 +119,7 @@
                                 </MenuFlyout>
                             </NavigationViewItem.ContextFlyout>
                         </NavigationViewItem>
-                        <NavigationViewItem Content="Add Library" Tag="add">
+                        <NavigationViewItem x:Uid="AddLibrary" Tag="add">
                             <NavigationViewItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
                             </NavigationViewItem.Icon>
@@ -130,31 +130,31 @@
                 <NavigationViewItemSeparator />
                 <NavigationViewItem
                     Name="NainPlayList"
-                    Content="PlayList"
+                    x:Uid="PlayList"
                     Icon="MusicInfo" />
                 <NavigationViewItem
-                    Content="Songs"
+                    x:Uid="Songs"
                     Icon="Audio" />
                 <NavigationViewItem
-                    Content="Folders">
+                    x:Uid="Folders">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Albums">
+                    x:Uid="Albums">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE93C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Artists">
+                    x:Uid="Artists">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF12E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Genres">
+                    x:Uid="Genres">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE909;" />
                     </NavigationViewItem.Icon>
@@ -163,13 +163,13 @@
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem
-                    Content="About" Tag="about">
+                    x:Uid="About" Tag="about">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Equalizer" Tag="equalizer">
+                    x:Uid="Equalizer" Tag="equalizer">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF61F;" />
                     </NavigationViewItem.Icon>
@@ -194,12 +194,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock x:Uid="ElapsedTime" Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <Slider Margin="0" HorizontalAlignment="Stretch" Grid.Column="1"/>
-                <TextBlock Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                <TextBlock x:Uid="RemainingTime" Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
             </Grid>
             <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
-                <Button Margin="0,-7,0,-1" Width="Auto" Style="{StaticResource EllipsisButton}">
+                <Button x:Uid="Playing" Margin="0,-7,0,-1" Width="Auto" Style="{StaticResource EllipsisButton}">
                     <Grid Padding="2,0,4,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -222,45 +222,45 @@
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Shuffle" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE8B1;" FontSize="16"/>
                 </Button>
-                <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Previous" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE892;" FontSize="16"/>
                 </Button>
                 <Grid>
-                    <Button Name="MainPlayButton" Margin="4,0,8,0" Height="50" Width="50" CornerRadius="100" Background="Transparent">
+                    <Button x:Uid="Play" Name="MainPlayButton" Margin="4,1,8,0" Height="50" Width="50" CornerRadius="100" Background="Transparent">
                         <FontIcon Glyph="&#xE768;" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,0,0,0" Width="Auto"/>
                     </Button>
                     <Border Margin="4,0,8,0" CornerRadius="100" BorderBrush="{StaticResource AccentFillColorDefaultBrush}" Height="50" Width="50" BorderThickness="4" />
                 </Grid>
-                <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Next" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE893;" FontSize="16" />
                 </Button>
-                <Button Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Repeat" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xF5E7;" FontSize="16" />
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button ToolTipService.ToolTip="Volume" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Volume" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE767;" FontSize="16"/>
                 </Button>
-                <Button ToolTipService.ToolTip="Full Screen" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="FullScreen" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE740;" FontSize="16"/>
                 </Button>
-                <Button ToolTipService.ToolTip="Expand" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="Expand" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xEE47;" FontSize="16" />
                 </Button>
-                <Button ToolTipService.ToolTip="More" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
+                <Button x:Uid="More" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
                     <FontIcon Glyph="&#xE712;" FontSize="16" />
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Music Info" Click="MusicInfo_Click">
+                            <MenuFlyoutItem x:Uid="MusicInfo" Click="MusicInfo_Click">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE946;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Select Output Devices">
+                            <MenuFlyoutItem x:Uid="SelectDevices">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xF4C3;"/>
                                 </MenuFlyoutItem.Icon>

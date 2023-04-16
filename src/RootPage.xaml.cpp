@@ -45,19 +45,21 @@ namespace winrt::Player::implementation
         auto xamlRoot{ XamlRoot() };
         SettingsHelper::SetTheme(xamlRoot, theme);
     }
-    IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView, NavigationViewItemInvokedEventArgs args) {
+    IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
             rootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
         else [[likely]] {
+            auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
             auto tagName{ winrt::unbox_value<winrt::hstring>(
                 args.InvokedItemContainer().Tag()) };
-            auto theme{ SettingsHelper::LoadTheme() };
+            auto theme{ ActualTheme() };
             if (tagName == L"about") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(L"About"));
-                dialog.CloseButtonText(L"Cancel");
+                dialog.Title(winrt::box_value(resourceLoader.GetString(L"About/Content")));
+                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
+                dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::About{} };
                 dialog.Content(page);
                 dialog.RequestedTheme(theme);
@@ -66,9 +68,9 @@ namespace winrt::Player::implementation
             else if(tagName==L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(L"Add Library"));
-                dialog.PrimaryButtonText(L"Add");
-                dialog.CloseButtonText(L"Cancel");
+                dialog.Title(winrt::box_value(resourceLoader.GetString(L"EditLibrary/Content")));
+                dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
+                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
                 dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::EditLibrary{} };
                 dialog.Content(page);
@@ -79,9 +81,9 @@ namespace winrt::Player::implementation
             else if (tagName == L"equalizer") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(L"Equalizer"));
-                dialog.PrimaryButtonText(L"Save");
-                dialog.CloseButtonText(L"Cancel");
+                dialog.Title(winrt::box_value(resourceLoader.GetString(L"Equalizer/Content")));
+                dialog.PrimaryButtonText(resourceLoader.GetString(L"Save"));
+                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
                 dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::Equalizer{} };
                 dialog.Content(page);
@@ -99,6 +101,7 @@ namespace winrt::Player::implementation
         dialog.CloseButtonText(L"Close");
         auto page{ Player::MusicInfo{} };
         dialog.Content(page);
+        dialog.RequestedTheme(ActualTheme());
         static_cast<void>(co_await dialog.ShowAsync());
     }
     Frame RootPage::GetRootFrame() {
