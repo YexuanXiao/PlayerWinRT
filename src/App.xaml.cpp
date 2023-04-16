@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 #include "pch.h"
 
 #include "App.xaml.h"
@@ -128,10 +125,10 @@ void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs cons
     SetDragRegionForCustomTitleBar();
 }
 double App::GetScaleAdjustment() {
-    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_)};
+    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_) };
     auto displayArea{ DisplayArea::GetFromWindowId(wndId, DisplayAreaFallback::Primary) };
     auto hMonitor{ ::GetMonitorFromDisplayId(displayArea.DisplayId()) };
-    auto dpiX{ Win32Helper::GetDpiXForMonitor(hMonitor)};
+    auto dpiX{ Win32Helper::GetDpiXForMonitor(hMonitor) };
     auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
     return scaleFactorPercent / 100.;
 }

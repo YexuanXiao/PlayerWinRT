@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 #pragma once
 
 #include "EditLibrary.g.h"
@@ -10,7 +7,6 @@ namespace winrt::Player::implementation
     struct EditLibrary : EditLibraryT<EditLibrary>
     {
         EditLibrary();
-
     };
 }
 

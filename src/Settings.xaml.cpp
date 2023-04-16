@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 #include "pch.h"
 #include "Settings.xaml.h"
 #if __has_include("Settings.g.cpp")
@@ -13,9 +10,6 @@ using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Navigation;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::Player::implementation
 {
@@ -39,7 +33,7 @@ namespace winrt::Player::implementation
 			theme = ElementTheme::Light;
 		}
 		auto xamlRoot{ XamlRoot() };
-		SettingsHelper::SetTheme(xamlRoot,theme);
+		SettingsHelper::SetTheme(xamlRoot, theme);
 	}
 
 	void Settings::Theme_Loaded(IInspectable const& sender, RoutedEventArgs const&)
@@ -49,5 +43,3 @@ namespace winrt::Player::implementation
 		radioButtons.SelectedIndex(static_cast<int32_t>(pre));
 	}
 }
-
-
