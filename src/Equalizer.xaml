@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Player.Equalizer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -27,31 +27,114 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="-15dB" Grid.Column="1"/>
-        <TextBlock Text="0dB" Grid.Column="2"/>
-        <TextBlock Text="15dB" Grid.Column="3" HorizontalAlignment="Right"/>
-            
-        <TextBlock Text="31" Grid.Row="1"/>
-        <TextBlock Text="63" Grid.Row="2"/>
-        <TextBlock Text="125" Grid.Row="3"/>
-        <TextBlock Text="300" Grid.Row="4"/>
-        <TextBlock Text="500" Grid.Row="5"/>
-        <TextBlock Text="1k" Grid.Row="6"/>
-        <TextBlock Text="2k" Grid.Row="7"/>
-        <TextBlock Text="4k" Grid.Row="8"/>
-        <TextBlock Text="8k" Grid.Row="9"/>
-        <TextBlock Text="16k" Grid.Row="10"/>
+        <TextBlock Grid.Column="1" Text="-15dB" />
+        <TextBlock Grid.Column="2" Text="0dB" />
+        <TextBlock
+            Grid.Column="3"
+            HorizontalAlignment="Right"
+            Text="15dB" />
 
-        <Slider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
-        <Slider Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3" Width="300" TickFrequency="3" TickPlacement="Outside" Maximum="15" Minimum="-15"/>
+        <TextBlock Grid.Row="1" Text="31" />
+        <TextBlock Grid.Row="2" Text="63" />
+        <TextBlock Grid.Row="3" Text="125" />
+        <TextBlock Grid.Row="4" Text="300" />
+        <TextBlock Grid.Row="5" Text="500" />
+        <TextBlock Grid.Row="6" Text="1k" />
+        <TextBlock Grid.Row="7" Text="2k" />
+        <TextBlock Grid.Row="8" Text="4k" />
+        <TextBlock Grid.Row="9" Text="8k" />
+        <TextBlock Grid.Row="10" Text="16k" />
+
+        <Slider
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="6"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="7"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="8"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="9"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
+        <Slider
+            Grid.Row="10"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Width="300"
+            Maximum="15"
+            Minimum="-15"
+            TickFrequency="3"
+            TickPlacement="Outside" />
 
     </Grid>
 </Page>

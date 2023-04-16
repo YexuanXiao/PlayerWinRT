@@ -31,3 +31,5 @@
 #include <winrt/Microsoft.UI.Interop.h>
 
 #include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
+
+namespace winrt::Player {}

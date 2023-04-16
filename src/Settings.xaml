@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Player.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -19,39 +19,49 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="Settings" Style="{StaticResource TitleTextBlockStyle}"/>
-        <TextBlock x:Uid="Personal" Style="{StaticResource SubtitleTextBlockStyle}" Grid.Row="1" Margin="0,10,0,4"/>
-        <Expander Grid.Row="2"
-            ExpandDirection="Down"
+        <TextBlock x:Uid="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock
+            x:Uid="Personal"
+            Grid.Row="1"
+            Margin="0,10,0,4"
+            Style="{StaticResource SubtitleTextBlockStyle}" />
+        <Expander
+            Grid.Row="2"
+            Margin="0,1,0,1"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Left"
-            Margin="0,1,0,1">
+            ExpandDirection="Down">
             <Expander.Header>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xF08C;" Margin="0,0,16,0"/>
-                    <TextBlock x:Uid="Theme"/>
+                    <FontIcon Margin="0,0,16,0" Glyph="&#xF08C;" />
+                    <TextBlock x:Uid="Theme" />
                 </StackPanel>
             </Expander.Header>
-            <RadioButtons MaxColumns="1" SelectionChanged="Theme_Changed" Margin="40,0,0,0" Loaded="Theme_Loaded">
-                <RadioButton x:Uid="Default" Tag="default"/>
-                <RadioButton x:Uid="Light" Tag="light"/>
-                <RadioButton x:Uid="Dark" Tag="dark"/>
+            <RadioButtons
+                Margin="40,0,0,0"
+                Loaded="Theme_Loaded"
+                MaxColumns="1"
+                SelectionChanged="Theme_Changed">
+                <RadioButton x:Uid="Default" Tag="default" />
+                <RadioButton x:Uid="Light" Tag="light" />
+                <RadioButton x:Uid="Dark" Tag="dark" />
             </RadioButtons>
         </Expander>
-        <Expander Grid.Row="3"
-            ExpandDirection="Down"
+        <Expander
+            Grid.Row="3"
+            Margin="0,1,0,1"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Left"
-            Margin="0,1,0,1">
+            ExpandDirection="Down">
             <Expander.Header>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xE790;" Margin="0,0,16,0"/>
+                    <FontIcon Margin="0,0,16,0" Glyph="&#xE790;" />
                     <TextBlock x:Uid="Color" />
                 </StackPanel>
             </Expander.Header>
-            <RadioButtons MaxColumns="1" Margin="40,0,0,0">
-                <RadioButton x:Uid="Hot" Tag="hot"/>
-                <RadioButton x:Uid="Default" Tag="default"/>
+            <RadioButtons Margin="40,0,0,0" MaxColumns="1">
+                <RadioButton x:Uid="Hot" Tag="hot" />
+                <RadioButton x:Uid="Default" Tag="default" />
             </RadioButtons>
         </Expander>
     </Grid>

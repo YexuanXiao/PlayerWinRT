@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Player.RootPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -14,70 +14,74 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Height="48"
-              Name="AppTitleBar"
-              Margin="48,0,0,0"
-              Grid.Column="1"
-              Canvas.ZIndex="0"
-              VerticalAlignment="Top">
+        <Grid
+            Name="AppTitleBar"
+            Grid.Column="1"
+            Height="48"
+            Margin="48,0,0,0"
+            VerticalAlignment="Top"
+            Canvas.ZIndex="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Image
-                    x:Name="AppFontIcon"
                     Width="24"
                     Height="24"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="/Assets/Square44x44Logo.png" />
                 <TextBlock
-                        Margin="12,0,0,0"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind AppTitleText}"/>
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind AppTitleText}" />
             </StackPanel>
         </Grid>
         <NavigationView
             Name="MainNavigation"
             Grid.Column="1"
-            Canvas.ZIndex="0"
-            IsPaneOpen="False"
-            OpenPaneLength="300"
             AlwaysShowHeader="False"
-            IsBackEnabled="False"
+            Canvas.ZIndex="0"
             IsBackButtonVisible="Collapsed"
+            IsBackEnabled="False"
+            IsPaneOpen="False"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Navigation_ItemInvoked"
-            Loaded="Navigation_Loaded">
+            Loaded="Navigation_Loaded"
+            OpenPaneLength="300">
 
             <NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     Name="controlsSearchBox"
+                    x:Uid="Search"
                     MinWidth="200"
                     VerticalAlignment="Center"
                     x:FieldModifier="public"
                     KeyboardAcceleratorPlacementMode="Hidden"
-                    QueryIcon="Find"
-                    x:Uid="Search">
+                    QueryIcon="Find">
                     <AutoSuggestBox.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="F"
-                            Modifiers="Control" />
+                        <KeyboardAccelerator Key="F" Modifiers="Control" />
                     </AutoSuggestBox.KeyboardAccelerators>
                 </AutoSuggestBox>
             </NavigationView.AutoSuggestBox>
 
-            <Frame
-                Name="rootFrame" />
+            <Frame Name="rootFrame" />
             <NavigationView.PaneHeader>
-                <StackPanel Orientation="Horizontal" Margin="-24,48,0,0" Height="32">
-                    <FontIcon FontSize="18" Margin="0,0,12,0" Glyph="&#xE723;" VerticalAlignment="Center"/>
+                <StackPanel
+                    Height="32"
+                    Margin="-24,48,0,0"
+                    Orientation="Horizontal">
+                    <FontIcon
+                        Margin="0,0,12,0"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Glyph="&#xE723;" />
                     <TextBlock x:Uid="Current" VerticalAlignment="Center" />
                 </StackPanel>
             </NavigationView.PaneHeader>
@@ -87,7 +91,7 @@
                     x:Uid="Librarys"
                     IsExpanded="True">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Library"/>
+                        <SymbolIcon Symbol="Library" />
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
                         <NavigationViewItem x:Uid="MusicFolder">
@@ -132,29 +136,23 @@
                     Name="NainPlayList"
                     x:Uid="PlayList"
                     Icon="MusicInfo" />
-                <NavigationViewItem
-                    x:Uid="Songs"
-                    Icon="Audio" />
-                <NavigationViewItem
-                    x:Uid="Folders">
+                <NavigationViewItem x:Uid="Songs" Icon="Audio" />
+                <NavigationViewItem x:Uid="Folders">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Albums">
+                <NavigationViewItem x:Uid="Albums">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE93C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Artists">
+                <NavigationViewItem x:Uid="Artists">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF12E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Genres">
+                <NavigationViewItem x:Uid="Genres">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE909;" />
                     </NavigationViewItem.Icon>
@@ -162,107 +160,211 @@
                 <NavigationViewItemSeparator />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem
-                    x:Uid="About" Tag="about">
+                <NavigationViewItem x:Uid="About" Tag="about">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Equalizer" Tag="equalizer">
+                <NavigationViewItem x:Uid="Equalizer" Tag="equalizer">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF61F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
         </NavigationView>
-        <Grid Grid.Column="1" Grid.Row="1" Width="{Binding ElementName=MainNavigation, Path=Width}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="{Binding ElementName=MainNavigation, Path=Width}"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Rectangle Height="1" Fill="#E5E5E5" Grid.ColumnSpan="3" />
-            <Grid Grid.ColumnSpan="3" Grid.Row="1">
+            <Rectangle
+                Grid.ColumnSpan="3"
+                Height="1"
+                Fill="#E5E5E5" />
+            <Grid Grid.Row="1" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="ElapsedTime" Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <Slider Margin="0" HorizontalAlignment="Stretch" Grid.Column="1"/>
-                <TextBlock x:Uid="RemainingTime" Text="0:00:00" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                <TextBlock
+                    x:Uid="ElapsedTime"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="11"
+                    Text="0:00:00" />
+                <Slider
+                    Grid.Column="1"
+                    Margin="0"
+                    HorizontalAlignment="Stretch" />
+                <TextBlock
+                    x:Uid="RemainingTime"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="11"
+                    Text="0:00:00" />
             </Grid>
-            <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
-                <Button x:Uid="Playing" Margin="0,-7,0,-1" Width="Auto" Style="{StaticResource EllipsisButton}">
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Button
+                    x:Uid="Playing"
+                    Width="Auto"
+                    Margin="0,-7,0,-1"
+                    Style="{StaticResource EllipsisButton}">
                     <Grid Padding="2,0,4,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Border Margin="4" CornerRadius="2" BorderBrush="{StaticResource SmokeFillColorDefaultBrush}" BorderThickness="1" Grid.RowSpan="2">
-                            <Image Source="/Assets/StoreLogo.scale-400.png" Height="70" Width="70"/>
+                        <Border
+                            Grid.RowSpan="2"
+                            Margin="4"
+                            BorderBrush="{StaticResource SmokeFillColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <Image
+                                Width="70"
+                                Height="70"
+                                Source="/Assets/StoreLogo.scale-400.png" />
                         </Border>
-                        <Border Margin="10,10,0,0" Grid.Column="1">
-                            <TextBlock Text="英雄のタクト-起源-" FontSize="19" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <Border Grid.Column="1" Margin="10,10,0,0">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="19"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="英雄のタクト-起源-" />
                         </Border>
-                        <Border Margin="10,0,0,10" Grid.Row="1" Grid.Column="1">
-                            <TextBlock Text="末廣健一郎" FontSize="13" Opacity="0.7" VerticalAlignment="Top"/>
+                        <Border
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0,0,10">
+                            <TextBlock
+                                VerticalAlignment="Top"
+                                FontSize="13"
+                                Opacity="0.7"
+                                Text="末廣健一郎" />
                         </Border>
                     </Grid>
                 </Button>
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button x:Uid="Shuffle" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE8B1;" FontSize="16"/>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Uid="Shuffle"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE8B1;" />
                 </Button>
-                <Button x:Uid="Previous" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE892;" FontSize="16"/>
+                <Button
+                    x:Uid="Previous"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE892;" />
                 </Button>
                 <Grid>
-                    <Button x:Uid="Play" Name="MainPlayButton" Margin="4,1,8,0" Height="50" Width="50" CornerRadius="100" Background="Transparent">
-                        <FontIcon Glyph="&#xE768;" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2,0,0,0" Width="Auto"/>
+                    <Button
+                        Name="MainPlayButton"
+                        x:Uid="Play"
+                        Width="50"
+                        Height="50"
+                        Margin="4,1,8,0"
+                        Background="Transparent"
+                        CornerRadius="100">
+                        <FontIcon
+                            Width="Auto"
+                            Margin="2,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="23"
+                            Glyph="&#xE768;" />
                     </Button>
-                    <Border Margin="4,0,8,0" CornerRadius="100" BorderBrush="{StaticResource AccentFillColorDefaultBrush}" Height="50" Width="50" BorderThickness="4" />
+                    <Border
+                        Width="50"
+                        Height="50"
+                        Margin="4,0,8,0"
+                        BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
+                        BorderThickness="4"
+                        CornerRadius="100" />
                 </Grid>
-                <Button x:Uid="Next" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE893;" FontSize="16" />
+                <Button
+                    x:Uid="Next"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE893;" />
                 </Button>
-                <Button x:Uid="Repeat" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xF5E7;" FontSize="16" />
+                <Button
+                    x:Uid="Repeat"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xF5E7;" />
                 </Button>
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button x:Uid="Volume" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE767;" FontSize="16"/>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    x:Uid="Volume"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE767;" />
                 </Button>
-                <Button x:Uid="FullScreen" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE740;" FontSize="16"/>
+                <Button
+                    x:Uid="FullScreen"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE740;" />
                 </Button>
-                <Button x:Uid="Expand" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xEE47;" FontSize="16" />
+                <Button
+                    x:Uid="Expand"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xEE47;" />
                 </Button>
-                <Button x:Uid="More" Style="{StaticResource EllipsisButton}" Height="47" Width="43">
-                    <FontIcon Glyph="&#xE712;" FontSize="16" />
+                <Button
+                    x:Uid="More"
+                    Width="43"
+                    Height="47"
+                    Style="{StaticResource EllipsisButton}">
+                    <FontIcon FontSize="16" Glyph="&#xE712;" />
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Uid="MusicInfo" Click="MusicInfo_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE946;"/>
+                                    <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Uid="SelectDevices">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF4C3;"/>
+                                    <FontIcon Glyph="&#xF4C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Player.EditLibrary"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,26 +10,53 @@
     <Grid Width="400">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="10" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="Name" VerticalAlignment="Center"/>
-        <TextBlock x:Uid="Protocol" Grid.Row="1" VerticalAlignment="Center"/>
-        <TextBlock x:Uid="Address" Grid.Row="2" VerticalAlignment="Center"/>
-        <TextBlock x:Uid="Icon" Grid.Row="3" VerticalAlignment="Center"/>
-        <TextBlock Text=":" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBlock Text=":" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
-        <TextBlock Text=":" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
-        <TextBlock Text=":" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="3" Width="300" Margin="0,20,0,20"/>
-        <SplitButton Grid.Column="3" Grid.Row="1">
-            <TextBlock x:Uid="Protocol"/>
+        <TextBlock x:Uid="Name" VerticalAlignment="Center" />
+        <TextBlock
+            x:Uid="Protocol"
+            Grid.Row="1"
+            VerticalAlignment="Center" />
+        <TextBlock
+            x:Uid="Address"
+            Grid.Row="2"
+            VerticalAlignment="Center" />
+        <TextBlock
+            x:Uid="Icon"
+            Grid.Row="3"
+            VerticalAlignment="Center" />
+        <TextBlock
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text=":" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text=":" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text=":" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text=":" />
+        <TextBox
+            Grid.Column="3"
+            Width="300"
+            Margin="0,20,0,20" />
+        <SplitButton Grid.Row="1" Grid.Column="3">
+            <TextBlock x:Uid="Protocol" />
             <SplitButton.Flyout>
                 <MenuFlyout>
                     <MenuFlyoutItem x:Uid="Local" Tag="local">
@@ -55,8 +82,12 @@
                 </MenuFlyout>
             </SplitButton.Flyout>
         </SplitButton>
-        <TextBox Grid.Column="3" Grid.Row="2" Width="300" Margin="0,20,0,20"/>
-        <SplitButton Grid.Column="3" Grid.Row="3">
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="3"
+            Width="300"
+            Margin="0,20,0,20" />
+        <SplitButton Grid.Row="3" Grid.Column="3">
             <TextBlock>Icon</TextBlock>
             <SplitButton.Flyout>
                 <MenuFlyout Placement="Right">

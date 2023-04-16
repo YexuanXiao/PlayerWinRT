@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Player.MusicInfo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -22,51 +22,105 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Margin="0,8">
-            <TextBlock x:Uid="Title" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Title"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="英雄のタクト-起源-" />
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="0,8">
-            <TextBlock x:Uid="Album" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Album"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="Re:ゼロから始める異世界生活 -CD2" />
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="0,8">
-            <TextBlock x:Uid="Track" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Track"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="1" />
         </StackPanel>
         <StackPanel Grid.Row="3" Margin="0,8">
-            <TextBlock x:Uid="Genre" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Genre"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="Anime" />
         </StackPanel>
         <StackPanel Grid.Row="4" Margin="0,8">
-            <TextBlock x:Uid="Bitrate" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Bitrate"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="925 kbps" />
         </StackPanel>
-        <StackPanel Grid.Row="5" Grid.ColumnSpan="2"  Margin="0,8">
-            <TextBlock x:Uid="Path" FontSize="13" Opacity="0.7" />
+        <StackPanel
+            Grid.Row="5"
+            Grid.ColumnSpan="2"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="Path"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="D:\Music\Re：0\S1\O.S.T.1\01 - 英雄のタクト-起源-.flac" />
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,8">
-            <TextBlock x:Uid="Singer" FontSize="13" Opacity="0.7" />
+            <TextBlock
+                x:Uid="Singer"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="末廣健一郎" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,8">
-            <TextBlock x:Uid="Artist" FontSize="13" Opacity="0.7" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="Artist"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="末廣健一郎" />
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,8">
-            <TextBlock x:Uid="Duration" FontSize="13" Opacity="0.7" />
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="Duration"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="02:52" />
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="1" Margin="0,8">
-            <TextBlock x:Uid="Year" FontSize="13" Opacity="0.7" />
+        <StackPanel
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="Year"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text="2016" />
         </StackPanel>
-        <StackPanel Grid.Row="4" Grid.Column="1" Margin="0,8">
-            <TextBlock x:Uid="Format" FontSize="13" Opacity="0.7" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="Format"
+                FontSize="13"
+                Opacity="0.7" />
             <TextBlock Text=".flac" />
         </StackPanel>
-        <Button Foreground="{StaticResource SystemAccentColor}" Grid.Row="6" Width="Auto" Style="{StaticResource EllipsisButton}" HorizontalAlignment="Left" Margin="-10,0,0,0">
-            <TextBlock x:Uid="OpenInExplorer" Padding="8,4,8,8"/>
+        <Button
+            Grid.Row="6"
+            Width="Auto"
+            Margin="-10,0,0,0"
+            HorizontalAlignment="Left"
+            Foreground="{StaticResource SystemAccentColor}"
+            Style="{StaticResource EllipsisButton}">
+            <TextBlock x:Uid="OpenInExplorer" Padding="8,4,8,8" />
         </Button>
     </Grid>
 </Page>
