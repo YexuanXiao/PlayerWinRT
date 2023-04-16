@@ -17,4 +17,5 @@ namespace SettingsHelper {
 	// for other page
 	void SetTheme(Microsoft::UI::Xaml::XamlRoot& element);
 	void SetTitleBarTheme(Microsoft::UI::Windowing::AppWindowTitleBar& titlebar, Microsoft::UI::Xaml::ElementTheme theme);
+	bool CheckFirstUse();
 }

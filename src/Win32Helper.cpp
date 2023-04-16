@@ -69,4 +69,23 @@ namespace Win32Helper {
         auto handle{ GetHandleFromWindow(window) };
         ::SetPropW(handle, appname.data(), handle);
     }
+    double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window) {
+        auto dpiX{ ::GetDpiForWindow(GetHandleFromWindow(window)) };
+        auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
+        return scaleFactorPercent / 100.;
+    }
+    std::atomic<uintptr_t> old_proc;
+    LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+        auto scaleFactor(::GetDpiForWindow(hWnd));
+        if (WM_GETMINMAXINFO == uMsg) {
+            reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = (362 * scaleFactor * 100 + (96 >> 1)) / 9600;
+            reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = (170 * scaleFactor * 100 + (96 >> 1)) / 9600;
+        }
+        return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), hWnd, uMsg, wParam, lParam);
+    }
+    void RegisterWindowMinWidth(winrt::Microsoft::UI::Xaml::Window const& window) {
+        old_proc.store(
+            ::SetWindowLongPtrW(GetHandleFromWindow(window), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowProc)),
+            std::memory_order_release);
+    }
 }

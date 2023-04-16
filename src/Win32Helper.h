@@ -23,4 +23,7 @@ namespace Win32Helper {
     /// <param name="appname">size lesser than 16</param>
     /// <param name="handle">handle of window_</param>
     void DisableMultiInstanceWindow(winrt::Microsoft::UI::Xaml::Window const& window, std::wstring_view const appname);
+    double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window);
+    LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window);
 }

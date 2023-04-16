@@ -5,6 +5,7 @@ namespace SettingsHelper {
 
 	namespace impl_ {
 		constexpr std::wstring_view Theme_Key = L"Theme";
+		constexpr std::wstring_view First_Key = L"First";
 		winrt::Windows::Foundation::Collections::IPropertySet GetApplicationSettings() {
 			return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values();
 		}
@@ -65,6 +66,17 @@ namespace SettingsHelper {
 			titlebar.ButtonHoverForegroundColor(winrt::Microsoft::UI::Colors::Black());
 			titlebar.ButtonPressedBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 194, 194, 194));
 			titlebar.ButtonPressedForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 95, 95, 95));
+		}
+	}
+	bool CheckFirstUse() {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		auto result{ localSettings.HasKey(impl_::First_Key.data()) };
+		if (result) [[likely]] {
+			return false;
+		}
+		else {
+			localSettings.Insert(impl_::Theme_Key.data(), winrt::box_value<bool>(true));
+			return true;
 		}
 	}
 }

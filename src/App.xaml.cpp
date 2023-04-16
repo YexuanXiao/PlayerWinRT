@@ -109,6 +109,8 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
         Win32Helper::DisableMultiInstanceWindow(sender.as<Window>(), appname);
         });
 
+    Win32Helper::RegisterWindowMinSize(window_);
+
     window_.Activate();
 }
 
@@ -124,19 +126,11 @@ void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs cons
     assert(appWindow_.TitleBar().ExtendsContentIntoTitleBar());
     SetDragRegionForCustomTitleBar();
 }
-double App::GetScaleAdjustment() {
-    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_) };
-    auto displayArea{ DisplayArea::GetFromWindowId(wndId, DisplayAreaFallback::Primary) };
-    auto hMonitor{ ::GetMonitorFromDisplayId(displayArea.DisplayId()) };
-    auto dpiX{ Win32Helper::GetDpiXForMonitor(hMonitor) };
-    auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
-    return scaleFactorPercent / 100.;
-}
 void App::SetDragRegionForCustomTitleBar() {
     assert(AppWindowTitleBar::IsCustomizationSupported());
     auto titleBar{ appWindow_.TitleBar() };
     assert(titleBar.ExtendsContentIntoTitleBar());
-    auto scaleAdjustment{ GetScaleAdjustment() };
+    auto scaleAdjustment{ Win32Helper::GetScaleAdjustment(window_) };
     auto appTitleBar{ window_.Content().as<Player::RootPage>().GetAppTitleBar() };
     auto rect{ RectInt32{ } };
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);

@@ -52,7 +52,7 @@ namespace winrt::Player::implementation
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(resourceLoader.GetString(L"About/Content")));
-                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
+                dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
                 dialog.DefaultButton(ContentDialogButton::Close);
                 auto page{ Player::About{} };
                 dialog.Content(page);
@@ -90,9 +90,10 @@ namespace winrt::Player::implementation
     IAsyncAction RootPage::MusicInfo_Click(IInspectable const&, RoutedEventArgs const& e)
     {
         auto dialog{ ContentDialog{} };
+        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(L"Music Info"));
-        dialog.CloseButtonText(L"Close");
+        dialog.Title(winrt::box_value(resourceLoader.GetString(L"MusicInfo/Text")));
+        dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
         auto page{ Player::MusicInfo{} };
         dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
