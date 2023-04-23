@@ -13,7 +13,6 @@ namespace winrt::Player::implementation
         // and initialize at other time
         // or use default constructor or other constructor
         Microsoft::UI::Xaml::Window window_{ nullptr };
-        Microsoft::UI::Windowing::AppWindow appWindow_{nullptr};
         // use for disable multi-instance, keep A-Za-z, and no '\'
         std::wstring_view appname{L"PlayerWinRT"};
 

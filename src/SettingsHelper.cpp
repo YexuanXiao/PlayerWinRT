@@ -75,7 +75,9 @@ namespace SettingsHelper {
 			return false;
 		}
 		else {
-			localSettings.Insert(impl_::Theme_Key.data(), winrt::box_value<bool>(true));
+#ifndef _DEBUG
+			localSettings.Insert(impl_::First_Key.data(), winrt::box_value<bool>(true));
+#endif
 			return true;
 		}
 	}

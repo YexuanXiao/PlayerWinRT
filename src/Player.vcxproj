@@ -125,6 +125,7 @@
       <DependentUpon>About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Data.h" />
     <ClInclude Include="EditLibrary.xaml.h">
       <DependentUpon>EditLibrary.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -141,6 +142,10 @@
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="PlayList.xaml.h">
+      <DependentUpon>PlayList.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -150,6 +155,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsHelper.h" />
+    <ClInclude Include="Welcome.xaml.h">
+      <DependentUpon>Welcome.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Win32Helper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +188,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="PlayList.xaml.cpp">
+      <DependentUpon>PlayList.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -188,6 +201,11 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsHelper.cpp" />
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Welcome.xaml.cpp">
+      <DependentUpon>Welcome.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Win32Helper.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -211,12 +229,20 @@
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="PlayList.idl">
+      <DependentUpon>PlayList.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="RootPage.idl">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="Settings.idl">
       <DependentUpon>Settings.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Welcome.idl">
+      <DependentUpon>Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
   </ItemGroup>
@@ -276,14 +302,23 @@
     <Page Include="MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PlayList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RootPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Welcome.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Assets\24 - 英雄のタクト.flac">
+      <FileType>Document</FileType>
+    </Media>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

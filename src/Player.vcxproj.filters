@@ -11,11 +11,13 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
+    <ClCompile Include="Data.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
+    <ClInclude Include="Data.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -161,6 +163,12 @@
       <Filter>Pages\Standalone</Filter>
     </Page>
     <Page Include="RootPage.xaml" />
+    <Page Include="PlayList.xaml">
+      <Filter>Pages\Dependent</Filter>
+    </Page>
+    <Page Include="Welcome.xaml">
+      <Filter>Pages\Dependent</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -172,5 +180,10 @@
     <PRIResource Include="Strings\Resources.language-zh-CN.resw">
       <Filter>Strings</Filter>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\24 - 英雄のタクト.flac">
+      <Filter>Assets</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Margin="0,8">
             <TextBlock
@@ -56,8 +57,15 @@
                 Opacity="0.7" />
             <TextBlock Text="925 kbps" />
         </StackPanel>
+        <StackPanel Grid.Row="5" Margin="0,8">
+            <TextBlock
+                x:Uid="SampleRate"
+                FontSize="13"
+                Opacity="0.7" />
+            <TextBlock Text="48000hz" />
+        </StackPanel>
         <StackPanel
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.ColumnSpan="2"
             Margin="0,8">
             <TextBlock
@@ -68,7 +76,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,8">
             <TextBlock
-                x:Uid="Singer"
+                x:Uid="Artist"
                 FontSize="13"
                 Opacity="0.7" />
             <TextBlock Text="末廣健一郎" />
@@ -78,7 +86,7 @@
             Grid.Column="1"
             Margin="0,8">
             <TextBlock
-                x:Uid="Artist"
+                x:Uid="AlbumArtist"
                 FontSize="13"
                 Opacity="0.7" />
             <TextBlock Text="末廣健一郎" />
@@ -113,8 +121,18 @@
                 Opacity="0.7" />
             <TextBlock Text=".flac" />
         </StackPanel>
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="0,8">
+            <TextBlock
+                x:Uid="CDNum"
+                FontSize="13"
+                Opacity="0.7" />
+            <TextBlock Text="1" />
+        </StackPanel>
         <Button
-            Grid.Row="6"
+            Grid.Row="7"
             Width="Auto"
             Margin="-10,0,0,0"
             HorizontalAlignment="Left"

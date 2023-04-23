@@ -67,10 +67,9 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     auto appTitleBar{ rootPage.GetAppTitleBar() };
 
     // initialize AppWindow
-    auto wndId{ Win32Helper::GetWindowIdFromWindow(window_) };
-    appWindow_ = AppWindow::GetFromWindowId(wndId);
+    auto appWindow{ window_.AppWindow() };
     // https://www.aconvert.com/cn/icon/png-to-ico/
-    appWindow_.SetIcon(L"Assets/PlayerWinRT.ico");
+    appWindow.SetIcon(L"Assets/PlayerWinRT.ico");
 
 #define Windows10 false
     // test Windows 10 branch on Windows 11
@@ -78,9 +77,9 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 
 #undef Windows10
     {
-        appWindow_.Changed({ this,&App::AppWindow_Changed });
-        auto titleBar{ appWindow_.TitleBar() };
+        auto titleBar{ appWindow.TitleBar() };
         titleBar.ExtendsContentIntoTitleBar(true);
+        appWindow.Changed({ this,&App::AppWindow_Changed });
         appTitleBar.Loaded({ this,&App::AppTitleBar_Loaded });
         appTitleBar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
 
@@ -88,11 +87,9 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
         auto theme{ SettingsHelper::LoadTheme() };
         SettingsHelper::SetTitleBarTheme(titleBar, theme);
 
-        rootPage.ActualThemeChanged([this](FrameworkElement const& sender, IInspectable const&) {
-
-            auto titleBar{ appWindow_.TitleBar() };
-            if (!titleBar.ExtendsContentIntoTitleBar())
-                return;
+        rootPage.ActualThemeChanged([appWindow](FrameworkElement const& sender, IInspectable const&) {
+            auto titleBar{ appWindow.TitleBar() };
+            assert(titleBar.ExtendsContentIntoTitleBar());
             SettingsHelper::SetTitleBarTheme(titleBar, sender.ActualTheme());
             });
     }
@@ -123,19 +120,19 @@ void App::AppTitleBar_Loaded(IInspectable const&, RoutedEventArgs const&) {
 }
 void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs const&) {
     assert(AppWindowTitleBar::IsCustomizationSupported());
-    assert(appWindow_.TitleBar().ExtendsContentIntoTitleBar());
+    assert(window_.AppWindow().TitleBar().ExtendsContentIntoTitleBar());
     SetDragRegionForCustomTitleBar();
 }
 void App::SetDragRegionForCustomTitleBar() {
     assert(AppWindowTitleBar::IsCustomizationSupported());
-    auto titleBar{ appWindow_.TitleBar() };
+    auto titleBar{ window_.AppWindow().TitleBar() };
     assert(titleBar.ExtendsContentIntoTitleBar());
     auto scaleAdjustment{ Win32Helper::GetScaleAdjustment(window_) };
     auto appTitleBar{ window_.Content().as<Player::RootPage>().GetAppTitleBar() };
     auto rect{ RectInt32{ } };
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
     rect.Y = 0;
-    rect.Height = static_cast<int32_t>(appTitleBar.ActualHeight() * scaleAdjustment);
+    rect.Height = static_cast<int32_t>(48 * scaleAdjustment);
 #if defined _DEBUG
     // make application tool bar clickable
     rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);

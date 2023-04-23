@@ -137,12 +137,16 @@
     <value>专辑</value>
     <comment>Music Info Page</comment>
   </data>
+  <data name="AlbumArtist.Text" xml:space="preserve">
+    <value>专辑艺术家</value>
+    <comment>Music Info Page</comment>
+  </data>
   <data name="Albums.Content" xml:space="preserve">
     <value>专辑</value>
     <comment>RootPage Navigation</comment>
   </data>
   <data name="Artist.Text" xml:space="preserve">
-    <value>专辑艺术家</value>
+    <value>艺术家</value>
     <comment>Music Info Page</comment>
   </data>
   <data name="Artists.Content" xml:space="preserve">
@@ -160,6 +164,10 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
     <comment>Dialog Button</comment>
+  </data>
+  <data name="CDNum.Text" xml:space="preserve">
+    <value>CD 号</value>
+    <comment>Music Info Page</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
@@ -325,6 +333,10 @@
     <value>Samba</value>
     <comment>Protocol</comment>
   </data>
+  <data name="SampleRate.Text" xml:space="preserve">
+    <value>采样率</value>
+    <comment>Music Info Page</comment>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
     <comment>Dialog Button</comment>
@@ -344,10 +356,6 @@
   <data name="Shuffle.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>随机</value>
     <comment>RootPage Player</comment>
-  </data>
-  <data name="Singer.Text" xml:space="preserve">
-    <value>歌手</value>
-    <comment>Music Info Page</comment>
   </data>
   <data name="Songs.Content" xml:space="preserve">
     <value>歌曲</value>

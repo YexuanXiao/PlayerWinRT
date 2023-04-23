@@ -7,6 +7,7 @@ namespace winrt::Player::implementation
     struct RootPage : RootPageT<RootPage>
     {
         RootPage();
+        Windows::Media::Playback::MediaPlayer player_;
         winrt::hstring AppTitleText();
         void AppTitleText(winrt::hstring const&);
         Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView const&, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const&);
@@ -14,6 +15,10 @@ namespace winrt::Player::implementation
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
         Microsoft::UI::Xaml::Controls::Grid GetAppTitleBar();
         Windows::Foundation::IAsyncAction MusicInfo_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
+        void On_Loaded(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void PlayButton_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void Repeat_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void Shuffle_Click(IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& e);
     };
 }
 

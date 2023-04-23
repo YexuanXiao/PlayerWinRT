@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Win32Helper.h"
+#include <Microsoft.UI.Xaml.Window.h>
 
 namespace Win32Helper {
     /// <summary>
@@ -42,22 +43,15 @@ namespace Win32Helper {
             ::ExitProcess(exitcode);
         }
     }
-
-    /// warp ::GetDpiForMonitor
-    UINT GetDpiXForMonitor(HMONITOR hmonitor) {
-        auto dpiX{ UINT{} };
-        auto dpiY{ UINT{} };
-#pragma comment(lib, "Shcore.lib")
-        ::GetDpiForMonitor(hmonitor, MDT_DEFAULT, &dpiX, &dpiY);
-        return dpiX;
-    }
     HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
         auto hWnd{ HWND{} };
         window.as<::IWindowNative>()->get_WindowHandle(&hWnd);
         return hWnd;
     }
-    winrt::Microsoft::UI::WindowId GetWindowIdFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
-        return winrt::Microsoft::UI::GetWindowIdFromWindow(GetHandleFromWindow(window));
+    double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window) {
+        auto dpiX{ ::GetDpiForWindow(GetHandleFromWindow(window)) };
+        auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
+        return scaleFactorPercent / 100.;
     }
     /// <summary>
     /// Make app only has one instance
@@ -69,11 +63,6 @@ namespace Win32Helper {
         auto handle{ GetHandleFromWindow(window) };
         ::SetPropW(handle, appname.data(), handle);
     }
-    double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window) {
-        auto dpiX{ ::GetDpiForWindow(GetHandleFromWindow(window)) };
-        auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
-        return scaleFactorPercent / 100.;
-    }
     std::atomic<uintptr_t> old_proc;
     LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         auto scaleFactor(::GetDpiForWindow(hWnd));
@@ -83,7 +72,7 @@ namespace Win32Helper {
         }
         return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), hWnd, uMsg, wParam, lParam);
     }
-    void RegisterWindowMinWidth(winrt::Microsoft::UI::Xaml::Window const& window) {
+    void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window) {
         old_proc.store(
             ::SetWindowLongPtrW(GetHandleFromWindow(window), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowProc)),
             std::memory_order_release);

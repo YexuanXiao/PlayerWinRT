@@ -8,8 +8,12 @@
 #include "About.xaml.h"
 #include "MusicInfo.xaml.h"
 #include "Settings.xaml.h"
+#include "Welcome.xaml.h"
 
 #include "SettingsHelper.h"
+
+#include <winrt/Windows.Media.Core.h>
+#include <winrt/Windows.Media.Playback.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -23,9 +27,13 @@ namespace winrt::Player::implementation
     RootPage::RootPage()
     {
         InitializeComponent();
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+        if (SettingsHelper::CheckFirstUse()) {
+            rootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
+        }
     }
     hstring RootPage::AppTitleText() {
-#if defined _DEBUG
+#ifdef _DEBUG
         return L"PlayerWinRT Dev";
 #else
         return L"PlayerWinRT";
@@ -59,7 +67,7 @@ namespace winrt::Player::implementation
                 dialog.RequestedTheme(theme);
                 static_cast<void>(co_await dialog.ShowAsync());
             }
-            else if(tagName==L"add") {
+            else if (tagName == L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
                 dialog.Title(winrt::box_value(resourceLoader.GetString(L"EditLibrary/Content")));
@@ -111,5 +119,64 @@ namespace winrt::Player::implementation
     /// </summary>
     Grid RootPage::GetAppTitleBar() {
         return AppTitleBar();
+    }
+
+    void RootPage::On_Loaded(IInspectable const&, RoutedEventArgs const&)
+    {
+        player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
+    }
+
+    void RootPage::PlayButton_Click(IInspectable const& sender, RoutedEventArgs const&)
+    {
+        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto icon{ fontIcon.Glyph() };
+        auto margin{ fontIcon.Margin() };
+        if (icon == L"\uE768") {
+            icon = L"\uE769";
+            margin = ThicknessHelper::FromUniformLength(0);
+        }
+        else if (icon == L"\uE769") {
+            icon = L"\uE768";
+            margin = ThicknessHelper::FromLengths(2, 0, 0, 0);
+        }
+        else if (icon == L"\uF5B0") {
+            icon = L"\uF8AE";
+            margin = ThicknessHelper::FromUniformLength(0);
+        }
+        else if (icon == L"\uF8AE") {
+            icon = L"\uF5B0";
+            margin = ThicknessHelper::FromLengths(2, 0, 0, 0);
+        }
+        fontIcon.Glyph(icon);
+        fontIcon.Margin(margin);
+    }
+
+    void RootPage::Repeat_Click(IInspectable const& sender, RoutedEventArgs const&)
+    {
+        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto icon{ fontIcon.Glyph() };
+        if (icon == L"\uF5E7") {
+            icon = L"\uE8ED";
+        }
+        else if (icon == L"\uE8ED") {
+            icon = L"\uE8EE";
+        }
+        else if (icon == L"\uE8EE") {
+            icon = L"\uF5E7";
+        }
+        fontIcon.Glyph(icon);
+    }
+
+    void RootPage::Shuffle_Click(IInspectable const& sender, RoutedEventArgs const&)
+    {
+        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto icon{ fontIcon.Glyph() };
+        if (icon == L"\uE8B1") {
+            icon = L"\uE70F";
+        }
+        else if (icon == L"\uE70F") {
+            icon = L"\uE8B1";
+        }
+        fontIcon.Glyph(icon);
     }
 }

@@ -137,12 +137,16 @@
     <value>Album</value>
     <comment>Music Info Page</comment>
   </data>
+  <data name="AlbumArtist.Text" xml:space="preserve">
+    <value>Album Artist</value>
+    <comment>Music Info Page</comment>
+  </data>
   <data name="Albums.Content" xml:space="preserve">
     <value>Albums</value>
     <comment>RootPage Navigation</comment>
   </data>
   <data name="Artist.Text" xml:space="preserve">
-    <value>Album Artist</value>
+    <value>Artist</value>
     <comment>Music Info Page</comment>
   </data>
   <data name="Artists.Content" xml:space="preserve">
@@ -160,6 +164,10 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Dialog Button</comment>
+  </data>
+  <data name="CDNum.Text" xml:space="preserve">
+    <value>CD Number</value>
+    <comment>Music Info Page</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
@@ -325,6 +333,10 @@
     <value>Samba</value>
     <comment>Protocol</comment>
   </data>
+  <data name="SampleRate.Text" xml:space="preserve">
+    <value>Sample Rate</value>
+    <comment>Music Info Page</comment>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
     <comment>Dialog Button</comment>
@@ -344,10 +356,6 @@
   <data name="Shuffle.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Shuffle</value>
     <comment>RootPage Player</comment>
-  </data>
-  <data name="Singer.Text" xml:space="preserve">
-    <value>Singer</value>
-    <comment>Music Info Page</comment>
   </data>
   <data name="Songs.Content" xml:space="preserve">
     <value>Songs</value>

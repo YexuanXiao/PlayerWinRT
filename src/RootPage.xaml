@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="On_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
         <Style
@@ -264,6 +265,7 @@
                 <Button
                     Name="Shuffle"
                     x:Uid="Shuffle"
+                    Click="Shuffle_Click"
                     Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE8B1;" />
                 </Button>
@@ -277,6 +279,7 @@
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
+                    Click="PlayButton_Click"
                     CornerRadius="1000"
                     Style="{StaticResource PlayButtonLarge}">
                     <FontIcon
@@ -292,6 +295,7 @@
                 <Button
                     Name="Repeat"
                     x:Uid="Repeat"
+                    Click="Repeat_Click"
                     Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xF5E7;" />
                 </Button>
