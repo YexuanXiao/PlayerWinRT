@@ -73,7 +73,6 @@ namespace winrt::Player::implementation
             Address().Text(folder.Path());
         }
     }
-
     void EditLibrary::Icon_Select(Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
     {
         auto icon{ sender.as<MenuFlyoutItem>().Icon().as<FontIcon>().Glyph() };

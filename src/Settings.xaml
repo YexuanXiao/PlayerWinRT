@@ -68,16 +68,13 @@
                             <SplitButton Grid.Column="2" HorizontalAlignment="Right">
                                 <TextBlock Text="Choose a language" />
                                 <SplitButton.Flyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem Text="中文" />
-                                        <MenuFlyoutItem Text="English" />
-                                    </MenuFlyout>
+                                    <MenuFlyout x:Name="Languages" />
                                 </SplitButton.Flyout>
                             </SplitButton>
                         </Grid>
                     </Expander.Header>
                     <StackPanel Margin="40,0,40,0" Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="Chooose a language, if you want to contribute, go to" />
+                        <TextBlock VerticalAlignment="Center" Text="Chooose a language, need to restart app. If you want to contribute, go to" />
                         <HyperlinkButton NavigateUri="https://github.com/YexuanXiao">
                             <StackPanel Orientation="Horizontal">
                                 <PathIcon

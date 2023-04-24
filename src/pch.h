@@ -11,6 +11,7 @@
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Pickers.h>
 #include <winrt/Windows.Storage.AccessCache.h>
+#include <winrt/Windows.Globalization.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.ApplicationModel.Activation.h>

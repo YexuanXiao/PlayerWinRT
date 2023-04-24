@@ -20,5 +20,7 @@ namespace winrt::Player::implementation
         void AppTitleBar_Loaded(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         void AppTitleBar_SizeChanged(IInspectable const&, Microsoft::UI::Xaml::SizeChangedEventArgs const&);
         void SetDragRegionForCustomTitleBar();
+
+        static void SetTitleBarTheme(Microsoft::UI::Windowing::AppWindowTitleBar& titlebar, Microsoft::UI::Xaml::ElementTheme theme);
     };
 }

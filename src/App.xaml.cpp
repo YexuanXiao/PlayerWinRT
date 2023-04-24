@@ -11,6 +11,7 @@
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::Graphics;
+using namespace Windows::Globalization;
 using namespace Microsoft::UI;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Windowing;
@@ -30,6 +31,12 @@ App::App()
     Win32Helper::DisableMultiInstanceEntry(appname, 1u);
     // alternate way
     // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
+
+    // set language
+    auto lang{ SettingsHelper::GetLanguage() };
+    if (lang.size()) {
+        ApplicationLanguages::PrimaryLanguageOverride(lang);
+    }
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
     UnhandledException([this](IInspectable const&, UnhandledExceptionEventArgs const& e)
@@ -85,12 +92,12 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 
         // set titlebar theme
         auto theme{ SettingsHelper::LoadTheme() };
-        SettingsHelper::SetTitleBarTheme(titleBar, theme);
+        SetTitleBarTheme(titleBar, theme);
 
         rootPage.ActualThemeChanged([appWindow](FrameworkElement const& sender, IInspectable const&) {
             auto titleBar{ appWindow.TitleBar() };
             assert(titleBar.ExtendsContentIntoTitleBar());
-            SettingsHelper::SetTitleBarTheme(titleBar, sender.ActualTheme());
+            SetTitleBarTheme(titleBar, sender.ActualTheme());
             });
     }
     else
@@ -108,6 +115,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 
     Win32Helper::RegisterWindowMinSize(window_);
 
+    // active
     window_.Activate();
 }
 
@@ -133,11 +141,47 @@ void App::SetDragRegionForCustomTitleBar() {
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
     rect.Y = 0;
     rect.Height = static_cast<int32_t>(48 * scaleAdjustment);
-#if defined _DEBUG
+#ifdef _DEBUG
     // make application tool bar clickable
     rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);
 #else
     rect.Width = appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset();
 #endif
     titleBar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
+}
+
+void App::SetTitleBarTheme(AppWindowTitleBar& titlebar, ElementTheme theme) {
+    if (theme == winrt::Microsoft::UI::Xaml::ElementTheme::Default) [[likely]] {
+        titlebar.BackgroundColor(nullptr);
+        titlebar.ButtonBackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonForegroundColor(nullptr);
+        titlebar.ButtonInactiveBackgroundColor(nullptr);
+        titlebar.ButtonInactiveForegroundColor(nullptr);
+        titlebar.ButtonHoverBackgroundColor(nullptr);
+        titlebar.ButtonHoverForegroundColor(nullptr);
+        titlebar.ButtonPressedBackgroundColor(nullptr);
+        titlebar.ButtonPressedForegroundColor(nullptr);
+    }
+    else if (theme == winrt::Microsoft::UI::Xaml::ElementTheme::Dark) {
+        titlebar.BackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonBackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonForegroundColor(winrt::Microsoft::UI::Colors::White());
+        titlebar.ButtonInactiveBackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonInactiveForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 96, 96, 96));
+        titlebar.ButtonHoverBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 45, 45, 45));
+        titlebar.ButtonHoverForegroundColor(winrt::Microsoft::UI::Colors::White());
+        titlebar.ButtonPressedBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 41, 41, 41));
+        titlebar.ButtonPressedForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 167, 167, 167));
+    }
+    else if (theme == winrt::Microsoft::UI::Xaml::ElementTheme::Light) {
+        titlebar.BackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonBackgroundColor(winrt::Microsoft::UI::Colors::Transparent());
+        titlebar.ButtonForegroundColor(winrt::Microsoft::UI::Colors::Black());
+        titlebar.ButtonInactiveBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 243, 243, 243));
+        titlebar.ButtonInactiveForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 144, 144, 144));
+        titlebar.ButtonHoverBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 219, 219, 219));
+        titlebar.ButtonHoverForegroundColor(winrt::Microsoft::UI::Colors::Black());
+        titlebar.ButtonPressedBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 194, 194, 194));
+        titlebar.ButtonPressedForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 95, 95, 95));
+    }
 }

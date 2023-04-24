@@ -11,11 +11,20 @@ using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 using namespace Microsoft::UI::Xaml::Navigation;
 
+using namespace Windows::Globalization;
+
 namespace winrt::Player::implementation
 {
 	Settings::Settings()
 	{
 		InitializeComponent();
+		auto items{ Languages().Items() };
+		for (auto lang : ApplicationLanguages::ManifestLanguages()) {
+			auto item{ MenuFlyoutItem{} };
+			item.Text(lang);
+			item.Click(&Settings::Language_Selected);
+			items.Append(item);
+		}
 	}
 	void Settings::Theme_Changed(IInspectable const& sender, SelectionChangedEventArgs const&)
 	{
@@ -32,8 +41,7 @@ namespace winrt::Player::implementation
 		else if (tagName == L"light") {
 			theme = ElementTheme::Light;
 		}
-		auto xamlRoot{ XamlRoot() };
-		SettingsHelper::SetTheme(xamlRoot, theme);
+		SettingsHelper::SetTheme(XamlRoot(), theme);
 	}
 
 	void Settings::Theme_Loaded(IInspectable const& sender, RoutedEventArgs const&)
@@ -41,5 +49,10 @@ namespace winrt::Player::implementation
 		auto radioButtons{ sender.as<RadioButtons>() };
 		auto pre{ SettingsHelper::LoadTheme() };
 		radioButtons.SelectedIndex(static_cast<int32_t>(pre));
+	}
+	void Settings::Language_Selected(IInspectable const& sender, RoutedEventArgs const&)
+	{
+		auto lang{ sender.as<MenuFlyoutItem>().Text() };
+		SettingsHelper::SetLanguage(lang);
 	}
 }

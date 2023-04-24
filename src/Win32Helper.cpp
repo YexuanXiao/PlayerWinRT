@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Win32Helper.h"
 #include <Microsoft.UI.Xaml.Window.h>
+#include <shlobj.h>
 
 namespace Win32Helper {
     /// <summary>
@@ -76,5 +77,16 @@ namespace Win32Helper {
         old_proc.store(
             ::SetWindowLongPtrW(GetHandleFromWindow(window), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowProc)),
             std::memory_order_release);
+    }
+    winrt::hstring GetMusicFolderPath() {
+        auto path{ PWSTR{} };
+#pragma comment(lib, "Shell32.lib")
+        auto res{ ::SHGetKnownFolderPath(FOLDERID_Music, 0, NULL, &path) };
+        if (!res) {
+            auto result{ winrt::hstring{path} };
+            ::CoTaskMemFree(path);
+            return result;
+        }
+        return {};
     }
 }

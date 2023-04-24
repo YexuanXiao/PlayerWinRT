@@ -27,10 +27,13 @@ namespace winrt::Player::implementation
     RootPage::RootPage()
     {
         InitializeComponent();
-        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+
         if (SettingsHelper::CheckFirstUse()) {
             rootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
+            MainNavigation().IsPaneOpen(false);
         }
+
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
@@ -44,8 +47,7 @@ namespace winrt::Player::implementation
     void RootPage::Navigation_Loaded(IInspectable const&, RoutedEventArgs const&) {
         // you can also add items in code behind
         auto theme{ SettingsHelper::LoadTheme() };
-        auto xamlRoot{ XamlRoot() };
-        SettingsHelper::SetTheme(xamlRoot, theme);
+        SettingsHelper::SetTheme(XamlRoot(), theme);
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
@@ -70,7 +72,7 @@ namespace winrt::Player::implementation
             else if (tagName == L"add") {
                 auto dialog{ ContentDialog{} };
                 dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(resourceLoader.GetString(L"EditLibrary/Content")));
+                dialog.Title(winrt::box_value(resourceLoader.GetString(L"AddLibrary/Content")));
                 dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
                 dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
                 dialog.DefaultButton(ContentDialogButton::Close);
