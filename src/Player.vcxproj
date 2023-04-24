@@ -134,6 +134,10 @@
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="LibraryInfo.h">
+      <DependentUpon>LibraryInfo.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="MusicInfo.xaml.h">
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -175,6 +179,10 @@
     </ClCompile>
     <ClCompile Include="Equalizer.xaml.cpp">
       <DependentUpon>Equalizer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="LibraryInfo.cpp">
+      <DependentUpon>LibraryInfo.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="MusicInfo.xaml.cpp">
@@ -224,6 +232,9 @@
     <Midl Include="Equalizer.idl">
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="LibraryInfo.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="MusicInfo.idl">
       <DependentUpon>MusicInfo.xaml</DependentUpon>

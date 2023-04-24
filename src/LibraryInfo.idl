@@ -1,0 +1,14 @@
+namespace Player
+{
+    [bindable]
+    [default_interface]
+    runtimeclass LibraryInfo: Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        LibraryInfo();
+        LibraryInfo(String name, String protocol, String address, String icon);
+        String Library;
+        String Protocol;
+        String Address;
+        String Icon;
+    }
+}

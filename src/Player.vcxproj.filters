@@ -5,6 +5,9 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
+    <Midl Include="LibraryInfo.idl">
+      <Filter>Model</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -135,6 +138,9 @@
     </Filter>
     <Filter Include="Strings">
       <UniqueIdentifier>{695139ab-fa6a-4b3f-b8c4-bae7f231455a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{b2d584b7-47e5-4a95-b0e3-4cdffe1b619a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
