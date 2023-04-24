@@ -233,10 +233,6 @@
     <value>格式</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="FTP.Text" xml:space="preserve">
-    <value>FTP</value>
-    <comment>Protocol</comment>
-  </data>
   <data name="FullScreen.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>全屏</value>
     <comment>RootPage Player</comment>
@@ -267,7 +263,7 @@
   </data>
   <data name="Local.Text" xml:space="preserve">
     <value>本地</value>
-    <comment>Protocol</comment>
+    <comment>Edit Library Page</comment>
   </data>
   <data name="More.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>更多</value>
@@ -329,10 +325,6 @@
     <value>重复</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Samba.Text" xml:space="preserve">
-    <value>Samba</value>
-    <comment>Protocol</comment>
-  </data>
   <data name="SampleRate.Text" xml:space="preserve">
     <value>采样率</value>
     <comment>Music Info Page</comment>
@@ -348,6 +340,10 @@
   <data name="SelectDevices.Text" xml:space="preserve">
     <value>选择输出设备</value>
     <comment>RootPage Player</comment>
+  </data>
+  <data name="SelectFolder.Text" xml:space="preserve">
+    <value>选择</value>
+    <comment>Edit Library Page</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>设置</value>
@@ -384,10 +380,6 @@
   <data name="Volume.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>音量</value>
     <comment>RootPage Player</comment>
-  </data>
-  <data name="WebDAV.Text" xml:space="preserve">
-    <value>WebDAV</value>
-    <comment>Protocol</comment>
   </data>
   <data name="Year.Text" xml:space="preserve">
     <value>年份</value>

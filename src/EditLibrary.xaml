@@ -7,11 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Width="400">
+    <Grid Width="350">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -52,29 +52,44 @@
             VerticalAlignment="Center"
             Text=":" />
         <TextBox
+            Name="Library"
             Grid.Column="3"
-            Width="300"
             Margin="0,20,0,20" />
         <SplitButton Grid.Row="1" Grid.Column="3">
-            <TextBlock x:Uid="Protocol" />
+            <TextBlock
+                Name="Protocol"
+                x:Uid="Local"
+                Tag="local" />
             <SplitButton.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem x:Uid="Local" Tag="local">
+                    <MenuFlyoutItem
+                        x:Uid="Local"
+                        Click="ProtocolMenu_Click"
+                        Tag="local">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE770;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="Samba" Tag="samba">
+                    <MenuFlyoutItem
+                        Click="ProtocolMenu_Click"
+                        Tag="samba"
+                        Text="Samba">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xEC27;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="WebDAV" Tag="webdav">
+                    <MenuFlyoutItem
+                        Click="ProtocolMenu_Click"
+                        Tag="webdav"
+                        Text="WebDAV">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE968;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Uid="FTP" Tag="ftp">
+                    <MenuFlyoutItem
+                        Click="ProtocolMenu_Click"
+                        Tag="ftp"
+                        Text="FTP">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE839;" />
                         </MenuFlyoutItem.Icon>
@@ -82,15 +97,28 @@
                 </MenuFlyout>
             </SplitButton.Flyout>
         </SplitButton>
-        <TextBox
-            Grid.Row="2"
-            Grid.Column="3"
-            Width="300"
-            Margin="0,20,0,20" />
+
+        <Grid Grid.Row="2" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Name="Address"
+                Margin="0,20,0,20"
+                Text="X:\Music" />
+            <Button
+                Name="SelectButton"
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                Click="SelectButton_Click">
+                <TextBlock x:Uid="SelectFolder" />
+            </Button>
+        </Grid>
         <SplitButton Grid.Row="3" Grid.Column="3">
-            <TextBlock>Icon</TextBlock>
+            <FontIcon Name="Icon" Glyph="&#xE770;" />
             <SplitButton.Flyout>
-                <MenuFlyout Placement="Right">
+                <MenuFlyout x:Name="Icons" Placement="Right">
                     <MenuFlyoutItem Text="Connect">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE703;" />

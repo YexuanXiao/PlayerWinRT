@@ -4,5 +4,6 @@ namespace Player
     runtimeclass EditLibrary : Microsoft.UI.Xaml.Controls.Page
     {
         EditLibrary();
+        EditLibrary(String name, String protocol, String path, String icon);
     }
 }
