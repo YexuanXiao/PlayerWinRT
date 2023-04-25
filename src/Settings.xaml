@@ -29,7 +29,7 @@
         <TextBlock
             Name="Title"
             x:Uid="Settings"
-            Margin="0,60,0,20"
+            Margin="0,40,0,20"
             Style="{StaticResource TitleTextBlockStyle}" />
         <ScrollViewer
             Grid.Row="1"

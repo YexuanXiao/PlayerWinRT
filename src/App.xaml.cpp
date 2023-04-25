@@ -11,7 +11,6 @@
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::Graphics;
-using namespace Windows::Globalization;
 using namespace Microsoft::UI;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Windowing;
@@ -31,12 +30,6 @@ App::App()
     Win32Helper::DisableMultiInstanceEntry(appname, 1u);
     // alternate way
     // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
-
-    // set language
-    auto lang{ SettingsHelper::GetLanguage() };
-    if (lang.size()) {
-        ApplicationLanguages::PrimaryLanguageOverride(lang);
-    }
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
     UnhandledException([this](IInspectable const&, UnhandledExceptionEventArgs const& e)

@@ -44,13 +44,4 @@ namespace SettingsHelper {
 			return true;
 		}
 	}
-	winrt::hstring GetLanguage() {
-		auto localSettings{ impl_::GetApplicationSettings() };
-		auto value{ winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Language_Key.data()),winrt::hstring{}) };
-		return value;
-	}
-	void SetLanguage(winrt::hstring const& lang) {
-		auto localSettings{ impl_::GetApplicationSettings() };
-		localSettings.Insert(impl_::Language_Key.data(), winrt::box_value(lang));
-	}
 }

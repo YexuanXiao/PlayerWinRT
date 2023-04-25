@@ -68,7 +68,7 @@ namespace winrt::Player::implementation
         picker.SuggestedStartLocation(PickerLocationId::ComputerFolder);
         picker.as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
         auto folder{ co_await picker.PickSingleFolderAsync() };
-        if (folder != nullptr) {
+        if (folder != nullptr) [[likely]] {
             StorageApplicationPermissions::FutureAccessList().Add(folder);
             Address().Text(folder.Path());
         }

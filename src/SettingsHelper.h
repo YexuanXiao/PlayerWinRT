@@ -15,6 +15,4 @@ namespace SettingsHelper {
 	// for init
 	void SetTheme(Microsoft::UI::Xaml::FrameworkElement&, Microsoft::UI::Xaml::ElementTheme);
 	bool CheckFirstUse();
-	winrt::hstring GetLanguage();
-	void SetLanguage(winrt::hstring const&);
 }

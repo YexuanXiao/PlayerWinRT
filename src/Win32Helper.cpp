@@ -67,7 +67,7 @@ namespace Win32Helper {
     std::atomic<uintptr_t> old_proc;
     LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         auto scaleFactor(::GetDpiForWindow(hWnd));
-        if (WM_GETMINMAXINFO == uMsg) {
+        if (WM_GETMINMAXINFO == uMsg) [[unlikely]] {
             reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = (362 * scaleFactor * 100 + (96 >> 1)) / 9600;
             reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = (170 * scaleFactor * 100 + (96 >> 1)) / 9600;
         }
@@ -82,7 +82,7 @@ namespace Win32Helper {
         auto path{ PWSTR{} };
 #pragma comment(lib, "Shell32.lib")
         auto res{ ::SHGetKnownFolderPath(FOLDERID_Music, 0, NULL, &path) };
-        if (!res) {
+        if (!res) [[likely]] {
             auto result{ winrt::hstring{path} };
             ::CoTaskMemFree(path);
             return result;
