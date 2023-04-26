@@ -11,7 +11,6 @@ namespace Player::Data {
 		String albumartist;
 		String year;
 		String path;
-		unsigned long long coverhash;
 		unsigned long long duration;
 		int bitrate;
 		int track;
@@ -34,4 +33,43 @@ namespace Player::Data {
 		String Icon;
 	};
 	using Equalizer = std::array<int8_t, 10>;
+
+	auto sample{ R"(
+{
+    "library":[
+        {
+            "name":"system",
+            "list":[{
+                "title":"",
+                "album":"",
+                "genre":"",
+                "artist":"",
+                "albumartist":"",
+                "year":"",
+                "path":"",
+                "duration":0,
+                "bitrate":0,
+                "track":0,
+                "samplerate":0,
+                "cd":0
+            }
+            ]
+        },
+        {
+            "name":"xxxx",
+            "list":[
+
+            ]
+        }
+    ],
+    "current":{
+        "library":"",
+        "path":"",
+        "index":0,
+        "list":[
+
+        ]
+    }
+}
+)" };
 }
