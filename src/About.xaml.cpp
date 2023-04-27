@@ -14,9 +14,6 @@ namespace winrt::Player::implementation
         InitializeComponent();
 
         auto version{ Windows::ApplicationModel::Package::Current().Id().Version() };
-        auto str{ std::wostringstream{} };
-        // todo: use fastio
-        str << version.Major << '.' << version.Minor << '.' << version.Build << '.' << version.Revision;
-        Version().Text(winrt::hstring{str.view()});
+        Version().Text(fast_io::wconcat_winrt_hstring(version.Major,'.',version.Major,'.',version.Minor,'.',version.Revision));
     }
 }

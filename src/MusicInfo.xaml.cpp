@@ -14,3 +14,9 @@ namespace winrt::Player::implementation
         InitializeComponent();
     }
 }
+
+/*
+
+https://learn.microsoft.com/zh-cn/uwp/api/windows.media.musicdisplayproperties?view=winrt-22621
+
+*/

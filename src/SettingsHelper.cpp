@@ -7,6 +7,8 @@ namespace SettingsHelper {
 		constexpr std::wstring_view Theme_Key = L"Theme";
 		constexpr std::wstring_view First_Key = L"First";
 		constexpr std::wstring_view Language_Key = L"Language";
+		constexpr std::wstring_view Volume_Key = L"Volume";
+		constexpr std::wstring_view Repeat_Key = L"Repeat";
 		winrt::Windows::Foundation::Collections::IPropertySet GetApplicationSettings() {
 			return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values();
 		}
@@ -43,5 +45,23 @@ namespace SettingsHelper {
 #endif
 			return true;
 		}
+	}
+	double GetVolume() {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		auto value{ winrt::unbox_value_or<double>(localSettings.Lookup(impl_::Volume_Key.data()),100.) };
+		return value;
+	}
+	void SetVolume(double value) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		localSettings.Insert(impl_::Volume_Key.data(), winrt::box_value(value));
+	}
+	Repeat GetRepeat() {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		auto value{ winrt::unbox_value_or<int32_t>(localSettings.Lookup(impl_::Repeat_Key.data()),0) };
+		return Repeat{value};
+	}
+	void SetRepeat(Repeat value) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		localSettings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
 	}
 }

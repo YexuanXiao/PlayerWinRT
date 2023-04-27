@@ -7,7 +7,13 @@ namespace winrt::Player::implementation
     struct RootPage : RootPageT<RootPage>
     {
         RootPage();
+        double volume_;
+        double Volume();
+        void Volume(double);
         Windows::Media::Playback::MediaPlayer player_;
+        Windows::Media::Playback::MediaPlaybackList list_;
+        Windows::Media::Playback::MediaPlayer Player();
+        Windows::Media::Playback::MediaPlaybackList List();
         winrt::hstring AppTitleText();
         void AppTitleText(winrt::hstring const&);
         Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView const&, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const&);

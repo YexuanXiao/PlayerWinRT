@@ -15,4 +15,11 @@ namespace SettingsHelper {
 	// for init
 	void SetTheme(Microsoft::UI::Xaml::FrameworkElement&, Microsoft::UI::Xaml::ElementTheme);
 	bool CheckFirstUse();
+	double GetVolume();
+	void SetVolume(double);
+	enum class Repeat:int32_t {
+		None,One,All
+	};
+	Repeat GetRepeat();
+	void SetRepeat(Repeat);
 }

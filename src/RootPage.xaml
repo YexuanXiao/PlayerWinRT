@@ -31,8 +31,13 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid
             Name="AppTitleBar"
+            Grid.Column="1"
             Height="48"
             Margin="48,0,0,0"
             VerticalAlignment="Top"
@@ -58,10 +63,9 @@
         </Grid>
         <NavigationView
             Name="MainNavigation"
+            Grid.Column="1"
             AlwaysShowHeader="False"
             Canvas.ZIndex="0"
-            IsBackButtonVisible="Collapsed"
-            IsBackEnabled="False"
             ItemInvoked="Navigation_ItemInvoked"
             Loaded="Navigation_Loaded"
             OpenPaneLength="300">
@@ -240,8 +244,9 @@
                             Height="70"
                             Source="/Assets/StoreLogo.scale-400.png" />
                     </Border>
-                    <StackPanel Name="PlayerTitle" Grid.Column="1">
+                    <StackPanel Grid.Column="1">
                         <TextBlock
+                            Name="PlayerTitle"
                             Margin="10,15,10,2"
                             VerticalAlignment="Center"
                             FontSize="19"
@@ -249,6 +254,7 @@
                             Text="英雄のタクト-起源-"
                             TextWrapping="NoWrap" />
                         <TextBlock
+                            Name="PlayerArtist"
                             Margin="10,0,10,0"
                             VerticalAlignment="Top"
                             FontSize="13"
@@ -305,10 +311,34 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <Button
-                    Name="Volume"
-                    x:Uid="Volume"
-                    Style="{StaticResource PlayerEllipsis}">
+                <Button x:Uid="Volume" Style="{StaticResource PlayerEllipsis}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <Grid Margin="-10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Uid="Volume" Style="{StaticResource PlayerEllipsis}">
+                                    <FontIcon FontSize="16" Glyph="&#xE767;" />
+                                </Button>
+                                <Slider
+                                    Name="VolumeSlider"
+                                    Grid.Column="1"
+                                    Width="150"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    StepFrequency="1"
+                                    Value="{x:Bind Volume, Mode=TwoWay}" />
+                                <TextBlock
+                                    Name="VolumeValue"
+                                    Grid.Column="2"
+                                    Width="30"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
                     <FontIcon FontSize="16" Glyph="&#xE767;" />
                 </Button>
                 <Button x:Uid="FullScreen" Style="{StaticResource PlayerEllipsis}">
@@ -369,6 +399,7 @@
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="1*,1*,1*" />
+                        <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -380,9 +411,11 @@
                         <Setter Target="PlayIcon.FontSize" Value="16" />
                         <Setter Target="More.Visibility" Value="Collapsed" />
                         <Setter Target="PlayerTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="PlayerArtist.Visibility" Value="Collapsed" />
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />
+                        <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -5,6 +5,9 @@ namespace Player
     {
         RootPage();
         String AppTitleText;
+        Double Volume;
+        Windows.Media.Playback.MediaPlayer Player{ get; };
+        Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame GetRootFrame();
         Microsoft.UI.Xaml.Controls.Grid GetAppTitleBar();
     }

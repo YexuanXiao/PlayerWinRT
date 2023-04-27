@@ -64,6 +64,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
         auto rootFrame{ rootPage.GetRootFrame() };
         window_.Content(rootPage);
     }
+
     auto appTitleBar{ rootPage.GetAppTitleBar() };
 
     // initialize AppWindow
@@ -79,6 +80,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     {
         auto titleBar{ appWindow.TitleBar() };
         titleBar.ExtendsContentIntoTitleBar(true);
+        titleBar.PreferredHeightOption(TitleBarHeightOption::Tall);
         appWindow.Changed({ this,&App::AppWindow_Changed });
         appTitleBar.Loaded({ this,&App::AppTitleBar_Loaded });
         appTitleBar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
@@ -97,7 +99,6 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     {
         // In the case that title bar customization is not supported, fallback to WindowChrome
         window_.ExtendsContentIntoTitleBar(true);
-        window_.SetTitleBar(appTitleBar);
     }
 
     // make app only have one instance

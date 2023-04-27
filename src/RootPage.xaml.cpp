@@ -12,9 +12,6 @@
 
 #include "SettingsHelper.h"
 
-#include <winrt/Windows.Media.Core.h>
-#include <winrt/Windows.Media.Playback.h>
-
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
@@ -28,12 +25,30 @@ namespace winrt::Player::implementation
     {
         InitializeComponent();
 
+        player_.Source(list_);
+
+        // init state
         if (SettingsHelper::CheckFirstUse()) {
             rootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
         }
 
+        // prepare ui value
+
+        auto volume{ SettingsHelper::GetVolume() };
+        VolumeValue().Text(fast_io::wconcat_winrt_hstring(volume));
+        VolumeSlider().IntermediateValue(volume);
+        player_.Volume(volume / 100.);
+
+        // prepare list
         player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+        list_.Items().Append(
+            Windows::Media::Playback::MediaPlaybackItem{
+            Windows::Media::Core::MediaSource::CreateFromUri(
+                Uri{ L"ms-appx://Assets/24 - 英雄のタクト.flac" }
+            )}
+        );
+        list_.MaxPlayedItemsToKeepOpen(3);
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
@@ -180,5 +195,20 @@ namespace winrt::Player::implementation
             icon = L"\uE8B1";
         }
         fontIcon.Glyph(icon);
+    }
+    Windows::Media::Playback::MediaPlayer RootPage::Player() {
+        return player_;
+    }
+    Windows::Media::Playback::MediaPlaybackList RootPage::List() {
+        return list_;
+    }
+    double RootPage::Volume() {
+        return volume_;
+    }
+    void RootPage::Volume(double value) {
+        volume_ = value;
+        VolumeValue().Text(fast_io::wconcat_winrt_hstring(value));
+        player_.Volume(value / 100.);
+        SettingsHelper::SetVolume(volume_);
     }
 }
