@@ -5,7 +5,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
-    <Midl Include="LibraryInfo.idl">
+    <Midl Include="MusicInfoModel.idl">
       <Filter>Model</Filter>
     </Midl>
   </ItemGroup>

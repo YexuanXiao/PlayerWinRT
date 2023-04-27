@@ -3,19 +3,17 @@
 
 namespace Player::Data {
 	struct MusicInfo {
-		using String = std::wstring;
+		using String = winrt::hstring;
 		String title;
 		String album;
 		String genre;
 		String artist;
 		String albumartist;
-		String year;
 		String path;
-		unsigned long long duration;
-		int bitrate;
-		int track;
-		int samplerate;
-		int cd;
+		long long duration;
+        int32_t year;
+		uint32_t bitrate;
+		uint32_t track;
 	};
 	struct PlayList {
 		using String = std::wstring;
