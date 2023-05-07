@@ -90,7 +90,7 @@
                 <TextBlock
                     Grid.Row="6"
                     VerticalAlignment="Center"
-                    Text="Not your favor language, or you are in globalization?" />
+                    Text="Not your favor language, or you're working on localization?" />
                 <StackPanel Grid.Row="7" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="Yes:" />
                     <SplitButton Margin="10,0,10,0" Content="Choose a language">

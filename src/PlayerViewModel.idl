@@ -1,0 +1,11 @@
+namespace Player
+{
+    [bindable]
+    [default_interface]
+    runtimeclass PlayerViewModel: Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        PlayerViewModel();
+        Double Volume;
+        static String DoubleToString(Double volume);
+    }
+}

@@ -6,6 +6,8 @@
 #include <winrt/Windows.Storage.FileProperties.h>
 #include <winrt/Windows.Storage.Search.h>
 
+#include "Data.h"
+
 namespace Player::Data {
 	winrt::Windows::Data::Json::JsonObject GetFiles;
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Storage::StorageFile>> GetFileListFromFolder(winrt::Windows::Storage::StorageFolder const& folder) {
@@ -22,12 +24,13 @@ namespace Player::Data {
 	}
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVector<winrt::Player::MusicInfoModel>> GetListWithMusicInfoFromFolder(winrt::Windows::Storage::StorageFolder const& folder) {
 		auto filelist{ co_await GetFileListFromFolder(folder) };
-		std::vector<winrt::Player::MusicInfoModel> infolist{filelist.Size()};
-		for (auto i: filelist) {
+		auto infolist{ std::vector<winrt::Player::MusicInfoModel>(filelist.Size()) };
+		for (auto i : filelist) {
 			auto prop{ co_await i.Properties().GetMusicPropertiesAsync() };
 			auto genre{ prop.Genre() };
 			auto empty{ !genre.Size() };
-			infolist.emplace_back(prop.Title(), prop.Album(), empty ? winrt::hstring{} : *(genre.begin()), prop.Artist(), prop.AlbumArtist(), i.Path(), prop.Duration().count(), prop.Year(), prop.Bitrate(), prop.TrackNumber());
+			auto info{ winrt::Player::Data::MusicInfo{prop.Title(), prop.Album(), empty ? winrt::hstring{} : *(genre.begin()), prop.Artist(), prop.AlbumArtist(), i.Path(), prop.Duration().count(), prop.Year(), prop.Bitrate(), prop.TrackNumber()} };
+			infolist.emplace_back(info);
 		}
 		co_return winrt::single_threaded_vector(std::move(infolist));
 	}

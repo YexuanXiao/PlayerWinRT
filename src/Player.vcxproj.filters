@@ -5,8 +5,12 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
+    <Midl Include="Data.idl" />
     <Midl Include="MusicInfoModel.idl">
       <Filter>Model</Filter>
+    </Midl>
+    <Midl Include="PlayerViewModel.idl">
+      <Filter>ViewModel</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -15,12 +19,24 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="MusicInfoModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerViewModel.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="MusicInfoModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerViewModel.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -141,6 +157,9 @@
     </Filter>
     <Filter Include="Model">
       <UniqueIdentifier>{b2d584b7-47e5-4a95-b0e3-4cdffe1b619a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ViewModel">
+      <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

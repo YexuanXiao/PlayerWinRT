@@ -1,3 +1,4 @@
+import "PlayerViewModel.idl";
 namespace Player
 {
     [default_interface]
@@ -5,7 +6,7 @@ namespace Player
     {
         RootPage();
         String AppTitleText;
-        Double Volume;
+        PlayerViewModel PlayerMainViewModel{ get; };
         Windows.Media.Playback.MediaPlayer Player{ get; };
         Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame GetRootFrame();

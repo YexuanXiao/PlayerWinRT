@@ -4,16 +4,16 @@
 namespace Player::Data {
 	struct MusicInfo {
 		using String = winrt::hstring;
-		String title;
-		String album;
-		String genre;
-		String artist;
-		String albumartist;
-		String path;
-		long long duration;
-        int32_t year;
-		uint32_t bitrate;
-		uint32_t track;
+		String Title;
+		String Album;
+		String Genre;
+		String Artist;
+		String Albumartist;
+		String Path;
+		int64_t Duration;
+        uint32_t Year;
+		uint32_t Bitrate;
+		uint32_t Track;
 	};
 	struct PlayList {
 		using String = std::wstring;
@@ -32,7 +32,7 @@ namespace Player::Data {
 	};
 	using Equalizer = std::array<int8_t, 10>;
 
-	auto sample{ R"(
+	inline auto sample{ R"(
 {
     "library":[
         {

@@ -125,7 +125,10 @@
       <DependentUpon>About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Data.h" />
+    <ClInclude Include="Data.h">
+      <DependentUpon>Data.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="EditLibrary.xaml.h">
       <DependentUpon>EditLibrary.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -138,13 +141,13 @@
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="MusicInfoModel.h">
-      <DependentUpon>MusicInfoModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="PlayerViewModel.h">
+      <DependentUpon>PlayerViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="PlayList.xaml.h">
       <DependentUpon>PlayList.xaml</DependentUpon>
@@ -158,12 +161,20 @@
       <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="SettingsHelper.h" />
+    <ClInclude Include="SettingsHelper.h">
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="MusicInfoModel.h">
+      <DependentUpon>MusicInfoModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Welcome.xaml.h">
       <DependentUpon>Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Win32Helper.h" />
+    <ClInclude Include="Win32Helper.h">
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -185,17 +196,18 @@
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="MusicInfoModel.cpp">
-      <DependentUpon>MusicInfoModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
+      <DependentUpon>pch.h</DependentUpon>
     </ClCompile>
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="PlayerViewModel.cpp">
+      <DependentUpon>PlayerViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="PlayList.xaml.cpp">
       <DependentUpon>PlayList.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -208,13 +220,26 @@
       <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="SettingsHelper.cpp" />
-    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="SettingsHelper.cpp">
+      <DependentUpon>SettingsHelper.h</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Data.cpp">
+      <DependentUpon>Data.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="MusicInfoModel.cpp">
+      <DependentUpon>MusicInfoModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Welcome.xaml.cpp">
       <DependentUpon>Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Win32Helper.cpp" />
+    <ClCompile Include="Win32Helper.cpp">
+      <DependentUpon>Win32Helper.h</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="About.idl">
@@ -225,6 +250,7 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
+    <Midl Include="Data.idl" />
     <Midl Include="EditLibrary.idl">
       <DependentUpon>EditLibrary.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -237,7 +263,7 @@
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="MusicInfoModel.idl">
+    <Midl Include="PlayerViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="PlayList.idl">
@@ -256,6 +282,7 @@
       <DependentUpon>Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="MusicInfoModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LargeTile.scale-100.png" />

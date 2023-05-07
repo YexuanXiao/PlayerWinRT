@@ -48,7 +48,7 @@ namespace SettingsHelper {
 	}
 	double GetVolume() {
 		auto localSettings{ impl_::GetApplicationSettings() };
-		auto value{ winrt::unbox_value_or<double>(localSettings.Lookup(impl_::Volume_Key.data()),100.) };
+		auto value{ winrt::unbox_value_or<double>(localSettings.Lookup(impl_::Volume_Key.data()),1.) };
 		return value;
 	}
 	void SetVolume(double value) {

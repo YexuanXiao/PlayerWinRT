@@ -1,19 +1,12 @@
+import "Data.idl";
+
 namespace Player
 {
     [default_interface]
     runtimeclass MusicInfoModel
     {
         MusicInfoModel();
-    MusicInfoModel(String Title_, String Album_, String Genre_, String Artist_, String Albumartist_, String Path_, Int64 Duration_, Int32 Year_, UInt32 Bitrate_, UInt32 Track_);
-        String title;
-        String album;
-        String genre;
-        String artist;
-        String albumartist;
-        String path;
-        Int64 duration;
-        Int32 year;
-        UInt32 bitrate;
-        UInt32 track;
+        MusicInfoModel(ref const Player.Data.MusicInfo info);
+        Player.Data.MusicInfo Info{get; set; };
     }
 }

@@ -38,10 +38,10 @@ namespace Win32Helper {
                     // show and restore window_
                     ::ShowWindow(pre, SW_RESTORE);
                     // activate, set foreground and get forcus
-                    ::SetForegroundWindow(pre);
+                    if(::SetForegroundWindow(pre)) ::ExitProcess(exitcode);
+                    break;
                 }
             }
-            ::ExitProcess(exitcode);
         }
     }
     HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {

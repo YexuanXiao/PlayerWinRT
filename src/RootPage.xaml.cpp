@@ -33,12 +33,8 @@ namespace winrt::Player::implementation
             MainNavigation().IsPaneOpen(false);
         }
 
-        // prepare ui value
-
-        auto volume{ SettingsHelper::GetVolume() };
-        VolumeValue().Text(fast_io::wconcat_winrt_hstring(volume));
-        VolumeSlider().IntermediateValue(volume);
-        player_.Volume(volume / 100.);
+        // regist volume change
+        playerViewModel_.PropertyChanged({ this,&RootPage::UpdateVolume });
 
         // prepare list
         player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
@@ -145,27 +141,44 @@ namespace winrt::Player::implementation
 
     void RootPage::PlayButton_Click(IInspectable const& sender, RoutedEventArgs const&)
     {
+        enum ChangedState {
+            Play, Pause
+        };
+        auto state{ Pause };
         auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
-        auto margin{ fontIcon.Margin() };
-        if (icon == L"\uE768") {
-            icon = L"\uE769";
-            margin = ThicknessHelper::FromUniformLength(0);
+        {
+            // cacl data
+            if (icon == L"\uE768") {
+                icon = L"\uE769";
+                state = Play;
+            }
+            else if (icon == L"\uE769") {
+                icon = L"\uE768";
+                state = Pause;
+            }
+            else if (icon == L"\uF5B0") {
+                icon = L"\uF8AE";
+                state = Play;
+            }
+            else if (icon == L"\uF8AE") {
+                icon = L"\uF5B0";
+                state = Pause;
+            }
         }
-        else if (icon == L"\uE769") {
-            icon = L"\uE768";
-            margin = ThicknessHelper::FromLengths(2, 0, 0, 0);
+        {
+            // change player state and ui
+            if (state == Play) {
+                player_.Play();
+                fontIcon.Glyph(icon);
+                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
+            }
+            else if (player_.CanPause()) {
+                player_.Pause();
+                fontIcon.Glyph(icon);
+                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
+            }
         }
-        else if (icon == L"\uF5B0") {
-            icon = L"\uF8AE";
-            margin = ThicknessHelper::FromUniformLength(0);
-        }
-        else if (icon == L"\uF8AE") {
-            icon = L"\uF5B0";
-            margin = ThicknessHelper::FromLengths(2, 0, 0, 0);
-        }
-        fontIcon.Glyph(icon);
-        fontIcon.Margin(margin);
     }
 
     void RootPage::Repeat_Click(IInspectable const& sender, RoutedEventArgs const&)
@@ -202,13 +215,13 @@ namespace winrt::Player::implementation
     Windows::Media::Playback::MediaPlaybackList RootPage::List() {
         return list_;
     }
-    double RootPage::Volume() {
-        return volume_;
+
+    PlayerViewModel RootPage::PlayerMainViewModel() {
+        return playerViewModel_;
     }
-    void RootPage::Volume(double value) {
-        volume_ = value;
-        VolumeValue().Text(fast_io::wconcat_winrt_hstring(value));
-        player_.Volume(value / 100.);
-        SettingsHelper::SetVolume(volume_);
+    void RootPage::UpdateVolume(IInspectable const&, PropertyChangedEventArgs const& e){
+        if (e.PropertyName() == L"Volume") {
+            player_.Volume(playerViewModel_.Volume() / 100.);
+        }
     }
 }
