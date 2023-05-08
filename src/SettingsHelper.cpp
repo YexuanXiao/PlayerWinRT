@@ -64,4 +64,16 @@ namespace SettingsHelper {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		localSettings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
 	}
+	void StoreLibrary(winrt::hstring const& name, winrt::hstring const& library) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		localSettings.Insert(name, winrt::box_value(library));
+	}
+	winrt::hstring GetLibaray(winrt::hstring const& name) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		return winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(name), winrt::hstring{});
+	}
+	void RemoveLibrary(winrt::hstring const& name) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		localSettings.Remove(name);
+	}
 }

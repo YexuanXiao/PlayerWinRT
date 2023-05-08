@@ -20,4 +20,7 @@ namespace SettingsHelper {
 	};
 	Repeat GetRepeat();
 	void SetRepeat(Repeat);
+	void StoreLibrary(winrt::hstring const&, winrt::hstring const&);
+	void RemoveLibrary(winrt::hstring const&);
+	winrt::hstring GetLibrary(winrt::hstring const&);
 }
