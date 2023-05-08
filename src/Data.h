@@ -1,7 +1,9 @@
 #pragma once
 #include "pch.h"
 
-namespace Player::Data {
+#include <winrt/Windows.Data.Json.h>
+
+namespace Data {
 	struct MusicInfo {
 		using String = winrt::hstring;
 		String Title;
@@ -15,20 +17,18 @@ namespace Player::Data {
 		uint32_t Bitrate;
 		uint32_t Track;
 	};
+    struct Library {
+        winrt::hstring name;
+        winrt::hstring protocol;
+        winrt::hstring address;
+        winrt::hstring icon;
+    };
+    bool CheckLibraryLegal(Data::Library const& value);
+    winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol,winrt::hstring const& path, winrt::hstring const& icon);
 	struct PlayList {
 		using String = std::wstring;
 		String name;
 		std::vector<MusicInfo> list;
-	};
-	struct Library {
-		enum class Protocol {
-			Local, Samba, WebDAV, FTP
-		};
-		using String = std::wstring;
-		String name;
-		Protocol procotol;
-		String path;
-		String Icon;
 	};
 	using Equalizer = std::array<int8_t, 10>;
 

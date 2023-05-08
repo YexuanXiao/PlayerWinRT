@@ -153,6 +153,10 @@
       <DependentUpon>PlayList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Progress.xaml.h">
+      <DependentUpon>Progress.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -162,10 +166,6 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsHelper.h">
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="MusicInfoModel.h">
-      <DependentUpon>MusicInfoModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Welcome.xaml.h">
@@ -212,6 +212,10 @@
       <DependentUpon>PlayList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Progress.xaml.cpp">
+      <DependentUpon>Progress.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -226,10 +230,6 @@
     </ClCompile>
     <ClCompile Include="Data.cpp">
       <DependentUpon>Data.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="MusicInfoModel.cpp">
-      <DependentUpon>MusicInfoModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Welcome.xaml.cpp">
@@ -270,6 +270,10 @@
       <DependentUpon>PlayList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Progress.idl">
+      <DependentUpon>Progress.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="RootPage.idl">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -282,7 +286,6 @@
       <DependentUpon>Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="MusicInfoModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LargeTile.scale-100.png" />
@@ -341,6 +344,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PlayList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Progress.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">

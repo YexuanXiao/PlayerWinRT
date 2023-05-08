@@ -6,9 +6,6 @@
   <ItemGroup>
     <Midl Include="App.idl" />
     <Midl Include="Data.idl" />
-    <Midl Include="MusicInfoModel.idl">
-      <Filter>Model</Filter>
-    </Midl>
     <Midl Include="PlayerViewModel.idl">
       <Filter>ViewModel</Filter>
     </Midl>
@@ -155,9 +152,6 @@
     <Filter Include="Strings">
       <UniqueIdentifier>{695139ab-fa6a-4b3f-b8c4-bae7f231455a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Model">
-      <UniqueIdentifier>{b2d584b7-47e5-4a95-b0e3-4cdffe1b619a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ViewModel">
       <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
     </Filter>
@@ -193,6 +187,9 @@
     </Page>
     <Page Include="Welcome.xaml">
       <Filter>Pages\Dependent</Filter>
+    </Page>
+    <Page Include="Progress.xaml">
+      <Filter>Pages\Standalone</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

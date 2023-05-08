@@ -1,16 +1,10 @@
-namespace Player.Data
+namespace Data
 {
-    struct MusicInfo
+    struct Library
     {
-        String Title;
-        String Album;
-        String Genre;
-        String Artist;
-        String Albumartist;
-        String Path;
-        Int64 Duration;
-        UInt32 Year;
-        UInt32 Bitrate;
-        UInt32 Track;
+        String name;
+        String protocol;
+        String address;
+        String icon;
     };
 }
