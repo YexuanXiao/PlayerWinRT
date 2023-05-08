@@ -178,7 +178,8 @@
     <comment>Settings Page</comment>
   </data>
   <data name="CopyNote.Text" xml:space="preserve">
-    <value>The project not affiliated with Microsoft.</value>
+    <value>The project not affiliated with Microsoft.
+PlayerWinRT is open source under the MIT license and free for distribution.</value>
     <comment>About Page</comment>
   </data>
   <data name="Current.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">

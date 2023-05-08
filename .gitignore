@@ -397,3 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 enc_temp_folder/
+/src/Assets/24 - 英雄のタクト.flac

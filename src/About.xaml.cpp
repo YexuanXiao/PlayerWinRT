@@ -14,6 +14,7 @@ namespace winrt::Player::implementation
         InitializeComponent();
 
         auto version{ Windows::ApplicationModel::Package::Current().Id().Version() };
-        Version().Text(fast_io::wconcat_winrt_hstring(version.Major,'.',version.Major,'.',version.Minor,'.',version.Revision));
+        auto dot{ fast_io::mnp::chvw('.') };
+        Version().Text(fast_io::wconcat_winrt_hstring(version.Major,dot,version.Major,dot,version.Minor,dot,version.Revision));
     }
 }

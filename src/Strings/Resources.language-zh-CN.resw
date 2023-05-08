@@ -178,7 +178,8 @@
     <comment>Settings Page</comment>
   </data>
   <data name="CopyNote.Text" xml:space="preserve">
-    <value>该项目不属于微软。</value>
+    <value>该项目不属于微软。
+PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <comment>About Page</comment>
   </data>
   <data name="Current.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
