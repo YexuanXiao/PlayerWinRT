@@ -21,10 +21,10 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="30" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -40,7 +40,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="1" Text="-15dB" />
-        <TextBlock Grid.Column="2" Text="0dB" />
+        <TextBlock
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            Text="0dB" />
         <TextBlock
             Grid.Column="3"
             HorizontalAlignment="Right"
