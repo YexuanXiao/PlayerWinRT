@@ -4,7 +4,8 @@
 #include "EditLibrary.g.cpp"
 #endif
 
-#include <shobjidl_core.h>
+#include "Progress.xaml.h"
+#include "Win32Helper.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -21,6 +22,7 @@ namespace winrt::Player::implementation
     EditLibrary::EditLibrary()
     {
         InitializeComponent();
+        // initialize icons, add click event
         for (auto i : Icons().Items()) {
             i.as<MenuFlyoutItem>().Click({ this,&EditLibrary::Icon_Select });
         }
@@ -38,47 +40,47 @@ namespace winrt::Player::implementation
 
         if (tag == L"local") [[likely]] {
             auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-            SelectButton().Visibility(Visibility::Visible);
             Protocol().Text(resourceLoader.GetString(L"Local/Text"));
             Address().Text(L"X:\\");
             Icon().Glyph(L"\uE770");
-            return;
+            SelectButton().Visibility(Visibility::Visible);
         }
         else if (tag == L"ftp") {
             Protocol().Text(L"FTP");
             Address().Text(L"ftp://");
             Icon().Glyph(L"\uE839");
+            SelectButton().Visibility(Visibility::Collapsed);
         }
         else if (tag == L"samba") {
             Protocol().Text(L"Samba");
             Address().Text(L"smb://");
             Icon().Glyph(L"\uEC27");
+            SelectButton().Visibility(Visibility::Collapsed);
         }
         else if (tag == L"webdav") {
             Protocol().Text(L"WebDAV");
             Address().Text(L"http://");
             Icon().Glyph(L"\uE968");
+            SelectButton().Visibility(Visibility::Collapsed);
         }
-        SelectButton().Visibility(Visibility::Collapsed);
     }
-    IAsyncAction EditLibrary::SelectButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+    IAsyncAction EditLibrary::SelectButton_Click(IInspectable const&, RoutedEventArgs const& args)
     {
         auto picker{ FolderPicker{} };
         picker.ViewMode(PickerViewMode::List);
         picker.SuggestedStartLocation(PickerLocationId::ComputerFolder);
-        picker.as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
-        auto folder{ co_await picker.PickSingleFolderAsync() };
+        Win32Helper::RegistCoreWindow(picker);
+        auto const& folder{ co_await picker.PickSingleFolderAsync() };
         if (folder != nullptr) [[likely]] {
             StorageApplicationPermissions::FutureAccessList().Add(folder);
             Address().Text(folder.Path());
         }
     }
-    void EditLibrary::Icon_Select(Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+    void EditLibrary::Icon_Select(IInspectable const& sender, RoutedEventArgs const&)
     {
-        auto icon{ sender.as<MenuFlyoutItem>().Icon().as<FontIcon>().Glyph() };
-        Icon().Glyph(icon);
+        Icon().Glyph(sender.as<MenuFlyoutItem>().Icon().as<FontIcon>().Glyph());
     }
-    EditLibrary::Result EditLibrary::GetResult() {
+    winrt::Data::Library EditLibrary::GetResult() {
         return { Library().Text(), winrt::unbox_value<hstring>(Protocol().Tag()), Address().Text(),Icon().Glyph()};
     }
 }

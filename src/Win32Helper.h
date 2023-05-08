@@ -2,6 +2,7 @@
 
 #include <pch.h>
 
+// Win32Helper is responsible for all Win32 API interactions
 namespace Win32Helper {
     /// <summary>
     /// Make app only has one instance
@@ -21,5 +22,6 @@ namespace Win32Helper {
     double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const&);
     LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
     void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const&);
+    void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const&);
     winrt::hstring GetMusicFolderPath();
 }

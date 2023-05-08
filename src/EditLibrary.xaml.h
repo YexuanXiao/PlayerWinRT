@@ -4,6 +4,7 @@
 
 namespace winrt::Player::implementation
 {
+
     struct EditLibrary : EditLibraryT<EditLibrary>
     {
         EditLibrary();
@@ -11,13 +12,7 @@ namespace winrt::Player::implementation
         void ProtocolMenu_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         Windows::Foundation::IAsyncAction SelectButton_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         void Icon_Select(IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
-        struct Result {
-            winrt::hstring name;
-            winrt::hstring protocol;
-            winrt::hstring address;
-            winrt::hstring icon;
-        };
-        Result GetResult();
+        winrt::Data::Library GetResult();
     };
 }
 

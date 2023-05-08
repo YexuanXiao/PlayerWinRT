@@ -1,3 +1,4 @@
+import "Data.idl";
 namespace Player
 {
     [default_interface]
@@ -5,5 +6,6 @@ namespace Player
     {
         EditLibrary();
         EditLibrary(String name, String protocol, String path, String icon);
+        Data.Library GetResult();
     }
 }

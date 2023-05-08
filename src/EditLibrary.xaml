@@ -72,6 +72,7 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
                         Click="ProtocolMenu_Click"
+                        IsEnabled="False"
                         Tag="samba"
                         Text="Samba">
                         <MenuFlyoutItem.Icon>
@@ -80,6 +81,7 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
                         Click="ProtocolMenu_Click"
+                        IsEnabled="False"
                         Tag="webdav"
                         Text="WebDAV">
                         <MenuFlyoutItem.Icon>
@@ -88,6 +90,7 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
                         Click="ProtocolMenu_Click"
+                        IsEnabled="False"
                         Tag="ftp"
                         Text="FTP">
                         <MenuFlyoutItem.Icon>
@@ -106,6 +109,7 @@
             <TextBox
                 Name="Address"
                 Margin="0,20,0,20"
+                IsReadOnly="True"
                 Text="X:\Music" />
             <Button
                 Name="SelectButton"

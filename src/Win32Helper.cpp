@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Win32Helper.h"
-#include <Microsoft.UI.Xaml.Window.h>
 #include <shlobj.h>
+#include <shobjidl_core.h>
+#include <Microsoft.UI.Xaml.Window.h>
+#include <winrt/Windows.Foundation.h>
 
 namespace Win32Helper {
     /// <summary>
@@ -12,13 +14,13 @@ namespace Win32Helper {
     /// <param name="exitcode">exit code</param>
     void DisableMultiInstanceEntry(std::wstring_view const appname, UINT const exitcode) {
         using namespace std::literals;
-        auto const max_size{ 16 };
+        auto constexpr max_size{ 16 };
         assert(appname.size() < max_size);
         // use user's temp folder pathname + appname as part of mutex name
         // name buffer, initialized to be zero
         auto name{ std::to_array<wchar_t, (MAX_PATH + 2) + max_size>({}) };
         // get tmp folder path, not guaranteed availablity
-        auto length{ ::GetTempPathW(static_cast<DWORD>(name.size()), &name[0]) };
+        auto const length{ ::GetTempPathW(static_cast<DWORD>(name.size()), &name[0]) };
         // append appname to path
         std::memcpy(&name[length], appname.data(), appname.size() * sizeof(wchar_t));
         // mutex name can't contain '\'
@@ -46,7 +48,7 @@ namespace Win32Helper {
     }
     HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
         auto hWnd{ HWND{} };
-        window.as<::IWindowNative>()->get_WindowHandle(&hWnd);
+        window.as<IWindowNative>()->get_WindowHandle(&hWnd);
         return hWnd;
     }
     double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window) {
@@ -88,5 +90,8 @@ namespace Win32Helper {
             return result;
         }
         return {};
+    }
+    void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const& object) {
+        object.as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
     }
 }
