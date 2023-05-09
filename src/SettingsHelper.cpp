@@ -9,6 +9,7 @@ namespace SettingsHelper {
 		constexpr std::wstring_view Language_Key = L"Language";
 		constexpr std::wstring_view Volume_Key = L"Volume";
 		constexpr std::wstring_view Repeat_Key = L"Repeat";
+		constexpr std::wstring_view Libraries_Key = L"Libraries";
 		winrt::Windows::Foundation::Collections::IPropertySet GetApplicationSettings() {
 			return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values();
 		}
@@ -64,13 +65,29 @@ namespace SettingsHelper {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		localSettings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
 	}
-	void StoreLibrary(winrt::hstring const& name, winrt::hstring const& library) {
+	winrt::Windows::Data::Json::JsonArray GetLibraries() {
 		auto localSettings{ impl_::GetApplicationSettings() };
-		localSettings.Insert(name, winrt::box_value(library));
+		auto value{ winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"})};
+		return winrt::Windows::Data::Json::JsonArray::Parse(value);
 	}
-	winrt::hstring GetLibaray(winrt::hstring const& name) {
+	void StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library) {
 		auto localSettings{ impl_::GetApplicationSettings() };
-		return winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(name), winrt::hstring{});
+		// first, insert library to local settings
+		auto name{ library.GetNamedString(L"Name") };
+		localSettings.Insert(name, winrt::box_value(library.GetNamedArray(L"List").ToString()));
+		// second, insert library name to libraries
+		auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"}))};
+		auto libraryinfo{ winrt::Windows::Data::Json::JsonObject{} };
+		libraryinfo.SetNamedValue(L"Name", library.GetNamedValue(L"Name"));
+		libraryinfo.SetNamedValue(L"Path", library.GetNamedValue(L"Path"));
+		libraryinfo.SetNamedValue(L"Protocol", library.GetNamedValue(L"Protocol"));
+		libraryinfo.SetNamedValue(L"Icon", library.GetNamedValue(L"Icon"));
+		libraries.Append(libraryinfo);
+		localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
+	}
+	winrt::Windows::Data::Json::JsonObject GetLibaray(winrt::hstring const& name) {
+		auto localSettings{ impl_::GetApplicationSettings() };
+		return winrt::Windows::Data::Json::JsonObject::Parse(winrt::unbox_value<winrt::hstring>(localSettings.Lookup(name)));
 	}
 	void RemoveLibrary(winrt::hstring const& name) {
 		auto localSettings{ impl_::GetApplicationSettings() };

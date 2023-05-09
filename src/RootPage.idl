@@ -1,4 +1,5 @@
 import "PlayerViewModel.idl";
+import "Data.idl";
 namespace Player
 {
     [default_interface]
@@ -11,5 +12,6 @@ namespace Player
         Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame GetRootFrame();
         Microsoft.UI.Xaml.Controls.Grid GetAppTitleBar();
+        static Windows.Foundation.Collections.IObservableVector<Data.Library> Libraries{get; };
     }
 }

@@ -26,25 +26,42 @@ namespace winrt::Player::implementation
         InitializeComponent();
 
         player_.Source(list_);
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+        list_.MaxPlayedItemsToKeepOpen(3);
+
+        // regist volume change
+        playerViewModel_.PropertyChanged({ this,&RootPage::UpdateVolume });
 
         // init state
         if (SettingsHelper::CheckFirstUse()) {
             rootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
+#ifndef _DEBUG
+            return;
+#endif // !_DEBUG
         }
 
-        // regist volume change
-        playerViewModel_.PropertyChanged({ this,&RootPage::UpdateVolume });
+        // prepare libraries
+
+        auto libraries{ SettingsHelper::GetLibraries() };
+        auto menulist{ MainLibraryList().MenuItems() };
+        for (auto const& library : libraries) {
+            auto item{ NavigationViewItem{} };
+            auto info{ library.GetObjectW()};
+            item.Content(winrt::box_value(info.GetNamedString(L"Name")));
+            auto icon{ FontIcon{} };
+            icon.Glyph(info.GetNamedString(L"Icon"));
+            item.Icon(icon);
+            menulist.InsertAt(0, item);
+        }
 
         // prepare list
-        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
         list_.Items().Append(
             Windows::Media::Playback::MediaPlaybackItem{
             Windows::Media::Core::MediaSource::CreateFromUri(
                 Uri{ L"ms-appx://Assets/24 - 英雄のタクト.flac" }
             )}
         );
-        list_.MaxPlayedItemsToKeepOpen(3);
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
@@ -224,4 +241,39 @@ namespace winrt::Player::implementation
             player_.Volume(playerViewModel_.Volume() / 100.);
         }
     }
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> RootPage::Libraries() {
+        return libraries_;
+    }
 }
+
+/*
+<NavigationViewItem Content="1">
+    <NavigationViewItem.Icon>
+        <FontIcon Glyph="1" />
+    </NavigationViewItem.Icon>
+    <NavigationViewItem.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem x:Uid="Up">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE70E;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Uid="Down">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE70D;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Uid="Edit">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE70F;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Uid="Delete">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </NavigationViewItem.ContextFlyout>
+</NavigationViewItem>
+*/

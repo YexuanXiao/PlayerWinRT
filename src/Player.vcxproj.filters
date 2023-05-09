@@ -16,9 +16,6 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="MusicInfoModel.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerViewModel.cpp">
       <Filter>ViewModel</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
-    <ClInclude Include="MusicInfoModel.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerViewModel.h">
       <Filter>ViewModel</Filter>
     </ClInclude>

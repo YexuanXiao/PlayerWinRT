@@ -101,35 +101,6 @@
                         <SymbolIcon Symbol="Library" />
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem x:Uid="MusicFolder">
-                            <NavigationViewItem.Icon>
-                                <FontIcon Glyph="&#xEA69;" />
-                            </NavigationViewItem.Icon>
-                            <NavigationViewItem.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="Up">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE70E;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Uid="Down">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE70D;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Uid="Edit">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE70F;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem x:Uid="Delete">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE74D;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </NavigationViewItem.ContextFlyout>
-                        </NavigationViewItem>
                         <NavigationViewItem x:Uid="AddLibrary" Tag="add">
                             <NavigationViewItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
@@ -137,7 +108,6 @@
                         </NavigationViewItem>
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
-
                 <NavigationViewItemSeparator />
                 <NavigationViewItem
                     Name="NainPlayList"

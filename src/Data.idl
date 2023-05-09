@@ -7,4 +7,16 @@ namespace Data
         String address;
         String icon;
     };
+	struct MusicInfo {
+		String Title;
+		String Album;
+		String Genre;
+		String Artist;
+		String Albumartist;
+		String Path;
+		Int64 Duration;
+		UInt32 Year;
+		UInt32 Bitrate;
+		UInt32 Track;
+	};
 }

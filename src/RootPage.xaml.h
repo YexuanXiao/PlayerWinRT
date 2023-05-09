@@ -1,14 +1,13 @@
 #pragma once
 
 #include "RootPage.g.h"
+#include "winrt/Data.h"
 
 namespace winrt::Player::implementation
 {
     struct RootPage : RootPageT<RootPage>
     {
         RootPage();
-        Windows::Media::Playback::MediaPlayer player_;
-        Windows::Media::Playback::MediaPlaybackList list_;
         Windows::Media::Playback::MediaPlayer Player();
         Windows::Media::Playback::MediaPlaybackList List();
         winrt::Player::PlayerViewModel PlayerMainViewModel();
@@ -24,8 +23,12 @@ namespace winrt::Player::implementation
         void Repeat_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         void Shuffle_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         void UpdateVolume(IInspectable const&, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const&);
+        static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
     private:
         winrt::Player::PlayerViewModel playerViewModel_;
+        Windows::Media::Playback::MediaPlayer player_;
+        Windows::Media::Playback::MediaPlaybackList list_;
+        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{winrt::single_threaded_observable_vector<winrt::Data::Library>()};
     };
 }
 

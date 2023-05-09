@@ -20,7 +20,8 @@ namespace SettingsHelper {
 	};
 	Repeat GetRepeat();
 	void SetRepeat(Repeat);
-	void StoreLibrary(winrt::hstring const&, winrt::hstring const&);
-	void RemoveLibrary(winrt::hstring const&);
-	winrt::hstring GetLibrary(winrt::hstring const&);
+	winrt::Windows::Data::Json::JsonArray GetLibraries();
+	void StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library);
+	winrt::Windows::Data::Json::JsonObject GetLibaray(winrt::hstring const& name);
+	void RemoveLibrary(winrt::hstring const& name);
 }

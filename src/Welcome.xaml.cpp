@@ -9,6 +9,7 @@
 #include "Win32Helper.h"
 #include "SettingsHelper.h"
 #include "Data.h"
+#include "RootPage.xaml.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -86,6 +87,14 @@ namespace winrt::Player::implementation
         if (json == nullptr) co_return;
 
         // consume json
+        SettingsHelper::StoreLibrary(json);
+        auto info{ winrt::Data::Library{} };
+        info.address = json.GetNamedString(L"Path");
+        info.icon = json.GetNamedString(L"Icon");
+        info.protocol = json.GetNamedString(L"Protocol");
+        info.name = json.GetNamedString(L"Name");
+        auto libraries{ RootPage::Libraries() };
+        libraries.InsertAt(libraries.Size(), info);
     }
 
     void Welcome::Theme_Click(IInspectable const&, RoutedEventArgs const&)

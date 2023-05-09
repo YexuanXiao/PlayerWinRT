@@ -7,8 +7,8 @@
 
 namespace Data {
 	bool CheckLibraryLegal(Data::Library const& value) {
-		if (value.address.size() | value.name.size()) return true;
-		return false;
+		if (value.address.empty() && value.name.empty()) return false;
+		return true;
 	}
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Storage::StorageFile>> GetFileListFromFolder(winrt::Windows::Storage::StorageFolder const& folder) {
 		// extension list, must start with dot
@@ -55,6 +55,7 @@ namespace Data {
 		}
 		auto result{ winrt::Windows::Data::Json::JsonObject{} };
 		result.SetNamedValue(L"List", array);
+		result.SetNamedValue(L"Path", winrt::Windows::Data::Json::JsonValue::CreateStringValue(path));
 		result.SetNamedValue(L"Name", winrt::Windows::Data::Json::JsonValue::CreateStringValue(name));
 		result.SetNamedValue(L"Protocol", winrt::Windows::Data::Json::JsonValue::CreateStringValue(protocol));
 		result.SetNamedValue(L"Icon", winrt::Windows::Data::Json::JsonValue::CreateStringValue(icon));

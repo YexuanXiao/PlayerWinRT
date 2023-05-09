@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
-
-#include <winrt/Windows.Data.Json.h>
+#include <winrt/Data.h>
 
 namespace Data {
 	struct MusicInfo {
@@ -70,4 +69,10 @@ namespace Data {
     }
 }
 )" };
+}
+
+namespace Data::Global {
+    inline winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> Librarys{};
+    inline winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> CurrentView{nullptr};
+    inline std::vector<MusicInfo> CurrentLibrary{};
 }
