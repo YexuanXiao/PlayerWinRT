@@ -24,7 +24,7 @@ namespace winrt::Player::implementation
         InitializeComponent();
         // initialize icons, add click event
         for (auto i : Icons().Items()) {
-            i.as<MenuFlyoutItem>().Click({ this,&EditLibrary::Icon_Select });
+            i.as<MenuFlyoutItem>().Tapped({ this,&EditLibrary::Icon_Select });
         }
     }
     EditLibrary::EditLibrary(hstring const& name, hstring const& protocol, hstring const& address, hstring const& icon) {
@@ -34,7 +34,7 @@ namespace winrt::Player::implementation
         Address().Text(address);
         Icon().Glyph(icon);
     }
-    void EditLibrary::ProtocolMenu_Click(IInspectable const& sender, RoutedEventArgs const&)
+    void EditLibrary::ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         auto tag{ sender.as<MenuFlyoutItem>().Tag().as<hstring>() };
 
@@ -64,7 +64,7 @@ namespace winrt::Player::implementation
             SelectButton().Visibility(Visibility::Collapsed);
         }
     }
-    IAsyncAction EditLibrary::SelectButton_Click(IInspectable const&, RoutedEventArgs const& args)
+    IAsyncAction EditLibrary::SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         auto picker{ FolderPicker{} };
         picker.ViewMode(PickerViewMode::List);
@@ -76,7 +76,7 @@ namespace winrt::Player::implementation
             Address().Text(folder.Path());
         }
     }
-    void EditLibrary::Icon_Select(IInspectable const& sender, RoutedEventArgs const&)
+    void EditLibrary::Icon_Select(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         Icon().Glyph(sender.as<MenuFlyoutItem>().Icon().as<FontIcon>().Glyph());
     }

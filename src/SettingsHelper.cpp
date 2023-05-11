@@ -13,6 +13,9 @@ namespace SettingsHelper {
 		winrt::Windows::Foundation::Collections::IPropertySet GetApplicationSettings() {
 			return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values();
 		}
+		winrt::Windows::Storage::StorageFolder GetDataFolder() {
+			return winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+		}
 		void StoreTheme(winrt::Microsoft::UI::Xaml::ElementTheme theme) {
 			auto localSettings{ impl_::GetApplicationSettings() };
 			auto value{ static_cast<int32_t>(theme) };
@@ -70,11 +73,12 @@ namespace SettingsHelper {
 		auto value{ winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"})};
 		return winrt::Windows::Data::Json::JsonArray::Parse(value);
 	}
-	void StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library) {
+	winrt::Windows::Foundation::IAsyncAction StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library) {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		// first, insert library to local settings
-		auto name{ library.GetNamedString(L"Name") };
-		localSettings.Insert(name, winrt::box_value(library.GetNamedArray(L"List").ToString()));
+		auto const name{ library.GetNamedString(L"Name") };
+		auto file{ co_await impl_::GetDataFolder().CreateFileAsync(name,winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
+		winrt::Windows::Storage::FileIO::WriteTextAsync(file, library.GetNamedArray(L"List").ToString());
 		// second, insert library name to libraries
 		auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"}))};
 		auto libraryinfo{ winrt::Windows::Data::Json::JsonObject{} };
@@ -85,12 +89,28 @@ namespace SettingsHelper {
 		libraries.Append(libraryinfo);
 		localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
 	}
-	winrt::Windows::Data::Json::JsonObject GetLibaray(winrt::hstring const& name) {
-		auto localSettings{ impl_::GetApplicationSettings() };
-		return winrt::Windows::Data::Json::JsonObject::Parse(winrt::unbox_value<winrt::hstring>(localSettings.Lookup(name)));
+	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibaray(winrt::hstring const& name) {
+		auto file{ co_await impl_::GetDataFolder().GetItemAsync(name)};
+		co_return winrt::Windows::Data::Json::JsonObject::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file.as<winrt::Windows::Storage::StorageFile>()));
 	}
-	void RemoveLibrary(winrt::hstring const& name) {
+	winrt::Windows::Foundation::IAsyncAction RemoveLibrary(winrt::hstring const& name) {
 		auto localSettings{ impl_::GetApplicationSettings() };
-		localSettings.Remove(name);
+		// first, remove library data
+		auto file{ co_await impl_::GetDataFolder().GetItemAsync(name) };
+		co_await file.as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
+		// second, remove library from libraries
+		auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"})) };
+		auto index{ decltype(libraries.Size()){} };
+		for (auto const& i : libraries) {
+			auto library{ i.GetObjectW() };
+			if (library.GetNamedString(L"Name") == name) {
+				libraries.RemoveAt(index);
+				break;
+			}
+			else {
+				++index;
+			};
+		}
+		localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
 	}
 }

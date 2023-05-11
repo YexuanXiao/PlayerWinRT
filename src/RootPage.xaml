@@ -242,8 +242,8 @@
                 <Button
                     Name="Shuffle"
                     x:Uid="Shuffle"
-                    Click="Shuffle_Click"
-                    Style="{StaticResource PlayerEllipsis}">
+                    Style="{StaticResource PlayerEllipsis}"
+                    Tapped="Shuffle_Tapped">
                     <FontIcon FontSize="16" Glyph="&#xE8B1;" />
                 </Button>
                 <Button x:Uid="Previous" Style="{StaticResource PlayerEllipsis}">
@@ -256,9 +256,9 @@
                     Padding="0"
                     Background="Transparent"
                     BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
-                    Click="PlayButton_Click"
                     CornerRadius="1000"
-                    Style="{StaticResource PlayButtonLarge}">
+                    Style="{StaticResource PlayButtonLarge}"
+                    Tapped="PlayButton_Tapped">
                     <FontIcon
                         Name="PlayIcon"
                         Margin="2,0,0,0"
@@ -272,8 +272,8 @@
                 <Button
                     Name="Repeat"
                     x:Uid="Repeat"
-                    Click="Repeat_Click"
-                    Style="{StaticResource PlayerEllipsis}">
+                    Style="{StaticResource PlayerEllipsis}"
+                    Tapped="Repeat_Tapped">
                     <FontIcon FontSize="16" Glyph="&#xF5E7;" />
                 </Button>
             </StackPanel>
@@ -326,7 +326,7 @@
                     <FontIcon FontSize="16" Glyph="&#xE712;" />
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="MusicInfo" Click="MusicInfo_Click">
+                            <MenuFlyoutItem x:Uid="MusicInfo" Tapped="MusicInfo_Tapped">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>

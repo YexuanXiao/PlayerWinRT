@@ -23,7 +23,7 @@ namespace Data {
 		auto const& files{ co_await GetFileListFromFolder(folder) };
 		auto list{ std::vector<Data::MusicInfo>{} };
 		list.reserve(files.Size());
-		for (auto file : files) {
+		for (auto file : files) [[likely]] {
 			// reopen because the file from filter forbit to access props
 			file = co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(file.Path());
 			auto const& prop{ co_await file.Properties().GetMusicPropertiesAsync() };
@@ -37,7 +37,7 @@ namespace Data {
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol, winrt::hstring const& path, winrt::hstring const& icon) {
 		auto const& list{ co_await GetListWithMusicInfoFromFolder(co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(path)) };
 		auto array{ winrt::Windows::Data::Json::JsonArray{} };
-		for (auto const& info : list) {
+		for (auto const& info : list) [[likely]] {
 			auto item{ winrt::Windows::Data::Json::JsonObject{} };
 			item.SetNamedValue(L"Album", winrt::Windows::Data::Json::JsonValue::CreateStringValue(info.Album));
 			item.SetNamedValue(L"Albumartist", winrt::Windows::Data::Json::JsonValue::CreateStringValue(info.Albumartist));

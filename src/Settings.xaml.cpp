@@ -26,7 +26,7 @@ namespace winrt::Player::implementation
 			auto item{ MenuFlyoutItem{} };
 			item.Text(resourceLoader.GetString(L"Default/Content"));
 			item.Tag(winrt::box_value(hstring{ L"default" }));
-			item.Click(&Settings::Language_Selected);
+			item.Tapped(&Settings::Language_Selected);
 			items.Append(item);
 		}
 		// add manifest langs
@@ -34,7 +34,7 @@ namespace winrt::Player::implementation
 			auto item{ MenuFlyoutItem{} };
 			item.Text(GetLangTagName(lang));
 			item.Tag(winrt::box_value(lang));
-			item.Click(&Settings::Language_Selected);
+			item.Tapped(&Settings::Language_Selected);
 			items.Append(item);
 		}
 	}
@@ -64,7 +64,7 @@ namespace winrt::Player::implementation
 		radioButtons.SelectedIndex(static_cast<int32_t>(pre));
 	}
 
-	void Settings::Language_Selected(IInspectable const& sender, RoutedEventArgs const&)
+	void Settings::Language_Selected(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
 	{
 		auto lang{ winrt::unbox_value<hstring>(sender.as<MenuFlyoutItem>().Tag()) };
 		if (lang == L"default") [[unlikely]] {

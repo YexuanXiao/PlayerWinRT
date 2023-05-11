@@ -9,9 +9,9 @@ namespace winrt::Player::implementation
     {
         EditLibrary();
         EditLibrary(winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
-        void ProtocolMenu_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        Windows::Foundation::IAsyncAction SelectButton_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void Icon_Select(IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
+        void ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        Windows::Foundation::IAsyncAction SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        void Icon_Select(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         winrt::Data::Library GetResult();
     };
 }

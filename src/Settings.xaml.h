@@ -9,7 +9,7 @@ namespace winrt::Player::implementation
         Settings();
         void Theme_Changed(Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&);
         void Theme_Loaded(Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        static void Language_Selected(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
+        static void Language_Selected(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         static hstring GetLangTagName(hstring const& tag);
     };
 }

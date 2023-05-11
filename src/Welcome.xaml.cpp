@@ -23,7 +23,7 @@ namespace winrt::Player::implementation
     {
         InitializeComponent();
     }
-    IAsyncAction Welcome::AddLibrary_Click(IInspectable const& sender, RoutedEventArgs const&)
+    IAsyncAction Welcome::AddLibrary_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         // show edit library dialog
         auto dialog{ ContentDialog{} };
@@ -31,7 +31,7 @@ namespace winrt::Player::implementation
         auto const resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 
         // prepare page
-        if (winrt::unbox_value<winrt::hstring>(sender.as<Button>().Tag()) == L"music") {
+        if (winrt::unbox_value<winrt::hstring>(sender.as<Button>().Tag()) == L"music") [[likely]] {
             auto musicFolder{ Windows::Storage::KnownFolders::MusicLibrary() };
             page = Player::EditLibrary{ musicFolder.DisplayName(),resourceLoader.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), L"\uE770" };
             dialog.Content(page);
@@ -61,7 +61,7 @@ namespace winrt::Player::implementation
 
             auto const& info{ page.GetResult() };
 
-            if (info.protocol == L"local") {
+            if (info.protocol == L"local") [[likely]] {
                 auto library{ ::Data::GetLibraryFromFolderPath(info.name, info.protocol, info.address, info.icon) };
                 // regist cancel event, must capture by value, otherwise hold a dangling reference
                 sender.SecondaryButtonClick([library](ContentDialog const&, ContentDialogButtonClickEventArgs const&) {
@@ -84,10 +84,10 @@ namespace winrt::Player::implementation
             });
         static_cast<void>(co_await dialog.ShowAsync());
 
-        if (json == nullptr) co_return;
+        if (json == nullptr) [[unlikely]] co_return;
 
         // consume json
-        SettingsHelper::StoreLibrary(json);
+        co_await SettingsHelper::StoreLibrary(json);
         auto info{ winrt::Data::Library{} };
         info.address = json.GetNamedString(L"Path");
         info.icon = json.GetNamedString(L"Icon");
@@ -97,7 +97,7 @@ namespace winrt::Player::implementation
         libraries.InsertAt(libraries.Size(), info);
     }
 
-    void Welcome::Theme_Click(IInspectable const&, RoutedEventArgs const&)
+    void Welcome::Theme_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         SettingsHelper::SetTheme(XamlRoot(), ElementTheme::Dark);
     }

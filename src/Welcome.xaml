@@ -78,15 +78,15 @@
                     <TextBlock VerticalAlignment="Center" Text="Yes:" />
                     <Button
                         Margin="10,0,10,0"
-                        Click="AddLibrary_Click"
                         Content="Add it!"
-                        Tag="music" />
+                        Tag="music"
+                        Tapped="AddLibrary_Tapped" />
                     <TextBlock VerticalAlignment="Center" Text="or No:" />
                     <Button
                         Margin="10,0,10,0"
-                        Click="AddLibrary_Click"
                         Content="Add other Library"
-                        Tag="other" />
+                        Tag="other"
+                        Tapped="AddLibrary_Tapped" />
                 </StackPanel>
                 <TextBlock
                     Grid.Row="4"
@@ -96,9 +96,9 @@
                     <TextBlock VerticalAlignment="Center" Text="Yes:" />
                     <Button
                         Margin="10,0,10,0"
-                        Click="Theme_Click"
                         Content="Change to Dark Theme"
-                        Tag="dark" />
+                        Tag="dark"
+                        Tapped="Theme_Tapped" />
                     <TextBlock VerticalAlignment="Center" Text="or No." />
                 </StackPanel>
                 <TextBlock

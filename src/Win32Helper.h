@@ -11,7 +11,7 @@ namespace Win32Helper {
     /// <param name="appname">size lesser than 16, zero ending</param>
     /// <param name="exitcode">exit code</param>
     void DisableMultiInstanceEntry(std::wstring_view const, UINT const);
-    HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const&);
+    [[nodiscard]] HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const&);
     /// <summary>
     /// Make app only has one instance
     /// call at window_ initialized
@@ -19,9 +19,9 @@ namespace Win32Helper {
     /// <param name="appname">size lesser than 16</param>
     /// <param name="handle">handle of window_</param>
     void DisableMultiInstanceWindow(winrt::Microsoft::UI::Xaml::Window const&, std::wstring_view const);
-    double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const&);
+    [[nodiscard]] double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const&);
     LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
     void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const&);
     void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const&);
-    winrt::hstring GetMusicFolderPath();
+    [[nodiscard]] winrt::hstring GetMusicFolderPath();
 }

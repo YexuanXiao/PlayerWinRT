@@ -17,18 +17,19 @@ namespace winrt::Player::implementation
         void Navigation_Loaded(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
         Microsoft::UI::Xaml::Controls::Frame GetRootFrame();
         Microsoft::UI::Xaml::Controls::Grid GetAppTitleBar();
-        Windows::Foundation::IAsyncAction MusicInfo_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
+        Windows::Foundation::IAsyncAction MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void On_Loaded(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void PlayButton_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void Repeat_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void Shuffle_Click(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void UpdateVolume(IInspectable const&, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const&);
+        void PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        void Repeat_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        void Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
     private:
+        void UpdateVolume(IInspectable const&, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const&);
+        static winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem MakeNavItem(const winrt::Data::Library&);
         winrt::Player::PlayerViewModel playerViewModel_;
         Windows::Media::Playback::MediaPlayer player_;
         Windows::Media::Playback::MediaPlaybackList list_;
-        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{winrt::single_threaded_observable_vector<winrt::Data::Library>()};
+        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{nullptr};
     };
 }
 

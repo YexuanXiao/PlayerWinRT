@@ -64,34 +64,34 @@
                 <MenuFlyout>
                     <MenuFlyoutItem
                         x:Uid="Local"
-                        Click="ProtocolMenu_Click"
-                        Tag="local">
+                        Tag="local"
+                        Tapped="ProtocolMenu_Tapped">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE770;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        Click="ProtocolMenu_Click"
                         IsEnabled="False"
                         Tag="samba"
+                        Tapped="ProtocolMenu_Tapped"
                         Text="Samba">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xEC27;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        Click="ProtocolMenu_Click"
                         IsEnabled="False"
                         Tag="webdav"
+                        Tapped="ProtocolMenu_Tapped"
                         Text="WebDAV">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE968;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        Click="ProtocolMenu_Click"
                         IsEnabled="False"
                         Tag="ftp"
+                        Tapped="ProtocolMenu_Tapped"
                         Text="FTP">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE839;" />
@@ -115,7 +115,7 @@
                 Name="SelectButton"
                 Grid.Column="1"
                 Margin="5,0,0,0"
-                Click="SelectButton_Click">
+                Tapped="SelectButton_Tapped">
                 <TextBlock x:Uid="SelectFolder" />
             </Button>
         </Grid>
