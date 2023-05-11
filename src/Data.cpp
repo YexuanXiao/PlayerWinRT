@@ -1,9 +1,6 @@
 #include "pch.h"
-#include <winrt/Windows.Storage.FileProperties.h>
-#include <winrt/Windows.Storage.Search.h>
 
 #include "Data.h"
-#include <pplawait.h>
 
 namespace Data {
 	bool CheckLibraryLegal(Data::Library const& value) {
@@ -11,7 +8,7 @@ namespace Data {
 		return true;
 	}
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Storage::StorageFile>> GetFileListFromFolder(winrt::Windows::Storage::StorageFolder const& folder) {
-		// extension list, must start with dot
+		// extension list, must start with a dot
 		auto extensions{ std::vector<winrt::hstring>{L".flac",L".wav",L".alac",L".ac3",L".mp3",L".wma"} };
 		// the second parameter of ctor of QueryOptions only needs to be iterable
 		auto options{ winrt::Windows::Storage::Search::QueryOptions{winrt::Windows::Storage::Search::CommonFileQuery::OrderByName, extensions} };

@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+
 #include <winrt/Data.h>
 
 namespace Data {

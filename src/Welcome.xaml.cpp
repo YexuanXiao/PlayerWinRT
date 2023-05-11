@@ -4,12 +4,9 @@
 #include "Welcome.g.cpp"
 #endif
 
-#include <winrt/Windows.UI.Core.h>
-
 #include "Win32Helper.h"
 #include "SettingsHelper.h"
 #include "Data.h"
-#include "RootPage.xaml.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;

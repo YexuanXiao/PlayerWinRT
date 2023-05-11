@@ -18,6 +18,10 @@
 #include <winrt/Windows.ApplicationModel.Activation.h>
 #include <winrt/Windows.Media.Core.h>
 #include <winrt/Windows.Media.PlayBack.h>
+#include <winrt/Windows.Storage.FileProperties.h>
+#include <winrt/Windows.Storage.Search.h>
+#include <winrt/Windows.UI.Core.h>
+
 #include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
 
 #include <winrt/Microsoft.UI.Composition.h>
@@ -36,13 +40,8 @@
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
 
+#include <pplawait.h>
+
 #include <fast_io.h>
 
 namespace winrt::Player {}
-
-#ifdef _DEBUG
-#define FASTIO_DEBUG(arg, ...) \
-  fast_io::io::println(arg, ##__VA_ARGS__)
-#else
-#define FASTIO_DEBUG(arg, ...)
-#endif

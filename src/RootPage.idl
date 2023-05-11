@@ -7,11 +7,12 @@ namespace Player
     {
         RootPage();
         String AppTitleText;
-        PlayerViewModel PlayerMainViewModel{ get; };
         Windows.Media.Playback.MediaPlayer Player{ get; };
         Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame GetRootFrame();
         Microsoft.UI.Xaml.Controls.Grid GetAppTitleBar();
+        PlayerViewModel PlayerMainViewModel{ get; };
         static Windows.Foundation.Collections.IObservableVector<Data.Library> Libraries{get; };
+        static Windows.Foundation.Collections.IObservableVector<Data.MusicInfo> Music{get; };
     }
 }

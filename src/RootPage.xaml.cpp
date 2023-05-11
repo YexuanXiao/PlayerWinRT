@@ -4,12 +4,6 @@
 #include "RootPage.g.cpp"
 #endif
 
-#include "EditLibrary.xaml.h"
-#include "About.xaml.h"
-#include "MusicInfo.xaml.h"
-#include "Settings.xaml.h"
-#include "Welcome.xaml.h"
-
 #include "SettingsHelper.h"
 
 using namespace winrt;
@@ -280,6 +274,9 @@ namespace winrt::Player::implementation
     }
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> RootPage::Libraries() {
         return libraries_;
+    }
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> RootPage::Music() {
+        return music_;
     }
     winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem RootPage::MakeNavItem(const winrt::Data::Library &library) {
         auto item{ NavigationViewItem{} };

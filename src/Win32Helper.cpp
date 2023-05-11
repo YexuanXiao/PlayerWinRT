@@ -3,7 +3,6 @@
 #include <shlobj.h>
 #include <shobjidl_core.h>
 #include <Microsoft.UI.Xaml.Window.h>
-#include <winrt/Windows.Foundation.h>
 
 namespace Win32Helper {
     /// <summary>

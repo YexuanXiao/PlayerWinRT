@@ -4,7 +4,6 @@
 #include "EditLibrary.g.cpp"
 #endif
 
-#include "Progress.xaml.h"
 #include "Win32Helper.h"
 
 using namespace winrt;

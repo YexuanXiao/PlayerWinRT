@@ -6,7 +6,6 @@
 
 #include "Win32Helper.h"
 #include "SettingsHelper.h"
-#include "RootPage.xaml.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
