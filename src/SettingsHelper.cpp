@@ -29,7 +29,7 @@ namespace SettingsHelper {
 	}
 	// for settings page use
 	void SetTheme(winrt::Microsoft::UI::Xaml::XamlRoot element, winrt::Microsoft::UI::Xaml::ElementTheme theme) {
-		element.Content().as<winrt::Microsoft::UI::Xaml::FrameworkElement>().RequestedTheme(theme);
+		element.Content().try_as<winrt::Microsoft::UI::Xaml::FrameworkElement>().RequestedTheme(theme);
 		impl_::StoreTheme(theme);
 	}
 	// for init
@@ -91,13 +91,13 @@ namespace SettingsHelper {
 	}
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibaray(winrt::hstring const& name) {
 		auto file{ co_await impl_::GetDataFolder().GetItemAsync(name)};
-		co_return winrt::Windows::Data::Json::JsonObject::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file.as<winrt::Windows::Storage::StorageFile>()));
+		co_return winrt::Windows::Data::Json::JsonObject::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file.try_as<winrt::Windows::Storage::StorageFile>()));
 	}
 	winrt::Windows::Foundation::IAsyncAction RemoveLibrary(winrt::hstring const& name) {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		// first, remove library data
 		auto file{ co_await impl_::GetDataFolder().GetItemAsync(name) };
-		co_await file.as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
+		co_await file.try_as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
 		// second, remove library from libraries
 		auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"})) };
 		auto index{ decltype(libraries.Size()){} };

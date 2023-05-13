@@ -47,7 +47,7 @@ namespace Win32Helper {
     }
     HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window) {
         auto hWnd{ HWND{} };
-        window.as<IWindowNative>()->get_WindowHandle(&hWnd);
+        window.try_as<IWindowNative>()->get_WindowHandle(&hWnd);
         return hWnd;
     }
     double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window) {
@@ -91,6 +91,6 @@ namespace Win32Helper {
         return {};
     }
     void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const& object) {
-        object.as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
+        object.try_as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
     }
 }

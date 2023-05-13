@@ -195,7 +195,7 @@ namespace winrt::Player::implementation
             Play, Pause
         };
         auto state{ Pause };
-        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         {
             // cacl data
@@ -233,7 +233,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Repeat_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uF5E7") {
             icon = L"\uE8ED";
@@ -249,7 +249,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto fontIcon{ sender.as<Button>().Content().as<FontIcon>() };
+        auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uE8B1") {
             icon = L"\uE70F";
@@ -286,7 +286,7 @@ namespace winrt::Player::implementation
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
             item.Tapped([](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
-                auto tag{ winrt::unbox_value<winrt::Data::Library>(sender.as<NavigationViewItem>().Tag()) };
+                auto tag{ winrt::unbox_value<winrt::Data::Library>(sender.try_as<NavigationViewItem>().Tag()) };
 
                 // to do: switch library
                 });

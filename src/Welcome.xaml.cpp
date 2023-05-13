@@ -28,7 +28,7 @@ namespace winrt::Player::implementation
         auto const resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 
         // prepare page
-        if (winrt::unbox_value<winrt::hstring>(sender.as<Button>().Tag()) == L"music") [[likely]] {
+        if (winrt::unbox_value<winrt::hstring>(sender.try_as<Button>().Tag()) == L"music") [[likely]] {
             auto musicFolder{ Windows::Storage::KnownFolders::MusicLibrary() };
             page = Player::EditLibrary{ musicFolder.DisplayName(),resourceLoader.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), L"\uE770" };
             dialog.Content(page);

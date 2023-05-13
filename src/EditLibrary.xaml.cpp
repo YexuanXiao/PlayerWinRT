@@ -23,7 +23,7 @@ namespace winrt::Player::implementation
         InitializeComponent();
         // initialize icons, add click event
         for (auto i : Icons().Items()) {
-            i.as<MenuFlyoutItem>().Tapped({ this,&EditLibrary::Icon_Select });
+            i.try_as<MenuFlyoutItem>().Tapped({ this,&EditLibrary::Icon_Select });
         }
     }
     EditLibrary::EditLibrary(hstring const& name, hstring const& protocol, hstring const& address, hstring const& icon) {
@@ -35,7 +35,7 @@ namespace winrt::Player::implementation
     }
     void EditLibrary::ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto tag{ sender.as<MenuFlyoutItem>().Tag().as<hstring>() };
+        auto tag{ sender.try_as<MenuFlyoutItem>().Tag().try_as<hstring>() };
 
         if (tag == L"local") [[likely]] {
             auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
@@ -77,7 +77,7 @@ namespace winrt::Player::implementation
     }
     void EditLibrary::Icon_Select(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        Icon().Glyph(sender.as<MenuFlyoutItem>().Icon().as<FontIcon>().Glyph());
+        Icon().Glyph(sender.try_as<MenuFlyoutItem>().Icon().try_as<FontIcon>().Glyph());
     }
     winrt::Data::Library EditLibrary::GetResult() {
         return { Library().Text(), winrt::unbox_value<hstring>(Protocol().Tag()), Address().Text(),Icon().Glyph()};

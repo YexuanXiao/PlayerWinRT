@@ -37,11 +37,21 @@ namespace winrt::Player::implementation
 			item.Tapped(&Settings::Language_Selected);
 			items.Append(item);
 		}
+
+		// first use
+		if (SettingsHelper::CheckFirstUse()) {
+			for (auto item : ContentGrid().Children()) {
+				auto expander{ item.try_as<Expander>() };
+				if(expander != nullptr){
+					expander.IsExpanded(true);
+				}
+			}
+		}
 	}
 
 	void Settings::Theme_Changed(IInspectable const& sender, SelectionChangedEventArgs const&)
 	{
-		auto radioButton{ sender.as<RadioButtons>().SelectedItem().try_as<RadioButton>() };
+		auto radioButton{ sender.try_as<RadioButtons>().SelectedItem().try_as<RadioButton>() };
 		// if no item select, return
 		if (radioButton == nullptr) [[likely]] return;
 
@@ -59,14 +69,14 @@ namespace winrt::Player::implementation
 
 	void Settings::Theme_Loaded(IInspectable const& sender, RoutedEventArgs const&)
 	{
-		auto radioButtons{ sender.as<RadioButtons>() };
+		auto radioButtons{ sender.try_as<RadioButtons>() };
 		auto pre{ SettingsHelper::LoadTheme() };
 		radioButtons.SelectedIndex(static_cast<int32_t>(pre));
 	}
 
 	void Settings::Language_Selected(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
 	{
-		auto lang{ winrt::unbox_value<hstring>(sender.as<MenuFlyoutItem>().Tag()) };
+		auto lang{ winrt::unbox_value<hstring>(sender.try_as<MenuFlyoutItem>().Tag()) };
 		if (lang == L"default") [[unlikely]] {
 			ApplicationLanguages::PrimaryLanguageOverride(hstring{});
 			return;

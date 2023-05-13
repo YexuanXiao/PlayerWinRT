@@ -18,7 +18,6 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="ExpandDirection" Value="Down" />
-            <Setter Property="IsExpanded" Value="True" />
         </Style>
     </Page.Resources>
     <Grid>

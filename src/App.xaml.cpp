@@ -103,7 +103,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     // make app only have one instance
     window_.Activated([this](IInspectable const& sender, WindowActivatedEventArgs const&) {
         // set window_ property to find instance
-        Win32Helper::DisableMultiInstanceWindow(sender.as<Window>(), appname);
+        Win32Helper::DisableMultiInstanceWindow(sender.try_as<Window>(), appname);
         });
 
     Win32Helper::RegisterWindowMinSize(window_);
@@ -129,7 +129,7 @@ void App::SetDragRegionForCustomTitleBar() {
     auto titleBar{ window_.AppWindow().TitleBar() };
     assert(titleBar.ExtendsContentIntoTitleBar());
     auto scaleAdjustment{ Win32Helper::GetScaleAdjustment(window_) };
-    auto appTitleBar{ window_.Content().as<Player::RootPage>().GetAppTitleBar() };
+    auto appTitleBar{ window_.Content().try_as<Player::RootPage>().GetAppTitleBar() };
     auto rect{ RectInt32{ } };
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
     rect.Y = 0;
