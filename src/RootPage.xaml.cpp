@@ -62,11 +62,12 @@ namespace winrt::Player::implementation
                 // move container to observer vector
                 libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
                 // add event to update menu list ui
+#pragma warning(disable: 26810)
                 libraries_.VectorChanged([menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
                     co_await ui_thread;
+#pragma warning(default: 26810)
                     auto operate{ args.CollectionChange() };
                     auto index{ args.Index() };
-                    // co_await ui_thread;
                     switch (operate) {
                     case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
                     {

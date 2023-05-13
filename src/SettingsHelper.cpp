@@ -113,4 +113,7 @@ namespace SettingsHelper {
 		}
 		localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
 	}
+	[[nodiscard]] winrt::Windows::Foundation::IAsyncAction RemoveAllData() {
+		return winrt::Windows::Storage::ApplicationData::Current().ClearAsync();
+	}
 }
