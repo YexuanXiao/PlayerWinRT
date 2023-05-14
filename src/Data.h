@@ -24,6 +24,7 @@ namespace Data {
         winrt::hstring icon;
     };
     bool CheckLibraryLegal(Data::Library const& value);
+    std::vector<Data::MusicInfo> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array);
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol,winrt::hstring const& path, winrt::hstring const& icon);
 	struct PlayList {
 		using String = std::wstring;
