@@ -73,6 +73,12 @@ namespace winrt::Player::implementation
         if (folder != nullptr) [[likely]] {
             StorageApplicationPermissions::FutureAccessList().Add(folder);
             Address().Text(folder.Path());
+            auto library{ Library() };
+            if (library.Text().size()) [[unlikely]] co_return;
+            auto path{ std::wstring_view{folder.Path()} };
+            auto position{path.find_last_of(L'\\')};
+            auto name{ std::wstring_view{path.begin() + position + 1,path.end()} };
+            library.Text(name);
         }
     }
     void EditLibrary::Icon_Select(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)

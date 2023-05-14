@@ -5,6 +5,7 @@
 #endif
 
 #include "SettingsHelper.h"
+#include "Data.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -63,7 +64,7 @@ namespace winrt::Player::implementation
                 libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
                 // add event to update menu list ui
 #pragma warning(disable: 26810)
-                libraries_.VectorChanged([menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+                libraries_.VectorChanged([this, menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
                     co_await ui_thread;
 #pragma warning(default: 26810)
                     auto operate{ args.CollectionChange() };
@@ -268,7 +269,7 @@ namespace winrt::Player::implementation
     PlayerViewModel RootPage::PlayerMainViewModel() {
         return playerViewModel_;
     }
-    void RootPage::UpdateVolume(IInspectable const&, PropertyChangedEventArgs const& e){
+    void RootPage::UpdateVolume(IInspectable const&, PropertyChangedEventArgs const& e) {
         if (e.PropertyName() == L"Volume") {
             player_.Volume(playerViewModel_.Volume() / 100.);
         }
@@ -279,16 +280,22 @@ namespace winrt::Player::implementation
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> RootPage::Music() {
         return music_;
     }
-    winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem RootPage::MakeNavItem(const winrt::Data::Library &library) {
+    winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem RootPage::MakeNavItem(const winrt::Data::Library& library) {
         auto item{ NavigationViewItem{} };
         {
             item.Content(winrt::box_value(library.name));
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
-            item.Tapped([](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
+            item.Tapped([this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
                 auto tag{ winrt::unbox_value<winrt::Data::Library>(sender.try_as<NavigationViewItem>().Tag()) };
+                ::Data::Global::CurrentLibrary = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(tag.name)));
 
+                auto current{ this->Current() };
+                current.Content(winrt::box_value(tag.name));
+                current.Icon().try_as<FontIcon>().Glyph(tag.icon);
+                current.Visibility(Visibility::Visible);
                 // to do: switch library
+                this->rootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
                 });
             // menu
             {
@@ -338,4 +345,10 @@ namespace winrt::Player::implementation
         }
         return item;
     }
+
+    void RootPage::Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        this->rootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
+    }
+
 }

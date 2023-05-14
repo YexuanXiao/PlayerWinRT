@@ -88,9 +88,12 @@
 
             <Frame Name="rootFrame" />
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Current_PlaceHolder" Tag="current">
+                <NavigationViewItem
+                    Name="Current"
+                    Tapped="Current_Tapped"
+                    Visibility="Collapsed">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon x:Uid="Current" Symbol="Home" />
+                        <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem

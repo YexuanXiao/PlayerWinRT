@@ -25,12 +25,14 @@ namespace winrt::Player::implementation
         winrt::Player::PlayerViewModel PlayerMainViewModel();
     private:
         void UpdateVolume(IInspectable const&, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const&);
-        static winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem MakeNavItem(const winrt::Data::Library&);
+        winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem MakeNavItem(const winrt::Data::Library&);
         inline static winrt::Player::PlayerViewModel playerViewModel_;
         Windows::Media::Playback::MediaPlayer player_;
         Windows::Media::Playback::MediaPlaybackList list_;
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{nullptr};
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> music_{nullptr};
+    public:
+        void Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
     };
 }
 
