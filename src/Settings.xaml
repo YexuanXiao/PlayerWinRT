@@ -60,12 +60,12 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Text="Language" />
-                            <SplitButton Grid.Column="2" HorizontalAlignment="Right">
+                            <DropDownButton Grid.Column="2" HorizontalAlignment="Right">
                                 <TextBlock Text="Choose a language" />
-                                <SplitButton.Flyout>
-                                    <MenuFlyout x:Name="Languages" />
-                                </SplitButton.Flyout>
-                            </SplitButton>
+                                <DropDownButton.Flyout>
+                                    <MenuFlyout x:Name="Languages" Placement="BottomEdgeAlignedLeft" />
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
                         </Grid>
                     </Expander.Header>
                     <Grid Margin="40,0,40,0">
