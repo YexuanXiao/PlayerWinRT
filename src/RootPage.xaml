@@ -86,7 +86,7 @@
                 </AutoSuggestBox>
             </NavigationView.AutoSuggestBox>
 
-            <Frame Name="rootFrame" />
+            <Frame Name="RootFrame" />
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     Name="Current"
@@ -375,6 +375,7 @@
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="1*,1*,1*" />
                         <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
+                        <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -391,6 +392,7 @@
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />
                         <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
+                        <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

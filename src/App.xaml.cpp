@@ -60,11 +60,11 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     auto rootPage{ window_.Content().try_as<Player::RootPage>() };
     if (!rootPage) [[likely]] {
         rootPage = Player::RootPage{};
-        auto rootFrame{ rootPage.GetRootFrame() };
+        auto rootFrame{ rootPage.RootFrame() };
         window_.Content(rootPage);
     }
 
-    auto appTitleBar{ rootPage.GetAppTitleBar() };
+    auto appTitleBar{ rootPage.AppTitleBar() };
 
     // initialize AppWindow
     auto appWindow{ window_.AppWindow() };
@@ -129,7 +129,7 @@ void App::SetDragRegionForCustomTitleBar() {
     auto titleBar{ window_.AppWindow().TitleBar() };
     assert(titleBar.ExtendsContentIntoTitleBar());
     auto scaleAdjustment{ Win32Helper::GetScaleAdjustment(window_) };
-    auto appTitleBar{ window_.Content().try_as<Player::RootPage>().GetAppTitleBar() };
+    auto appTitleBar{ window_.Content().try_as<Player::RootPage>().AppTitleBar() };
     auto rect{ RectInt32{ } };
     rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
     rect.Y = 0;

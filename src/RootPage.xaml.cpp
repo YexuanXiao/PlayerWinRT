@@ -30,7 +30,7 @@ namespace winrt::Player::implementation
         }
         // init state
         if (SettingsHelper::CheckFirstUse()) {
-            rootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
+            RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
 #ifndef _DEBUG
             return;
@@ -113,7 +113,7 @@ namespace winrt::Player::implementation
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
-            rootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
+            RootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
         else [[likely]] {
             auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
@@ -171,9 +171,6 @@ namespace winrt::Player::implementation
         dialog.RequestedTheme(ActualTheme());
         static_cast<void>(co_await dialog.ShowAsync());
     }
-    Frame RootPage::GetRootFrame() {
-        return rootFrame();
-    }
     /// <summary>
     ///  RootPage::GetAppTitleBar has two functions: 1. To be compatible with Windows 10,
     /// it needs to get the title bar element for Window::SetTitleBar;
@@ -181,9 +178,6 @@ namespace winrt::Player::implementation
     /// If no need to compable with Windows 10, this function can be changed to GetDragRectangles,
     /// directly obtains the draggable area.
     /// </summary>
-    Grid RootPage::GetAppTitleBar() {
-        return AppTitleBar();
-    }
 
     void RootPage::On_Loaded(IInspectable const&, RoutedEventArgs const&)
     {
@@ -295,7 +289,7 @@ namespace winrt::Player::implementation
                 current.Icon().try_as<FontIcon>().Glyph(tag.icon);
                 current.Visibility(Visibility::Visible);
                 // to do: switch library
-                this->rootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
+                this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
                 });
             // menu
             {
@@ -348,7 +342,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        this->rootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
+        this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::PlayList>());
     }
 
 }
