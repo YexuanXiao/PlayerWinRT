@@ -45,3 +45,25 @@
 #include <fast_io.h>
 
 namespace winrt::Player {}
+
+inline winrt::hstring operator""_hs(const wchar_t* begin, std::size_t size) {
+	return winrt::hstring{ begin, size };
+}
+
+#ifdef _MSC_VER
+#if _MSC_VER <= 1937
+
+// for C++ 23 std::size_t literal workaround
+
+inline constexpr std::size_t operator""uz(unsigned long long value) {
+	if constexpr (sizeof(unsigned long long) <= sizeof(std::size_t)) {
+		return std::size_t{ value };
+	}
+	else {
+		assert(value < SIZE_MAX);
+		return std::size_t{ value };
+	}
+}
+
+#endif
+#endif
