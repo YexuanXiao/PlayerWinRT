@@ -8,5 +8,6 @@ namespace Player
         FolderView();
         Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{get; };
         Windows.Foundation.Collections.IObservableVector<String> FolderList{get; };
+        UInt32 CalculateTrueFolderCount(UInt32 value);
     }
 }

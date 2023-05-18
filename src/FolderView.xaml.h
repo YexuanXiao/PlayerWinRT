@@ -10,6 +10,8 @@ namespace winrt::Player::implementation
         winrt::Windows::Foundation::IAsyncAction FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderList();
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> MusicList();
+
+        uint32_t CalculateTrueFolderCount(uint32_t);
     private:
         std::vector<winrt::Data::MusicInfo> library_;
         std::vector<std::vector<std::reference_wrapper<const winrt::Data::MusicInfo>>> folders_stack_;
@@ -18,7 +20,7 @@ namespace winrt::Player::implementation
         void BuildRoot();
         void Build();
         void Rebuild();
-        void UpdateCountedUI(std::size_t, std::size_t);
+        void UpdateUI(std::vector<winrt::hstring> const&, std::vector<winrt::Player::InfoViewModel> const&);
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> folders_view_{ winrt::single_threaded_observable_vector<winrt::hstring>()};
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> music_view_{winrt::single_threaded_observable_vector<winrt::Player::InfoViewModel>()};
     };

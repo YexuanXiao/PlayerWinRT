@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Required"
     mc:Ignorable="d">
 
     <SplitView
@@ -25,17 +26,16 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Name="FolderCount"
-                        VerticalAlignment="Center"
-                        Text="0" />
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind CalculateTrueFolderCount(FolderList.Size), Mode=OneWay}" />
                     <DropDownButton
+                        x:Name="FolderLevel"
                         Grid.Column="1"
+                        MinWidth="64"
                         Padding="8,2,2,4"
                         HorizontalAlignment="Right"
-                        Content="Folder">
+                        Content="\">
                         <DropDownButton.Flyout>
-                            <MenuFlyout x:Name="FolderLevel" Placement="BottomEdgeAlignedRight" />
+                            <MenuFlyout Placement="BottomEdgeAlignedRight" />
                         </DropDownButton.Flyout>
                     </DropDownButton>
                 </Grid>
@@ -72,10 +72,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <TextBlock
-                Name="MusicCount"
-                Grid.Row="2"
-                Text="0" />
+            <TextBlock Grid.Row="2" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
         </Grid>
     </SplitView>
 </Page>
