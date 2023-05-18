@@ -137,6 +137,10 @@
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="InfoViewModel.h">
+      <DependentUpon>InfoViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="MusicInfo.xaml.h">
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -149,8 +153,8 @@
       <DependentUpon>PlayerViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="PlayList.xaml.h">
-      <DependentUpon>PlayList.xaml</DependentUpon>
+    <ClInclude Include="FolderView.xaml.h">
+      <DependentUpon>FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Progress.xaml.h">
@@ -192,6 +196,10 @@
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="InfoViewModel.cpp">
+      <DependentUpon>InfoViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="MusicInfo.xaml.cpp">
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -208,8 +216,8 @@
       <DependentUpon>PlayerViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="PlayList.xaml.cpp">
-      <DependentUpon>PlayList.xaml</DependentUpon>
+    <ClCompile Include="FolderView.xaml.cpp">
+      <DependentUpon>FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Progress.xaml.cpp">
@@ -259,6 +267,9 @@
       <DependentUpon>Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="InfoViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="MusicInfo.idl">
       <DependentUpon>MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -266,8 +277,8 @@
     <Midl Include="PlayerViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="PlayList.idl">
-      <DependentUpon>PlayList.xaml</DependentUpon>
+    <Midl Include="FolderView.idl">
+      <DependentUpon>FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="Progress.idl">
@@ -343,7 +354,7 @@
     <Page Include="MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PlayList.xaml">
+    <Page Include="FolderView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Progress.xaml">

@@ -1,0 +1,21 @@
+import "Data.idl";
+namespace Player
+{
+    [bindable]
+    [default_interface]
+    runtimeclass InfoViewModel 
+    {
+        InfoViewModel();
+        InfoViewModel(ref const Data.MusicInfo info);
+        String Title{ get; };
+        String Album{ get; };
+        String Genre{ get; };
+        String Artist{ get; };
+        String Albumartist{ get; };
+        String Path{ get; };
+        Int64 Duration{ get; };
+        UInt32 Year{ get; };
+        UInt32 Bitrate{ get; };
+        UInt32 Track{ get; };
+    }
+}

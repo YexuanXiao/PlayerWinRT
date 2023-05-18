@@ -9,6 +9,9 @@
     <Midl Include="PlayerViewModel.idl">
       <Filter>ViewModel</Filter>
     </Midl>
+    <Midl Include="InfoViewModel.idl">
+      <Filter>ViewModel</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -176,7 +179,7 @@
       <Filter>Pages\Standalone</Filter>
     </Page>
     <Page Include="RootPage.xaml" />
-    <Page Include="PlayList.xaml">
+    <Page Include="FolderView.xaml">
       <Filter>Pages\Dependent</Filter>
     </Page>
     <Page Include="Welcome.xaml">

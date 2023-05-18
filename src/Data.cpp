@@ -3,10 +3,6 @@
 #include "Data.h"
 
 namespace Data {
-	bool CheckLibraryLegal(Data::Library const& value) {
-		if (value.address.empty() && value.name.empty()) return false;
-		return true;
-	}
 	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Storage::StorageFile>> GetFileListFromFolder(winrt::Windows::Storage::StorageFolder const& folder) {
 		// extension list, must start with a dot
 		auto extensions{ std::vector<winrt::hstring>{L".flac",L".wav",L".alac",L".ac3",L".mp3",L".wma"} };
@@ -16,7 +12,7 @@ namespace Data {
 		// return as is, no need to make this function a coroutine
 		return query.GetFilesAsync();
 	}
-	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol, winrt::hstring const& path, winrt::hstring const& icon) {
+	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol, winrt::hstring path, winrt::hstring const& icon) {
 		auto const& list{ co_await GetFileListFromFolder(co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(path)) };
 		auto array{ winrt::Windows::Data::Json::JsonArray{} };
 		for (auto file : list) [[likely]] {
@@ -48,15 +44,15 @@ namespace Data {
 		result.SetNamedValue(L"Icon", winrt::Windows::Data::Json::JsonValue::CreateStringValue(icon));
 		co_return result;
 	}
-	std::vector<Data::MusicInfo> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array) {
+	std::vector<winrt::Data::MusicInfo> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array) {
 		auto size{ std::size_t{array.Size()} };
 		auto vector{ std::vector<winrt::Windows::Data::Json::JsonValue>{size, nullptr} };
 		array.GetMany(0, vector);
-		auto result{ std::vector<Data::MusicInfo>{} };
+		auto result{ std::vector<winrt::Data::MusicInfo>{} };
 		result.reserve(size);
 		for (auto const& i: vector) {
 			auto info{ i.GetObjectW() };
-			auto item{ Data::MusicInfo{} };
+			auto item{ winrt::Data::MusicInfo{} };
 			item.Album = info.GetNamedString(L"Album");
 			item.Albumartist = info.GetNamedString(L"Albumartist");
 			item.Artist = info.GetNamedString(L"Albumartist");

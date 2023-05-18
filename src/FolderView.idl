@@ -1,0 +1,12 @@
+import "Data.idl";
+import "InfoViewModel.idl";
+namespace Player
+{
+    [default_interface]
+    runtimeclass FolderView : Microsoft.UI.Xaml.Controls.Page
+    {
+        FolderView();
+        Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{get; };
+        Windows.Foundation.Collections.IObservableVector<String> FolderList{get; };
+    }
+}

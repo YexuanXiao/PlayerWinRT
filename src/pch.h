@@ -47,7 +47,7 @@
 namespace winrt::Player {}
 
 inline winrt::hstring operator""_hs(const wchar_t* begin, std::size_t size) {
-	return winrt::hstring{ begin, size };
+	return winrt::hstring{ begin, static_cast<winrt::hstring::size_type>(size) };
 }
 
 #ifdef _MSC_VER
