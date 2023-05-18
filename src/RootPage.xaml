@@ -66,7 +66,9 @@
             Name="MainNavigation"
             Grid.Column="1"
             AlwaysShowHeader="False"
+            BackRequested="Navigation_BackRequested"
             Canvas.ZIndex="0"
+            IsBackEnabled="{x:Bind RootFrame.CanGoBack, Mode=OneWay}"
             ItemInvoked="Navigation_ItemInvoked"
             Loaded="Navigation_Loaded"
             OpenPaneLength="300">

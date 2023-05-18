@@ -94,7 +94,7 @@ namespace winrt::Player::implementation
             Windows::Media::Playback::MediaPlaybackItem{
             Windows::Media::Core::MediaSource::CreateFromUri(
                 Uri{ L"ms-appx://Assets/24 - 英雄のタクト.flac" }
-            )}
+            ) }
         );
     }
     hstring RootPage::AppTitleText() {
@@ -157,7 +157,7 @@ namespace winrt::Player::implementation
                 auto result{ co_await dialog.ShowAsync() };
                 // use return value
             }
-        }
+            }
     }
     IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
@@ -284,7 +284,7 @@ namespace winrt::Player::implementation
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
-                ::Data::Global::CurrentLibrary = {info.name, info.protocol, info.address, info.icon};
+                ::Data::Global::CurrentLibrary = { info.name, info.protocol, info.address, info.icon };
                 auto current{ this->Current() };
                 current.Content(winrt::box_value(info.name));
                 current.Icon().try_as<FontIcon>().Glyph(info.icon);
@@ -346,5 +346,10 @@ namespace winrt::Player::implementation
         auto tag{ winrt::unbox_value<winrt::Data::Library>(sender.try_as<NavigationViewItem>().Tag()) };
         if (::Data::Global::CurrentLibrary.name == tag.name) return;
         this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+    }
+
+    void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args)
+    {
+        RootFrame().GoBack();
     }
 }

@@ -31,6 +31,7 @@ namespace winrt::Player::implementation
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> music_{nullptr};
     public:
         void Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        void Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&);
     };
 }
 
