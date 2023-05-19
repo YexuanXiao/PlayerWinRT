@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Loaded="On_Loaded"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
         <Style
@@ -70,7 +70,6 @@
             Canvas.ZIndex="0"
             IsBackEnabled="{x:Bind RootFrame.CanGoBack, Mode=OneWay}"
             ItemInvoked="Navigation_ItemInvoked"
-            Loaded="Navigation_Loaded"
             OpenPaneLength="300">
 
             <NavigationView.AutoSuggestBox>
@@ -263,8 +262,7 @@
                     Background="Transparent"
                     BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
                     CornerRadius="1000"
-                    Style="{StaticResource PlayButtonLarge}"
-                    Tapped="PlayButton_Tapped">
+                    Style="{StaticResource PlayButtonLarge}">
                     <FontIcon
                         Name="PlayIcon"
                         Margin="2,0,0,0"

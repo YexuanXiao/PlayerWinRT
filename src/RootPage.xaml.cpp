@@ -16,26 +16,24 @@ using namespace Windows::Foundation;
 
 namespace winrt::Player::implementation
 {
-    RootPage::RootPage()
+    RootPage::RootPage(): session_(player_.PlaybackSession()), commander_(player_.CommandManager())
     {
         InitializeComponent();
 
-        {
-            player_.Source(list_);
-            player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
-            list_.MaxPlayedItemsToKeepOpen(3);
-
-            // regist volume change
-            playerViewModel_.PropertyChanged({ this,&RootPage::UpdateVolume });
-        }
         // init state
-        if (SettingsHelper::CheckFirstUse()) {
+        if (SettingsHelper::CheckFirstUse()) [[unlikely]] {
             RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
-#ifndef _DEBUG
-            return;
-#endif // !_DEBUG
         }
+
+        // prepare list
+        list_.MaxPlayedItemsToKeepOpen(3);
+        // set player state
+        player_.Source(list_);
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+#ifdef _DEBUG
+        player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
+#endif
 
         // prepare libraries
         {
@@ -89,27 +87,61 @@ namespace winrt::Player::implementation
                     });
             }
         }
-        // prepare list
-        list_.Items().Append(
-            Windows::Media::Playback::MediaPlaybackItem{
-            Windows::Media::Core::MediaSource::CreateFromUri(
-                Uri{ L"ms-appx://Assets/24 - 英雄のタクト.flac" }
-            ) }
-        );
+        // regist volume change
+        playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const& args) {
+            if (args.PropertyName() == L"Volume")
+                self.player_.Volume(playerViewModel_.Volume() / 100.);
+            });
+        // regist play and pause event
+        commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
+            self.TogglePlayButton();
+            });
+        commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
+            self.TogglePlayButton();
+            });
+        PlayButton().Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
+            if (self.TogglePlayButton())
+                // if is paused
+                self.player_.Play();
+            else if (self.session_.CanPause())
+                self.player_.Pause();
+            });
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
         return L"PlayerWinRT Dev";
 #else
-        return L"PlayerWinRT";
+        return title_;
 #endif
     }
-    void RootPage::AppTitleText(hstring const&) {
-    }
-    void RootPage::Navigation_Loaded(IInspectable const&, RoutedEventArgs const&) {
-        // you can also add items in code behind
-        auto theme{ SettingsHelper::LoadTheme() };
-        SettingsHelper::SetTheme(XamlRoot(), theme);
+    // return true if is paused, ready to play
+    bool RootPage::TogglePlayButton() {
+        auto fontIcon{ PlayButton().Content().try_as<FontIcon>()};
+        auto icon{ fontIcon.Glyph() };
+        {
+            // cacl data
+            if (icon == L"\uE768") {
+                fontIcon.Glyph(L"\uE769");
+                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
+                return true;
+            }
+            else if (icon == L"\uE769") {
+                fontIcon.Glyph(L"\uE768");
+                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
+                return false;
+            }
+            else if (icon == L"\uF5B0") {
+                fontIcon.Glyph(L"\uF8AE");
+                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
+                return true;
+            }
+            else {
+                // if (icon == L"\uF8AE")
+                fontIcon.Glyph(L"\uF5B0");
+                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
+                return false;
+            }
+        }
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
@@ -171,61 +203,6 @@ namespace winrt::Player::implementation
         dialog.RequestedTheme(ActualTheme());
         static_cast<void>(co_await dialog.ShowAsync());
     }
-    /// <summary>
-    ///  RootPage::GetAppTitleBar has two functions: 1. To be compatible with Windows 10,
-    /// it needs to get the title bar element for Window::SetTitleBar;
-    /// 2. It calculates the draggable area through the AppTitleBar element itself.
-    /// If no need to compable with Windows 10, this function can be changed to GetDragRectangles,
-    /// directly obtains the draggable area.
-    /// </summary>
-
-    void RootPage::On_Loaded(IInspectable const&, RoutedEventArgs const&)
-    {
-        player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
-    }
-
-    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
-    {
-        enum ChangedState {
-            Play, Pause
-        };
-        auto state{ Pause };
-        auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
-        auto icon{ fontIcon.Glyph() };
-        {
-            // cacl data
-            if (icon == L"\uE768") {
-                icon = L"\uE769";
-                state = Play;
-            }
-            else if (icon == L"\uE769") {
-                icon = L"\uE768";
-                state = Pause;
-            }
-            else if (icon == L"\uF5B0") {
-                icon = L"\uF8AE";
-                state = Play;
-            }
-            else if (icon == L"\uF8AE") {
-                icon = L"\uF5B0";
-                state = Pause;
-            }
-        }
-        {
-            // change player state and ui
-            if (state == Play) {
-                player_.Play();
-                fontIcon.Glyph(icon);
-                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
-            }
-            else if (player_.CanPause()) {
-                player_.Pause();
-                fontIcon.Glyph(icon);
-                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
-            }
-        }
-    }
-
     void RootPage::Repeat_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
@@ -263,11 +240,6 @@ namespace winrt::Player::implementation
     PlayerViewModel RootPage::PlayerMainViewModel() {
         return playerViewModel_;
     }
-    void RootPage::UpdateVolume(IInspectable const&, PropertyChangedEventArgs const& e) {
-        if (e.PropertyName() == L"Volume") {
-            player_.Volume(playerViewModel_.Volume() / 100.);
-        }
-    }
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> RootPage::Libraries() {
         return libraries_;
     }
@@ -280,18 +252,18 @@ namespace winrt::Player::implementation
             item.Content(winrt::box_value(library.name));
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
-            item.Tapped([this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
+            item.Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
                 ::Data::Global::CurrentLibrary = { info.name, info.protocol, info.address, info.icon };
-                auto current{ this->Current() };
+                auto current{ self.Current() };
                 current.Content(winrt::box_value(info.name));
                 current.Icon().try_as<FontIcon>().Glyph(info.icon);
                 current.Visibility(Visibility::Visible);
                 current.Tag(tag);
                 current.IsSelected(true);
-                this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+                self.NavigateToDefaultPage();
                 args.Handled(true);
                 });
             // menu
@@ -347,11 +319,20 @@ namespace winrt::Player::implementation
     {
         auto tag{ winrt::unbox_value<winrt::Data::Library>(sender.try_as<NavigationViewItem>().Tag()) };
         if (::Data::Global::CurrentLibrary.name == tag.name) return;
-        this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+        NavigateToDefaultPage();
     }
-
-    void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args)
+    void RootPage::NavigateToDefaultPage() {
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+    }
+    void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args)
     {
         RootFrame().GoBack();
+    }
+
+    void RootPage::Page_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+    {
+        // set theme
+        auto theme{ SettingsHelper::LoadTheme() };
+        SettingsHelper::SetTheme(XamlRoot(), theme);
     }
 }

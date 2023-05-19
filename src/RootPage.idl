@@ -6,7 +6,7 @@ namespace Player
     runtimeclass RootPage : Microsoft.UI.Xaml.Controls.Page
     {
         RootPage();
-        String AppTitleText;
+        String AppTitleText{ get; };
         Windows.Media.Playback.MediaPlayer Player{ get; };
         Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame RootFrame{get; };
