@@ -26,12 +26,12 @@ App::App()
 {
     InitializeComponent();
 
-    Win32Helper::DisableMultiInstanceEntry(appname, 1u);
+    Win32Helper::DisableMultiInstanceEntry(appname_, 1u);
     // alternate way
     // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
-    UnhandledException([this](IInspectable const&, UnhandledExceptionEventArgs const& e)
+    UnhandledException([](IInspectable const&, UnhandledExceptionEventArgs const& e)
         {
             if (IsDebuggerPresent())
             {
@@ -101,9 +101,9 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     }
 
     // make app only have one instance
-    window_.Activated([this](IInspectable const& sender, WindowActivatedEventArgs const&) {
+    window_.Activated([&self = *this](IInspectable const& sender, WindowActivatedEventArgs const&) {
         // set window_ property to find instance
-        Win32Helper::DisableMultiInstanceWindow(sender.try_as<Window>(), appname);
+        Win32Helper::DisableMultiInstanceWindow(sender.try_as<Window>(), self.appname_);
         });
 
     Win32Helper::RegisterWindowMinSize(window_);

@@ -61,7 +61,7 @@ namespace winrt::Player::implementation
                 // move container to observer vector
                 libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
                 // add event to update menu list ui
-                libraries_.VectorChanged([this, menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+                libraries_.VectorChanged([&self = *this, menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
 #pragma warning(disable: 26810)
                     co_await ui_thread;
 #pragma warning(default: 26810)
@@ -75,12 +75,12 @@ namespace winrt::Player::implementation
                     }
                     case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
                     {
-                        menulist.SetAt(index, RootPage::MakeNavItem(libraries_.GetAt(index)));
+                        menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
                         break;
                     }
                     case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
                     {
-                        menulist.InsertAt(index, RootPage::MakeNavItem(libraries_.GetAt(index)));
+                        menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
                         break;
                     }
                     }
