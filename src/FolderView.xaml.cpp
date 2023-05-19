@@ -72,6 +72,29 @@ namespace winrt::Player::implementation
             FullPath().Text(fullpath);
         }
         {
+            auto time{ 0ll };
+            for (auto const& info : music) {
+                time += info.Duration();
+            }
+            auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{time * 100}} };
+            auto text{ std::wstring{} };
+            text.reserve(50uz);
+            using namespace std::literals;
+            if (hms.hours().count() > 0) {
+                text += fast_io::wconcat(hms.hours().count());
+                text += L" Hours "sv;
+            }
+            if (hms.minutes().count() > 0) {
+                text += fast_io::wconcat(hms.minutes().count());
+                text += L" Minutes "sv;
+            }
+            if (hms.seconds().count() > 0) {
+                text += fast_io::wconcat(hms.seconds().count());
+                text += L" Seconds"sv;
+            }
+            DurationCount().Text(text);
+        }
+        {
             auto level{ FolderLevel() };
             if (path_stack_.empty()) {
                 level.Content(winrt::box_value(L"\\"));

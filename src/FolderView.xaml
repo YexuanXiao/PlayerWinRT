@@ -26,7 +26,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center" Text="{x:Bind CalculateTrueFolderCount(FolderList.Size), Mode=OneWay}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind CalculateTrueFolderCount(FolderList.Size), Mode=OneWay}" />
+                        <TextBlock VerticalAlignment="Center" Text=" Folders" />
+                    </StackPanel>
                     <DropDownButton
                         x:Name="FolderLevel"
                         Grid.Column="1"
@@ -60,7 +63,13 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Name="FullPath" Text="\" />
+            <Grid Height="35" Background="{StaticResource SolidBackgroundFillColorBaseBrush}">
+                <TextBlock
+                    Name="FullPath"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="\" />
+            </Grid>
             <ListView
                 Name="MusicViewList"
                 Grid.Row="1"
@@ -72,7 +81,27 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <TextBlock Grid.Row="2" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
+            <Grid
+                Grid.Row="2"
+                Height="35"
+                Padding="10,0,10,0"
+                Background="{StaticResource SolidBackgroundFillColorBaseBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text=" Music" />
+                <TextBlock
+                    Name="DurationCount"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center" />
+            </Grid>
         </Grid>
     </SplitView>
 </Page>
