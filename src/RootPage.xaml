@@ -92,6 +92,7 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     Name="Current"
+                    IsSelected="True"
                     Tapped="Current_Tapped"
                     Visibility="Collapsed">
                     <NavigationViewItem.Icon>
@@ -149,7 +150,7 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Equalizer" Tag="equalizer">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xF61F;" />
+                        <FontIcon Glyph="&#xE9E9;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>

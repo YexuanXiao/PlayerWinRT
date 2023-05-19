@@ -20,7 +20,7 @@ namespace Data {
 			file = co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(file.Path());
 			auto const prop{ co_await file.Properties().GetMusicPropertiesAsync() };
 			auto const genres{ prop.Genre() };
-			auto const genre{ winrt::hstring{std::views::join_with(genres, L' ') | std::ranges::to<std::basic_string>()} };
+			auto const genre{ winrt::hstring{std::views::join_with(genres, L'/') | std::ranges::to<std::basic_string>()} };
 			auto item{ winrt::Windows::Data::Json::JsonObject{} };
 			item.SetNamedValue(L"Album", winrt::Windows::Data::Json::JsonValue::CreateStringValue(prop.Album()));
 			item.SetNamedValue(L"Albumartist", winrt::Windows::Data::Json::JsonValue::CreateStringValue(prop.AlbumArtist()));

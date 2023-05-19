@@ -23,11 +23,11 @@ namespace winrt::Player::implementation
             auto index{ self.FolderViewList().SelectedIndex() };
             if (index == -1) return; // workaround beacuse one click trigged event twice
             auto path{ self.folders_view_.GetAt(index) };
-            if (path == L"...") [[unlikely]] {
+            if (path == L".\u2005.\u2005.\u2005") [[unlikely]] {
                 // back to previous level
                 self.folders_stack_.pop_back();
                 self.path_stack_.pop_back();
-                if (self.path_stack_.empty()) {
+                if (self.path_stack_.empty()) [[unlikely]] {
                     // backed is root
                     self.BuildRoot();
                 }
@@ -45,18 +45,48 @@ namespace winrt::Player::implementation
 
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
-    winrt::Windows::Foundation::IAsyncAction FolderView::FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
-    {
+    winrt::Windows::Foundation::IAsyncAction FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&) {
+        co_await Initialize();
+    }
+    winrt::Windows::Foundation::IAsyncAction FolderView::Initialize() {
         // event trigged when frame backed and constructed
-        if (library_.empty()) {
-            // after constructed
-            library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(::Data::Global::CurrentLibrary.name)));
+        if (library_info_ != ::Data::Global::CurrentLibrary)[[unlikely]] {
+            library_info_ = ::Data::Global::CurrentLibrary;
+            folders_stack_.clear();
+            path_stack_.clear();
+            folders_view_.Clear();
+            music_view_.Clear();
+            library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(library_info_.name)));
             BuildRoot();
         }
     }
-    uint32_t FolderView::CalculateTrueFolderCount(uint32_t value) {
+    winrt::Windows::Foundation::IAsyncAction FolderView::FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+    {
+        co_await Initialize();
+    }
+    winrt::hstring FolderView::CalculateTrueFolderCount(uint32_t value) {
         auto adjust{ path_stack_.empty() ? 0 : 1 };
-        return value - adjust;
+        return fast_io::wconcat_winrt_hstring(value - adjust);
+    }
+    winrt::hstring FolderView::TransformBitrate(uint32_t value) {
+        return fast_io::wconcat_winrt_hstring(value / 1000, L"kbps");
+    }
+    winrt::hstring FolderView::TransformDuration(int64_t value) {
+        auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{value * 100}} };
+        return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
+    }
+    winrt::hstring FolderView::DecisionTitle(winrt::hstring const& title, winrt::hstring const& path) {
+        if (title.empty()) [[unlikely]] {
+            auto pathsv{ std::wstring_view{path} };
+            auto end{ pathsv.find_last_of(L'.') };
+            auto begin{ pathsv.find_last_of(L'\\') };
+            return winrt::hstring{ pathsv.substr(begin + 1uz, end - 1uz) };
+        }
+        return title;
+    }
+    const winrt::hstring& FolderView::DecisionArtist(winrt::hstring const& artist, winrt::hstring const& albumartist) {
+        if (artist.empty()) [[unlikely]] return albumartist;
+        return artist;
     }
     void FolderView::UpdateUI(std::vector<winrt::hstring> const& folders, std::vector<winrt::Player::InfoViewModel> const& music) {
 
@@ -73,30 +103,30 @@ namespace winrt::Player::implementation
         }
         {
             auto time{ 0ll };
-            for (auto const& info : music) {
+            for (auto const& info : music) [[likely]] {
                 time += info.Duration();
             }
             auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{time * 100}} };
             auto text{ std::wstring{} };
-            text.reserve(50uz);
+            text.reserve(20uz);
             using namespace std::literals;
-            if (hms.hours().count() > 0) {
+            if (hms.hours().count()) [[likely]] {
                 text += fast_io::wconcat(hms.hours().count());
-                text += L" Hours "sv;
+                text += L"h\u2005";
             }
-            if (hms.minutes().count() > 0) {
+            if (hms.minutes().count()) [[likely]] {
                 text += fast_io::wconcat(hms.minutes().count());
-                text += L" Minutes "sv;
+                text += L"m\u2005";
             }
-            if (hms.seconds().count() > 0) {
+            if (hms.seconds().count()) [[likely]] {
                 text += fast_io::wconcat(hms.seconds().count());
-                text += L" Seconds"sv;
+                text += L's';
             }
             DurationCount().Text(text);
         }
         {
             auto level{ FolderLevel() };
-            if (path_stack_.empty()) {
+            if (path_stack_.empty()) [[unlikely]] {
                 level.Content(winrt::box_value(L"\\"));
             }
             else {
@@ -107,29 +137,32 @@ namespace winrt::Player::implementation
             items.Clear();
             auto event{ [&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
                     auto current{ sender.as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Text() };
-                    if (current[0] == L'\\') {
+                    if (current[0] == L'\\') [[unlikely]] {
                         if (self.path_stack_.empty()) return;
                         self.path_stack_.clear();
                         self.folders_stack_.clear();
                         self.BuildRoot();
                         return;
                     }
-                    for (auto const& name : std::views::reverse(self.path_stack_)) {
-                        if (name != current) {
-                            self.path_stack_.pop_back();
-                            self.folders_stack_.pop_back();
+                    auto count{ 0uz };
+                    for (auto const& name : std::views::reverse(self.path_stack_)) [[likely]] {
+                        if (name != current) [[likely]] {
+                            ++count;
                         }
                         else {
-                            self.Rebuild();
-                            return;
+                            break;
                         }
                     }
-                    } };
+                    self.path_stack_.resize(count);
+                    self.folders_stack_.resize(count);
+                    self.Rebuild();
+                    }
+            };
             auto root{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
             root.Text(L"\\");
             root.Tapped(event);
             items.Append(root);
-            for (auto const& name : path_stack_) {
+            for (auto const& name : path_stack_) [[likely]] {
                 auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
                 item.Text(name);
                 items.Append(item);
@@ -144,7 +177,7 @@ namespace winrt::Player::implementation
 
         // init all data
         auto set{ std::set<std::wstring_view>{} };
-        for (auto const& i : library_) {
+        for (auto const& i : library_) [[likely]] {
             auto const path{ std::wstring_view{i.Path} };
             auto const end{ path.find(L'\\', 2uz) };
 
@@ -160,7 +193,7 @@ namespace winrt::Player::implementation
         // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
-        for (auto const& i : set) {
+        for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
         }
         UpdateUI(foldersContainer, musicContainer);
@@ -177,7 +210,7 @@ namespace winrt::Player::implementation
 
         if (folders_stack_.empty()) [[unlikely]] {
             // if current is root
-            for (auto const& info : library_) {
+            for (auto const& info : library_) [[likely]] {
                 auto const path{ std::wstring_view{info.Path} };
                 auto const end{ path.find(fullpath, 1uz) };
                 if (end != decltype(path)::npos) {
@@ -186,7 +219,7 @@ namespace winrt::Player::implementation
             }
             }
         else {
-            for (auto const& i : folders_stack_.back()) {
+            for (auto const& i : folders_stack_.back()) [[likely]] {
                 auto const& info{ i.get() };
                 auto const path{ std::wstring_view{info.Path} };
                 auto const end{ path.find(fullpath, 1uz) };
@@ -197,7 +230,7 @@ namespace winrt::Player::implementation
         }
 
         auto set{ std::set<std::wstring_view>{} };
-        for (auto const& i : frame) {
+        for (auto const& i : frame) [[likely]] {
             auto const& info{ i.get() };
             auto const path{ std::wstring_view{info.Path}.substr(fullpath.size() + 1uz) };
             auto const end{ path.find(L'\\', 2uz) };
@@ -214,8 +247,8 @@ namespace winrt::Player::implementation
         // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
-        foldersContainer.emplace_back(L"...");
-        for (auto const& i : set) {
+        foldersContainer.emplace_back(L".\u2005.\u2005.\u2005");
+        for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
         }
         folders_stack_.push_back(std::move(frame));
@@ -232,7 +265,7 @@ namespace winrt::Player::implementation
         auto fullpath{ path_stack_ | std::views::join_with(L'\\') | std::ranges::to<std::basic_string>() };
 
         auto set{ std::set<std::wstring_view>{} };
-        for (auto const& i : frame) {
+        for (auto const& i : frame) [[likely]] {
             auto const& info{ i.get() };
             auto const path{ std::wstring_view{info.Path}.substr(fullpath.size() + 1uz)};
             auto const end{ path.find(L'\\', 2uz) };
@@ -249,8 +282,8 @@ namespace winrt::Player::implementation
         // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
-        foldersContainer.emplace_back(L"...");
-        for (auto const& i : set) {
+        foldersContainer.emplace_back(L".\u2005.\u2005.\u2005");
+        for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
         }
 

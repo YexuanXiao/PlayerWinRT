@@ -34,6 +34,7 @@
                         x:Name="FolderLevel"
                         Grid.Column="1"
                         MinWidth="64"
+                        MaxWidth="144"
                         Padding="8,2,2,4"
                         HorizontalAlignment="Right"
                         Content="\">
@@ -77,14 +78,57 @@
                 SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:InfoViewModel">
-                        <TextBlock Text="{x:Bind Title}" />
+                        <Grid Margin="0,8,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.RowSpan="2"
+                                Width="20"
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind Track}"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Grid.Column="1"
+                                FontSize="14"
+                                LineHeight="20"
+                                Text="{x:Bind local:FolderView.DecisionTitle(Title, Path)}"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{x:Bind local:FolderView.DecisionArtist(Artist, Albumartist)}"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Foreground="DimGray"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{x:Bind local:FolderView.TransformBitrate(Bitrate)}"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Foreground="DimGray"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{x:Bind local:FolderView.TransformDuration(Duration)}"
+                                TextAlignment="Right"
+                                TextWrapping="NoWrap" />
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
             <Grid
                 Grid.Row="2"
                 Height="35"
-                Padding="10,0,10,0"
+                Padding="15,0,15,0"
                 Background="{StaticResource SolidBackgroundFillColorBaseBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

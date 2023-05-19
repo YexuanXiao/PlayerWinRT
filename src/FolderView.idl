@@ -8,6 +8,10 @@ namespace Player
         FolderView();
         Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{get; };
         Windows.Foundation.Collections.IObservableVector<String> FolderList{get; };
-        UInt32 CalculateTrueFolderCount(UInt32 value);
+        String CalculateTrueFolderCount(UInt32 value);
+        static String TransformBitrate(UInt32 value);
+        static String TransformDuration(Int64 value);
+        static String DecisionTitle(String title, String path);
+        static String DecisionArtist(String artist, String albumartist);
     }
 }

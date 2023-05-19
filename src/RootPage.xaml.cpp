@@ -280,7 +280,7 @@ namespace winrt::Player::implementation
             item.Content(winrt::box_value(library.name));
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
-            item.Tapped([this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
+            item.Tapped([this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
@@ -290,7 +290,9 @@ namespace winrt::Player::implementation
                 current.Icon().try_as<FontIcon>().Glyph(info.icon);
                 current.Visibility(Visibility::Visible);
                 current.Tag(tag);
+                current.IsSelected(true);
                 this->RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+                args.Handled(true);
                 });
             // menu
             {
