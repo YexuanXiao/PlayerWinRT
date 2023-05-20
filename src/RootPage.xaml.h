@@ -8,11 +8,11 @@ namespace winrt::Player::implementation
     {
         RootPage();
         Windows::Media::Playback::MediaPlayer Player();
-        Windows::Media::Playback::MediaPlaybackList List();
         winrt::hstring AppTitleText();
-        winrt::Player::PlayerViewModel PlayerMainViewModel();
+        winrt::Player::PlayerViewModel PlayerViewModel();
+        static Windows::Media::Playback::MediaPlaybackList List();
         static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
-        static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> Music();
+        static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> Music();
         // events
         Windows::Foundation::IAsyncAction Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView const&, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const&);
         Windows::Foundation::IAsyncAction MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
@@ -21,6 +21,7 @@ namespace winrt::Player::implementation
         void Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Page_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         void Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&);
+        void Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
     private:
         winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem MakeNavItem(const winrt::Data::Library&);
         bool TogglePlayButton();
@@ -29,10 +30,10 @@ namespace winrt::Player::implementation
         Windows::Media::Playback::MediaPlayer player_;
         winrt::Windows::Media::Playback::MediaPlaybackSession session_;
         winrt::Windows::Media::Playback::MediaPlaybackCommandManager commander_;
+        winrt::Player::PlayerViewModel playerViewModel_;
         inline static Windows::Media::Playback::MediaPlaybackList list_{};
-        inline static winrt::Player::PlayerViewModel playerViewModel_{};
-        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{nullptr};
-        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> music_{nullptr};
+        inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{ nullptr };
+        inline static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{list_.Items()};
     };
 }
 

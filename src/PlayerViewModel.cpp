@@ -15,9 +15,10 @@ namespace winrt::Player::implementation
     }
     void PlayerViewModel::Volume(double value)
     {
-        volume_ = value;
-        SettingsHelper::SetVolume(volume_);
-        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Volume" });
+        if (value != volume_) {
+            volume_ = value;
+            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Volume" });
+        }
     }
     winrt::hstring PlayerViewModel::DoubleToString(double value) {
         return fast_io::wconcat_winrt_hstring(value);

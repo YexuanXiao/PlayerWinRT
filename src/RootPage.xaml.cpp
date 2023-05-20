@@ -16,7 +16,7 @@ using namespace Windows::Foundation;
 
 namespace winrt::Player::implementation
 {
-    RootPage::RootPage(): session_(player_.PlaybackSession()), commander_(player_.CommandManager())
+    RootPage::RootPage() : session_(player_.PlaybackSession()), commander_(player_.CommandManager())
     {
         InitializeComponent();
 
@@ -24,88 +24,89 @@ namespace winrt::Player::implementation
         if (SettingsHelper::CheckFirstUse()) [[unlikely]] {
             RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
-        }
-
-        // prepare list
-        list_.MaxPlayedItemsToKeepOpen(3);
-        // set player state
-        player_.Source(list_);
-        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
-#ifdef _DEBUG
-        player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
-#endif
-
-        // prepare libraries
+            }
+            // prepare list
         {
-            auto libraries{ SettingsHelper::GetLibraries() };
-
-            // make container and data
-            auto container{ std::vector<winrt::Data::Library>{} };
-            container.reserve(libraries.Size());
-
-            for (auto const& library : libraries) {
-                auto info{ library.GetObjectW() };
-                container.emplace_back(info.GetNamedString(L"Name"), info.GetNamedString(L"Protocol"), info.GetNamedString(L"Path"), info.GetNamedString(L"Icon"));
-            }
-            // prepare ui elements
-            auto menulist{ MainLibraryList().MenuItems() };
-            {
-                auto itemadd{ *menulist.begin() };
-                menulist.Clear();
-                for (auto const& library : container) {
-                    menulist.Append(RootPage::MakeNavItem(library));
-                }
-                menulist.Append(itemadd);
-            }
-            {
-                // move container to observer vector
-                libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
-                // add event to update menu list ui
-                libraries_.VectorChanged([&self = *this, menulist, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
-#pragma warning(disable: 26810)
-                    co_await ui_thread;
-#pragma warning(default: 26810)
-                    auto operate{ args.CollectionChange() };
-                    auto index{ args.Index() };
-                    switch (operate) {
-                    case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
-                    {
-                        menulist.RemoveAt(index);
-                        break;
-                    }
-                    case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
-                    {
-                        menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
-                        break;
-                    }
-                    case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
-                    {
-                        menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
-                        break;
-                    }
-                    }
-                    });
-            }
+            list_.MaxPlayedItemsToKeepOpen(3);
+            // set player state
+            player_.Source(list_);
+            player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+#ifdef _DEBUG
+            player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
+#endif
         }
-        // regist volume change
-        playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const& args) {
-            if (args.PropertyName() == L"Volume")
-                self.player_.Volume(playerViewModel_.Volume() / 100.);
-            });
-        // regist play and pause event
-        commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
-            self.TogglePlayButton();
-            });
-        commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
-            self.TogglePlayButton();
-            });
-        PlayButton().Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
-            if (self.TogglePlayButton())
-                // if is paused
-                self.player_.Play();
-            else if (self.session_.CanPause())
-                self.player_.Pause();
-            });
+            // prepare libraries
+            {
+                auto libraries{ SettingsHelper::GetLibraries() };
+
+                // make container and data
+                auto container{ std::vector<winrt::Data::Library>{} };
+                container.reserve(libraries.Size());
+
+                for (auto const& library : libraries) {
+                    auto info{ library.GetObjectW() };
+                    container.emplace_back(info.GetNamedString(L"Name"), info.GetNamedString(L"Protocol"), info.GetNamedString(L"Path"), info.GetNamedString(L"Icon"));
+                }
+                {
+                    // prepare ui elements
+                    auto menulist{ MainLibraryList().MenuItems() };
+                    auto itemadd{ *menulist.begin() };
+                    menulist.Clear();
+                    for (auto const& library : container) {
+                        menulist.Append(RootPage::MakeNavItem(library));
+                    }
+                    menulist.Append(itemadd);
+                }
+                {
+                    // move container to observer vector
+                    libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
+                    // add event to update menu list ui
+                    libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+#pragma warning(disable: 26810)
+                        co_await ui_thread;
+#pragma warning(default: 26810)
+                        auto operate{ args.CollectionChange() };
+                        auto index{ args.Index() };
+                        auto menulist{ self.MainLibraryList().MenuItems() };
+                        switch (operate) {
+                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+                        {
+                            menulist.RemoveAt(index);
+                            break;
+                        }
+                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+                        {
+                            menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
+                            break;
+                        }
+                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+                        {
+                            menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
+                            break;
+                        }
+                        }
+                        });
+                }
+            }
+            // regist volume change
+            playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const& args) {
+                if (args.PropertyName() == L"Volume")
+                    self.player_.Volume(self.playerViewModel_.Volume() / 100.);
+                });
+            // regist play and pause event
+            commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
+                self.TogglePlayButton();
+                });
+            commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
+                self.TogglePlayButton();
+                });
+            PlayButton().Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
+                if (self.TogglePlayButton())
+                    // if is paused
+                    self.player_.Play();
+                else if (self.session_.CanPause())
+                    self.player_.Pause();
+                });
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
@@ -116,7 +117,7 @@ namespace winrt::Player::implementation
     }
     // return true if is paused, ready to play
     bool RootPage::TogglePlayButton() {
-        auto fontIcon{ PlayButton().Content().try_as<FontIcon>()};
+        auto fontIcon{ PlayButton().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         {
             // cacl data
@@ -237,13 +238,13 @@ namespace winrt::Player::implementation
     Windows::Media::Playback::MediaPlaybackList RootPage::List() {
         return list_;
     }
-    PlayerViewModel RootPage::PlayerMainViewModel() {
+    PlayerViewModel RootPage::PlayerViewModel() {
         return playerViewModel_;
     }
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> RootPage::Libraries() {
         return libraries_;
     }
-    winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::MusicInfo> RootPage::Music() {
+    winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> RootPage::Music() {
         return music_;
     }
     winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem RootPage::MakeNavItem(const winrt::Data::Library& library) {
@@ -253,7 +254,7 @@ namespace winrt::Player::implementation
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
             item.Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
-                
+
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
@@ -336,5 +337,9 @@ namespace winrt::Player::implementation
         // set theme
         auto theme{ SettingsHelper::LoadTheme() };
         SettingsHelper::SetTheme(XamlRoot(), theme);
+    }
+    void RootPage::Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+    {
+        SettingsHelper::SetVolume(playerViewModel_.Volume());
     }
 }
