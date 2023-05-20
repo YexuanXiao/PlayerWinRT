@@ -303,7 +303,7 @@ namespace winrt::Player::implementation
                     auto editIcon{ FontIcon{} };
                     auto removeIcon{ FontIcon{} };
 
-                    // todo: add actual functionality
+                    // todo: add actual function
                     upIcon.Glyph(L"\uE70E");
                     downIcon.Glyph(L"\uE70D");
                     editIcon.Glyph(L"\uE70F");

@@ -11,7 +11,7 @@ The project is currently in early stage.
 All kinds of contributions will be appreciated. All suggestions, pull requests and issues are welcome.
 
 If you want to contribute your own code, you can simply submit a plain pull request explaining you changes.
-For larger and complex contributions it would be nice if you could open an issue before starting to work on it.
+For bigger and complex contributions it would be nice if you could open an issue before starting to work on it.
 
 ## Features
 
@@ -34,6 +34,7 @@ Only guaranteed to compile on the latest VS2022, but welcome to provide forward 
 
 ## Roadmap
 
-- April: basic UI and playback functions
-- May  : i18n and basic network storage
-- June : full network storage and OneDrive
+- April: basic UI
+- May  :  playback functions
+- June   : i18n and basic network storage
+- July : full network storage and OneDrive
