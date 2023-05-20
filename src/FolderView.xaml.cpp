@@ -43,6 +43,23 @@ namespace winrt::Player::implementation
             }
             });
 
+        MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+            // don't use ItemClick event because the return type of args.SelectedItem() is unknown
+            auto index{ self.MusicViewList().SelectedIndex() };
+            if (index == -1) co_return; // workaround beacuse one click trigged event twice
+            auto musicContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
+            auto music_view{ self.music_view_.GetView() };
+            musicContainer.reserve(music_view.Size());
+            for (auto const& info : music_view) {
+                musicContainer.emplace_back(
+                   winrt::Windows::Media::Core::MediaSource::CreateFromStorageFile(
+                        co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_info_.address + info.Get().Path)
+                   )
+                );
+            }
+            RootPage::Music().ReplaceAll(musicContainer);
+            RootPage::List().MoveTo(index);
+            });
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
     winrt::Windows::Foundation::IAsyncAction FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&) {
@@ -286,7 +303,6 @@ namespace winrt::Player::implementation
         for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
         }
-
         UpdateUI(foldersContainer, musicContainer);
     }
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderView::FolderList() {

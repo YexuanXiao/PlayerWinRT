@@ -10,6 +10,9 @@ namespace winrt::Player::implementation
     {
         info_ = info;
     }
+    winrt::Data::MusicInfo InfoViewModel::Get() {
+        return info_;
+    }
     hstring InfoViewModel::Title()
     {
         return info_.Title;

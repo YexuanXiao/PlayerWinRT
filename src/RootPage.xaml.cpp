@@ -32,7 +32,29 @@ namespace winrt::Player::implementation
             player_.Source(list_);
             player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
 #ifdef _DEBUG
-            player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
+            // player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
+            music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+                auto operate{ args.CollectionChange() };
+                auto index{ args.Index() };
+                switch (operate) {
+                case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+                {
+                    break;
+                }
+                case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+                {
+                    break;
+                }
+                case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+                {
+                    break;
+                }
+                case winrt::Windows::Foundation::Collections::CollectionChange::Reset:
+                    self.player_.Play();
+                    co_await ui_thread;
+                    self.TogglePlayButton();
+                }
+                });
 #endif
         }
             // prepare libraries
@@ -62,9 +84,7 @@ namespace winrt::Player::implementation
                     libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
                     // add event to update menu list ui
                     libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
-#pragma warning(disable: 26810)
                         co_await ui_thread;
-#pragma warning(default: 26810)
                         auto operate{ args.CollectionChange() };
                         auto index{ args.Index() };
                         auto menulist{ self.MainLibraryList().MenuItems() };

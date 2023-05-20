@@ -74,6 +74,7 @@
             <ListView
                 Name="MusicViewList"
                 Grid.Row="1"
+                IsItemClickEnabled="False"
                 ItemsSource="{x:Bind MusicList}"
                 SelectionMode="Single">
                 <ListView.ItemTemplate>

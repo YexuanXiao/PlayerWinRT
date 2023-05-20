@@ -1,5 +1,6 @@
 import "Data.idl";
 import "InfoViewModel.idl";
+import "RootPage.idl";
 namespace Player
 {
     [default_interface]
