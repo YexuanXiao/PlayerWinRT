@@ -101,7 +101,7 @@
                 <NavigationViewItem
                     Name="MainLibraryList"
                     x:Uid="Librarys"
-                    IsExpanded="True">
+                    IsExpanded="{x:Bind MainNavigation.IsPaneOpen, Mode=OneWay}">
                     <NavigationViewItem.Icon>
                         <SymbolIcon Symbol="Library" />
                     </NavigationViewItem.Icon>

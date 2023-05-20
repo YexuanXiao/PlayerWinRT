@@ -294,10 +294,6 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>File Path</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Personal.Text" xml:space="preserve">
-    <value>Personal</value>
-    <comment>Settings Page</comment>
-  </data>
   <data name="Play.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Play</value>
     <comment>RootPage Player</comment>
@@ -373,6 +369,10 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
   <data name="Up.Text" xml:space="preserve">
     <value>Up</value>
     <comment>RootPage List Button</comment>
+  </data>
+  <data name="UserInterface.Text" xml:space="preserve">
+    <value>User Interface</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Version.Text" xml:space="preserve">
     <value>Version</value>

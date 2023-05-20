@@ -253,6 +253,7 @@ namespace winrt::Player::implementation
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
             item.Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
+                
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
@@ -263,6 +264,7 @@ namespace winrt::Player::implementation
                 current.Visibility(Visibility::Visible);
                 current.Tag(tag);
                 current.IsSelected(true);
+                self.MainLibraryList().IsExpanded(self.MainNavigation().IsPaneOpen());
                 self.NavigateToDefaultPage();
                 args.Handled(true);
                 });
@@ -280,7 +282,7 @@ namespace winrt::Player::implementation
                     auto editIcon{ FontIcon{} };
                     auto removeIcon{ FontIcon{} };
 
-                    // todo: add true functional
+                    // todo: add actual functionality
                     upIcon.Glyph(L"\uE70E");
                     downIcon.Glyph(L"\uE70D");
                     editIcon.Glyph(L"\uE70F");
@@ -324,7 +326,7 @@ namespace winrt::Player::implementation
     void RootPage::NavigateToDefaultPage() {
         RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
     }
-    void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const& args)
+    void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
     {
         RootFrame().GoBack();
     }

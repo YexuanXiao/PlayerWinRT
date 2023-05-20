@@ -46,7 +46,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock x:Uid="Personal" Style="{StaticResource SubtitleText}" />
+                <TextBlock x:Uid="UserInterface" Style="{StaticResource SubtitleText}" />
                 <Expander Grid.Row="1" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <Grid>
@@ -102,12 +102,63 @@
                             <TextBlock x:Uid="Color" VerticalAlignment="Center" />
                         </StackPanel>
                     </Expander.Header>
-                    <RadioButtons Margin="40,0,40,0" MaxColumns="1">
+                    <RadioButtons
+                        Margin="40,0,40,0"
+                        IsEnabled="False"
+                        MaxColumns="1">
                         <RadioButton x:Uid="Hot" Tag="hot" />
                         <RadioButton x:Uid="Default" Tag="default" />
                     </RadioButtons>
                 </Expander>
-                <Expander Grid.Row="4" Style="{StaticResource ItemExpander}">
+                <TextBlock
+                    Grid.Row="4"
+                    Style="{StaticResource SubtitleText}"
+                    Text="Behavior" />
+                <Expander Grid.Row="5" Style="{StaticResource ItemExpander}">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon Margin="0,23,16,23" Glyph="&#xF2B7;" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="Default Page" />
+                            <DropDownButton
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                IsEnabled="False">
+                                <TextBlock Text="Choose default page" />
+                                <DropDownButton.Flyout>
+                                    <MenuFlyout x:Name="DefaultPage" Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem Text="Songs" />
+                                        <MenuFlyoutItem Text="Folder" />
+                                        <MenuFlyoutItem Text="Album" />
+                                        <MenuFlyoutItem Text="Artist" />
+                                        <MenuFlyoutItem Text="Genre" />
+                                    </MenuFlyout>
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
+                        </Grid>
+                    </Expander.Header>
+                    <Grid Margin="40,0,40,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="Choose the page to enter when change the library."
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </Expander>
+                <TextBlock
+                    Grid.Row="8"
+                    Style="{StaticResource SubtitleText}"
+                    Text="Application" />
+                <Expander Grid.Row="9" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>

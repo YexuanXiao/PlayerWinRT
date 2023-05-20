@@ -10,6 +10,7 @@ namespace Player
         Windows.Media.Playback.MediaPlayer Player{ get; };
         Windows.Media.Playback.MediaPlaybackList List{ get; };
         Microsoft.UI.Xaml.Controls.Frame RootFrame{get; };
+        Microsoft.UI.Xaml.Controls.NavigationView MainNavigation{ get; };
         Microsoft.UI.Xaml.Controls.Grid AppTitleBar{get; };
         PlayerViewModel PlayerMainViewModel{ get; };
         static Windows.Foundation.Collections.IObservableVector<Data.Library> Libraries{get; };

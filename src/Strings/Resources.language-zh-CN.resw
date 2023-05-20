@@ -294,10 +294,6 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>文件路径</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Personal.Text" xml:space="preserve">
-    <value>个性化</value>
-    <comment>Settings Page</comment>
-  </data>
   <data name="Play.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>播放</value>
     <comment>RootPage Player</comment>
@@ -373,6 +369,10 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
   <data name="Up.Text" xml:space="preserve">
     <value>向上</value>
     <comment>RootPage List Button</comment>
+  </data>
+  <data name="UserInterface.Text" xml:space="preserve">
+    <value>用户界面</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Version.Text" xml:space="preserve">
     <value>版本</value>
