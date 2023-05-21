@@ -43,7 +43,7 @@ namespace winrt::Player::implementation
             }
             });
 
-        MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.MusicViewList().SelectedIndex() };
             co_await winrt::resume_background();

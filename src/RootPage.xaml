@@ -106,7 +106,7 @@
                         <SymbolIcon Symbol="Library" />
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem x:Uid="AddLibrary" Tag="add">
+                        <NavigationViewItem x:Uid="AddLibrary" Tapped="Add_Tapped">
                             <NavigationViewItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
                             </NavigationViewItem.Icon>
@@ -119,7 +119,10 @@
                     x:Uid="PlayList"
                     Icon="MusicInfo" />
                 <NavigationViewItem x:Uid="Songs" Icon="Audio" />
-                <NavigationViewItem x:Uid="Folders">
+                <NavigationViewItem
+                    Name="Folders"
+                    x:Uid="Folders"
+                    Tapped="Folders_Tapped">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
@@ -142,12 +145,12 @@
                 <NavigationViewItemSeparator />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem x:Uid="About" Tag="about">
+                <NavigationViewItem x:Uid="About" Tapped="About_Tapped">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Equalizer" Tag="equalizer">
+                <NavigationViewItem x:Uid="Equalizer" Tapped="Equalizer_Tapped">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9E9;" />
                     </NavigationViewItem.Icon>

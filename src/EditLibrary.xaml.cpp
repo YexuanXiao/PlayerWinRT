@@ -33,8 +33,9 @@ namespace winrt::Player::implementation
         Address().Text(address);
         Icon().Glyph(icon);
     }
-    void EditLibrary::ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    void EditLibrary::ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         auto tag{ sender.try_as<MenuFlyoutItem>().Tag().try_as<hstring>() };
 
         if (tag == L"local") [[likely]] {
@@ -63,8 +64,9 @@ namespace winrt::Player::implementation
             SelectButton().Visibility(Visibility::Collapsed);
         }
     }
-    IAsyncAction EditLibrary::SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    IAsyncAction EditLibrary::SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         auto picker{ FolderPicker{} };
         picker.ViewMode(PickerViewMode::List);
         picker.SuggestedStartLocation(PickerLocationId::ComputerFolder);

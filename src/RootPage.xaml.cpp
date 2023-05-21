@@ -16,7 +16,7 @@ using namespace Windows::Foundation;
 
 namespace winrt::Player::implementation
 {
-    RootPage::RootPage() : session_(player_.PlaybackSession()), commander_(player_.CommandManager())
+    RootPage::RootPage()
     {
         InitializeComponent();
 
@@ -25,104 +25,105 @@ namespace winrt::Player::implementation
             RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
             }
-            // prepare list
-        {
-            list_.MaxPlayedItemsToKeepOpen(3);
-            // set player state
-            player_.Source(list_);
-            player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
-#ifdef _DEBUG
-            // player_.Source(Windows::Media::Core::MediaSource::CreateFromUri(Uri{ L"ms-appx:///Assets/24 - 英雄のタクト.flac" }));
-            music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
-                auto operate{ args.CollectionChange() };
-                auto index{ args.Index() };
-                switch (operate) {
-                case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
-                {
-                    break;
-                }
-                case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
-                {
-                    break;
-                }
-                case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
-                {
-                    break;
-                }
-                case winrt::Windows::Foundation::Collections::CollectionChange::Reset:
-                    self.player_.Play();
-                    co_await ui_thread;
-                    self.PlayButtonOn();
-                }
-                });
-#endif
+            // set player
+        list_.MaxPlayedItemsToKeepOpen(3);
+        player_.Source(list_);
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+
+        InitializeLibraries();
+        InitializeRegistEvent();
+    }
+    void RootPage::InitializeLibraries() {
+        // this function can be called once at any position in the constructor
+        auto libraries{ SettingsHelper::GetLibraries() };
+
+        // make container and data
+        auto container{ std::vector<winrt::Data::Library>{} };
+        container.reserve(libraries.Size());
+
+        for (auto const& library : libraries) {
+            auto info{ library.GetObjectW() };
+            container.emplace_back(info.GetNamedString(L"Name"), info.GetNamedString(L"Protocol"), info.GetNamedString(L"Path"), info.GetNamedString(L"Icon"));
         }
-            // prepare libraries
-            {
-                auto libraries{ SettingsHelper::GetLibraries() };
-
-                // make container and data
-                auto container{ std::vector<winrt::Data::Library>{} };
-                container.reserve(libraries.Size());
-
-                for (auto const& library : libraries) {
-                    auto info{ library.GetObjectW() };
-                    container.emplace_back(info.GetNamedString(L"Name"), info.GetNamedString(L"Protocol"), info.GetNamedString(L"Path"), info.GetNamedString(L"Icon"));
-                }
-                {
-                    // prepare ui elements
-                    auto menulist{ MainLibraryList().MenuItems() };
-                    auto itemadd{ *menulist.begin() };
-                    menulist.Clear();
-                    for (auto const& library : container) {
-                        menulist.Append(RootPage::MakeNavItem(library));
-                    }
-                    menulist.Append(itemadd);
-                }
-                {
-                    // move container to observer vector
-                    libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
-                    // add event to update menu list ui
-                    libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
-                        co_await ui_thread;
-                        auto operate{ args.CollectionChange() };
-                        auto index{ args.Index() };
-                        auto menulist{ self.MainLibraryList().MenuItems() };
-                        switch (operate) {
-                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
-                        {
-                            menulist.RemoveAt(index);
-                            break;
-                        }
-                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
-                        {
-                            menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
-                            break;
-                        }
-                        case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
-                        {
-                            menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
-                            break;
-                        }
-                        }
-                        });
-                }
+        {
+            // prepare and update ui elements
+            auto menulist{ MainLibraryList().MenuItems() };
+            auto itemadd{ *menulist.begin() };
+            menulist.Clear();
+            for (auto const& library : container) {
+                menulist.Append(RootPage::MakeNavItem(library));
             }
+            menulist.Append(itemadd);
+        }
+
+        libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
+        // update libraries ui
+        libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+            co_await ui_thread;
+            auto operate{ args.CollectionChange() };
+            auto index{ args.Index() };
+            auto menulist{ self.MainLibraryList().MenuItems() };
+            switch (operate) {
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+            {
+                menulist.RemoveAt(index);
+                break;
+            }
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+            {
+                menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
+                break;
+            }
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+            {
+                menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
+                break;
+            }
+            }
+            });
     }
     void RootPage::InitializeRegistEvent() {
-        list_.CurrentItemChanged([&self = *this](Windows::Media::Playback::MediaPlaybackList const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) {
-            self.PlayButtonOn();
-            });
+        // this function can be called once at any position in the constructor
+        // volume change
         playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const&) {
-            // volume change
             self.player_.Volume(self.playerViewModel_.Volume() / 100.);
             });
-        // regist play and pause event
-        commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
+        // when switch to new music, make button ui on
+        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> IAsyncAction {
+            co_await ui_thread;
             self.PlayButtonOn();
             });
-        commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
+        // regist play and pause event to update button ui
+        commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> IAsyncAction {
+            co_await ui_thread;
+            self.PlayButtonOn();
+            });
+        commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> IAsyncAction {
+            co_await ui_thread;
             self.PlayButtonOff();
+            });
+        // listen to music list change
+        music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+            auto operate{ args.CollectionChange() };
+            auto index{ args.Index() };
+            switch (operate) {
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+            {
+                break;
+            }
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+            {
+                break;
+            }
+            case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+            {
+                break;
+            }
+            case winrt::Windows::Foundation::Collections::CollectionChange::Reset:
+                self.player_.Play();
+                co_await ui_thread;
+                self.PlayButtonOn();
+            }
             });
     }
     hstring RootPage::AppTitleText() {
@@ -154,56 +155,14 @@ namespace winrt::Player::implementation
         }
         fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
     }
-    IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
+    void RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
             RootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
-        else [[likely]] {
-            auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-            auto tagName{ winrt::unbox_value_or<winrt::hstring>(
-                args.InvokedItemContainer().Tag(), winrt::hstring{}) };
-            auto theme{ ActualTheme() };
-            if (tagName == L"about") {
-                auto dialog{ ContentDialog{} };
-                dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(resourceLoader.GetString(L"About/Content")));
-                dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
-                dialog.DefaultButton(ContentDialogButton::Close);
-                auto page{ Player::About{} };
-                dialog.Content(page);
-                dialog.RequestedTheme(theme);
-                static_cast<void>(co_await dialog.ShowAsync());
-            }
-            else if (tagName == L"add") {
-                auto dialog{ ContentDialog{} };
-                dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(resourceLoader.GetString(L"AddLibrary/Content")));
-                dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
-                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
-                dialog.DefaultButton(ContentDialogButton::Close);
-                auto page{ Player::EditLibrary{} };
-                dialog.Content(page);
-                dialog.RequestedTheme(theme);
-                auto result{ co_await dialog.ShowAsync() };
-                // use return value
-            }
-            else if (tagName == L"equalizer") {
-                auto dialog{ ContentDialog{} };
-                dialog.XamlRoot(XamlRoot());
-                dialog.Title(winrt::box_value(resourceLoader.GetString(L"Equalizer/Content")));
-                dialog.PrimaryButtonText(resourceLoader.GetString(L"Save"));
-                dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
-                dialog.DefaultButton(ContentDialogButton::Close);
-                auto page{ Player::Equalizer{} };
-                dialog.Content(page);
-                dialog.RequestedTheme(theme);
-                auto result{ co_await dialog.ShowAsync() };
-                // use return value
-            }
-            }
     }
-    IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         auto dialog{ ContentDialog{} };
         auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
         dialog.XamlRoot(XamlRoot());
@@ -215,8 +174,9 @@ namespace winrt::Player::implementation
         dialog.RequestedTheme(ActualTheme());
         static_cast<void>(co_await dialog.ShowAsync());
     }
-    void RootPage::Repeat_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    void RootPage::Repeat_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uF5E7") {
@@ -231,8 +191,9 @@ namespace winrt::Player::implementation
         fontIcon.Glyph(icon);
     }
 
-    void RootPage::Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    void RootPage::Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uE8B1") {
@@ -265,7 +226,7 @@ namespace winrt::Player::implementation
             auto tag{ winrt::box_value(library) };
             item.Tag(tag);
             item.Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args) {
-
+                args.Handled(true);
                 auto item{ sender.try_as<NavigationViewItem>() };
                 auto tag{ item.Tag() };
                 auto info{ winrt::unbox_value<winrt::Data::Library>(tag) };
@@ -275,10 +236,8 @@ namespace winrt::Player::implementation
                 current.Icon().try_as<FontIcon>().Glyph(info.icon);
                 current.Visibility(Visibility::Visible);
                 current.Tag(tag);
-                current.IsSelected(true);
-                self.MainLibraryList().IsExpanded(self.MainNavigation().IsPaneOpen());
+                self.MainLibraryList().IsExpanded(false);
                 self.NavigateToDefaultPage();
-                args.Handled(true);
                 });
             // menu
             {
@@ -336,6 +295,7 @@ namespace winrt::Player::implementation
         NavigateToDefaultPage();
     }
     void RootPage::NavigateToDefaultPage() {
+        Folders().IsSelected(true);
         RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
     }
     void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
@@ -353,9 +313,9 @@ namespace winrt::Player::implementation
     {
         SettingsHelper::SetVolume(playerViewModel_.Volume());
     }
-
-    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        args.Handled(true);
         if (session_.CanPause()) {
             PlayButtonOff();
             player_.Pause();
@@ -364,5 +324,58 @@ namespace winrt::Player::implementation
             PlayButtonOn();
             player_.Play();
         }
+    }
+    Windows::Foundation::IAsyncAction RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    {
+        args.Handled(true);
+        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+        auto dialog{ ContentDialog{} };
+        dialog.XamlRoot(XamlRoot());
+        dialog.Title(winrt::box_value(resourceLoader.GetString(L"AddLibrary/Content")));
+        dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
+        dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
+        dialog.DefaultButton(ContentDialogButton::Close);
+        auto page{ Player::EditLibrary{} };
+        dialog.Content(page);
+        dialog.RequestedTheme(ActualTheme());
+        auto result{ co_await dialog.ShowAsync() };
+        // use return value
+    }
+    Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    {
+        args.Handled(true);
+        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+        auto dialog{ ContentDialog{} };
+        dialog.XamlRoot(XamlRoot());
+        dialog.Title(winrt::box_value(resourceLoader.GetString(L"About/Content")));
+        dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
+        dialog.DefaultButton(ContentDialogButton::Close);
+        auto page{ Player::About{} };
+        dialog.Content(page);
+        dialog.RequestedTheme(ActualTheme());
+        static_cast<void>(co_await dialog.ShowAsync());
+    }
+
+
+    Windows::Foundation::IAsyncAction RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    {
+        args.Handled(true);
+        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+        auto dialog{ ContentDialog{} };
+        dialog.XamlRoot(XamlRoot());
+        dialog.Title(winrt::box_value(resourceLoader.GetString(L"Equalizer/Content")));
+        dialog.PrimaryButtonText(resourceLoader.GetString(L"Save"));
+        dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
+        dialog.DefaultButton(ContentDialogButton::Close);
+        auto page{ Player::Equalizer{} };
+        dialog.Content(page);
+        dialog.RequestedTheme(ActualTheme());
+        auto result{ co_await dialog.ShowAsync() };
+        // use return value
+    }
+
+    void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
     }
 }

@@ -97,8 +97,9 @@ namespace winrt::Player::implementation
 			return { L"Unknown Language" };
 		}
 	}
-	winrt::Windows::Foundation::IAsyncAction Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+	winrt::Windows::Foundation::IAsyncAction Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
 	{
+		args.Handled(true);
 		auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 		auto theme{ ActualTheme() };
 		auto dialog{ ContentDialog{} };

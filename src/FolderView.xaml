@@ -79,7 +79,7 @@
                 SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:InfoViewModel">
-                        <Grid Margin="0,8,0,8">
+                        <Grid Margin="0,8,0,8" Tag="{x:Bind}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

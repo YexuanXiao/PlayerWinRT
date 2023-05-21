@@ -11,8 +11,9 @@ namespace winrt::Player::implementation
         EditLibrary(winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
         void ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         Windows::Foundation::IAsyncAction SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
-        void Icon_Select(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         winrt::Data::Library GetResult();
+    private:
+        void Icon_Select(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
     };
 }
 
