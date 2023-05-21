@@ -46,6 +46,7 @@ namespace winrt::Player::implementation
         MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.MusicViewList().SelectedIndex() };
+            co_await winrt::resume_background();
             if (index == -1) co_return; // workaround beacuse one click trigged event twice
             auto musicContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
             auto music_view{ self.music_view_.GetView() };

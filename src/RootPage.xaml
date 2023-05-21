@@ -262,7 +262,8 @@
                     Background="Transparent"
                     BorderBrush="{StaticResource AccentFillColorDefaultBrush}"
                     CornerRadius="1000"
-                    Style="{StaticResource PlayButtonLarge}">
+                    Style="{StaticResource PlayButtonLarge}"
+                    Tapped="PlayButton_Tapped">
                     <FontIcon
                         Name="PlayIcon"
                         Margin="2,0,0,0"
@@ -307,12 +308,12 @@
                                     IsThumbToolTipEnabled="False"
                                     LostFocus="Volume_LostFocus"
                                     StepFrequency="1"
-                                    Value="{x:Bind PlayerViewModel.Volume, Mode=TwoWay}" />
+                                    Value="{x:Bind local:RootPage.PlayerViewModel.Volume, Mode=TwoWay}" />
                                 <TextBlock
                                     Grid.Column="2"
                                     Width="30"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind local:PlayerViewModel.DoubleToString(PlayerViewModel.Volume), Mode=OneWay}" />
+                                    Text="{x:Bind local:PlayerViewModel.DoubleToString(local:RootPage.PlayerViewModel.Volume), Mode=OneWay}" />
                             </Grid>
                         </Flyout>
                     </Button.Flyout>

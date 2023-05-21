@@ -6,6 +6,7 @@ namespace Player
     {
         PlayerViewModel();
         Double Volume;
+        UInt32 Index;
         static String DoubleToString(Double volume);
     }
 }

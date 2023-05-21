@@ -13,6 +13,15 @@ namespace winrt::Player::implementation
     {
         return volume_;
     }
+    uint32_t PlayerViewModel::Index() {
+        return index_;
+    }
+    void PlayerViewModel::Index(uint32_t value) {
+        if (value != index_) {
+            index_ = value;
+            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Index" });
+        }
+    }
     void PlayerViewModel::Volume(double value)
     {
         if (value != volume_) {

@@ -52,7 +52,7 @@ namespace winrt::Player::implementation
                 case winrt::Windows::Foundation::Collections::CollectionChange::Reset:
                     self.player_.Play();
                     co_await ui_thread;
-                    self.TogglePlayButton();
+                    self.PlayButtonOn();
                 }
                 });
 #endif
@@ -108,25 +108,22 @@ namespace winrt::Player::implementation
                         });
                 }
             }
-            // regist volume change
-            playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const& args) {
-                if (args.PropertyName() == L"Volume")
-                    self.player_.Volume(self.playerViewModel_.Volume() / 100.);
-                });
-            // regist play and pause event
-            commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
-                self.TogglePlayButton();
-                });
-            commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
-                self.TogglePlayButton();
-                });
-            PlayButton().Tapped([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&) {
-                if (self.TogglePlayButton())
-                    // if is paused
-                    self.player_.Play();
-                else if (self.session_.CanPause())
-                    self.player_.Pause();
-                });
+    }
+    void RootPage::InitializeRegistEvent() {
+        list_.CurrentItemChanged([&self = *this](Windows::Media::Playback::MediaPlaybackList const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) {
+            self.PlayButtonOn();
+            });
+        playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const&) {
+            // volume change
+            self.player_.Volume(self.playerViewModel_.Volume() / 100.);
+            });
+        // regist play and pause event
+        commander_.PlayReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) {
+            self.PlayButtonOn();
+            });
+        commander_.PauseReceived([&self = *this](Windows::Media::Playback::MediaPlaybackCommandManager const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) {
+            self.PlayButtonOff();
+            });
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
@@ -135,34 +132,27 @@ namespace winrt::Player::implementation
         return title_;
 #endif
     }
-    // return true if is paused, ready to play
-    bool RootPage::TogglePlayButton() {
+    void RootPage::PlayButtonOn() {
         auto fontIcon{ PlayButton().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
-        {
-            // cacl data
-            if (icon == L"\uE768") {
-                fontIcon.Glyph(L"\uE769");
-                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
-                return true;
-            }
-            else if (icon == L"\uE769") {
-                fontIcon.Glyph(L"\uE768");
-                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
-                return false;
-            }
-            else if (icon == L"\uF5B0") {
-                fontIcon.Glyph(L"\uF8AE");
-                fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
-                return true;
-            }
-            else {
-                // if (icon == L"\uF8AE")
-                fontIcon.Glyph(L"\uF5B0");
-                fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
-                return false;
-            }
+        if (icon == L"\uE768") {
+            fontIcon.Glyph(L"\uE769");
         }
+        else if (icon == L"\uF5B0") {
+            fontIcon.Glyph(L"\uF8AE");
+        }
+        fontIcon.Margin(ThicknessHelper::FromUniformLength(0));
+    }
+    void RootPage::PlayButtonOff() {
+        auto fontIcon{ PlayButton().Content().try_as<FontIcon>() };
+        auto icon{ fontIcon.Glyph() };
+        if (icon == L"\uE769") {
+            fontIcon.Glyph(L"\uE768");
+        }
+        else if (icon == L"\uF8AE") {
+            fontIcon.Glyph(L"\uF5B0");
+        }
+        fontIcon.Margin(ThicknessHelper::FromLengths(2, 0, 0, 0));
     }
     IAsyncAction RootPage::Navigation_ItemInvoked(NavigationView const&, NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {
@@ -219,6 +209,7 @@ namespace winrt::Player::implementation
         dialog.XamlRoot(XamlRoot());
         dialog.Title(winrt::box_value(resourceLoader.GetString(L"MusicInfo/Text")));
         dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
+        dialog.DefaultButton(ContentDialogButton::Close);
         auto page{ Player::MusicInfo{} };
         dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
@@ -361,5 +352,17 @@ namespace winrt::Player::implementation
     void RootPage::Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
     {
         SettingsHelper::SetVolume(playerViewModel_.Volume());
+    }
+
+    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        if (session_.CanPause()) {
+            PlayButtonOff();
+            player_.Pause();
+        }
+        else {
+            PlayButtonOn();
+            player_.Play();
+        }
     }
 }
