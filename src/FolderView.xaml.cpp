@@ -22,6 +22,7 @@ namespace winrt::Player::implementation
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.FolderViewList().SelectedIndex() };
             if (index == -1) return; // workaround beacuse one click trigged event twice
+            self.FolderViewList().SelectedIndex(-1); //workaround becaues winrt think same string is same object, so if return back, it does't change the selectindex 
             auto path{ self.folders_view_.GetAt(index) };
             if (path == L".\u2005.\u2005.\u2005") [[unlikely]] {
                 // back to previous level
@@ -46,8 +47,8 @@ namespace winrt::Player::implementation
         MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.MusicViewList().SelectedIndex() };
-            co_await winrt::resume_background();
             if (index == -1) co_return; // workaround beacuse one click trigged event twice
+            co_await winrt::resume_background();
             auto musicContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
             auto music_view{ self.music_view_.GetView() };
             musicContainer.reserve(music_view.Size());
@@ -160,20 +161,25 @@ namespace winrt::Player::implementation
                         self.path_stack_.clear();
                         self.folders_stack_.clear();
                         self.BuildRoot();
-                        return;
-                    }
-                    auto count{ 0uz };
-                    for (auto const& name : std::views::reverse(self.path_stack_)) [[likely]] {
-                        if (name != current) [[likely]] {
-                            ++count;
                         }
-                        else {
+                    else {
+                        auto count{ 0uz };
+                        for (auto const& name : std::views::reverse(self.path_stack_)) [[likely]] {
+                            if (name != current) [[likely]]
+                                ++count;
+                            else
+                                break;
+                            }
+                        self.path_stack_.resize(count);
+                        self.folders_stack_.resize(count);
+                        self.Rebuild();
+                    }
+                    for (auto const& name : self.folders_view_.GetView()) {
+                        if (name == current) {
+                            self.FolderViewList().ScrollIntoView(winrt::box_value(name));
                             break;
                         }
                     }
-                    self.path_stack_.resize(count);
-                    self.folders_stack_.resize(count);
-                    self.Rebuild();
                     }
             };
             auto root{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
