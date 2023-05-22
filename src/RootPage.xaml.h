@@ -10,17 +10,22 @@ namespace winrt::Player::implementation
         // rumtime properties
         winrt::hstring AppTitleText();
         Windows::Media::Playback::MediaPlayer Player();
+        static winrt::Data::Library Library();
+        static void Library(winrt::Data::Library const&);
         static winrt::Player::PlayerViewModel PlayerViewModel();
         static Windows::Media::Playback::MediaPlaybackList List();
+        static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> InfoList();
         static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
         static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> Music();
         // events
         void Page_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         void Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
+        void Next_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Repeat_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Current_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        void Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
 
         Windows::Foundation::IAsyncAction Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
@@ -45,10 +50,12 @@ namespace winrt::Player::implementation
         Windows::Media::Playback::MediaPlayer player_{};
         winrt::Windows::Media::Playback::MediaPlaybackSession session_{ player_.PlaybackSession() };
         winrt::Windows::Media::Playback::MediaPlaybackCommandManager commander_{ player_.CommandManager() };
+        inline static winrt::Data::Library library_;
         inline static winrt::Player::PlayerViewModel playerViewModel_;
         inline static Windows::Media::Playback::MediaPlaybackList list_{};
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{ nullptr };
         inline static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{list_.Items()};
+        inline static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> info_list_{ winrt::single_threaded_vector<winrt::Data::MusicInfo>() };
     };
 }
 

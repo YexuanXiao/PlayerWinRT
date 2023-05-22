@@ -25,7 +25,7 @@ namespace winrt::Player::implementation
         std::vector<winrt::hstring> path_stack_;
         std::vector<winrt::Data::MusicInfo> library_;
         std::vector<std::vector<std::reference_wrapper<const winrt::Data::MusicInfo>>> folders_stack_;
-        
+
         void Build();
         void Rebuild();
         void BuildRoot();

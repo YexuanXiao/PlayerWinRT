@@ -11,9 +11,11 @@ namespace Player
         Microsoft.UI.Xaml.Controls.Frame RootFrame{get; };
         Microsoft.UI.Xaml.Controls.NavigationView MainNavigation{ get; };
         Microsoft.UI.Xaml.Controls.Grid AppTitleBar{get; };
+        static Data.Library Library{ get; set; };
         static PlayerViewModel PlayerViewModel{ get; };
         static Windows.Media.Playback.MediaPlaybackList List{ get; };
+        static Windows.Foundation.Collections.IVector<Data.MusicInfo> InfoList{ get; };
         static Windows.Foundation.Collections.IObservableVector<Data.Library> Libraries{get; };
-        static Windows.Foundation.Collections.IObservableVector<Windows.Media.Playback.MediaPlaybackItem> Music{get; };
+        static Windows.Foundation.Collections.IObservableVector<Windows.Media.Playback.MediaPlaybackItem> Music{ get; };
     }
 }

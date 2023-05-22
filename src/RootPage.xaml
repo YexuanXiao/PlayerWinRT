@@ -219,6 +219,7 @@
                         BorderThickness="1"
                         CornerRadius="2">
                         <Image
+                            Name="PlayerPicture"
                             Width="70"
                             Height="70"
                             Source="/Assets/StoreLogo.scale-400.png" />
@@ -254,7 +255,10 @@
                     Tapped="Shuffle_Tapped">
                     <FontIcon FontSize="16" Glyph="&#xE8B1;" />
                 </Button>
-                <Button x:Uid="Previous" Style="{StaticResource PlayerEllipsis}">
+                <Button
+                    x:Uid="Previous"
+                    Style="{StaticResource PlayerEllipsis}"
+                    Tapped="Previous_Tapped">
                     <FontIcon FontSize="16" Glyph="&#xE892;" />
                 </Button>
                 <Button
@@ -274,7 +278,10 @@
                         FontSize="23"
                         Glyph="&#xE768;" />
                 </Button>
-                <Button x:Uid="Next" Style="{StaticResource PlayerEllipsis}">
+                <Button
+                    x:Uid="Next"
+                    Style="{StaticResource PlayerEllipsis}"
+                    Tapped="Next_Tapped">
                     <FontIcon FontSize="16" Glyph="&#xE893;" />
                 </Button>
                 <Button

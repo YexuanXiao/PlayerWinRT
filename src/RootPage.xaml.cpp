@@ -89,8 +89,13 @@ namespace winrt::Player::implementation
             self.player_.Volume(self.playerViewModel_.Volume() / 100.);
             });
         // when switch to new music, make button ui on
-        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> IAsyncAction {
+        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> IAsyncAction {
             co_await ui_thread;
+            //auto prop{ args.NewItem().GetDisplayProperties() };
+            //auto thumb{ prop.Thumbnail() };
+            //auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
+            //image.SetSource(co_await thumb.OpenReadAsync());
+            //self.PlayerPicture().Source(image);
             self.PlayButtonOn();
             });
         // regist play and pause event to update button ui
@@ -313,10 +318,10 @@ namespace winrt::Player::implementation
     {
         SettingsHelper::SetVolume(playerViewModel_.Volume());
     }
-    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        if (session_.CanPause()) {
+        if (session_.PlaybackState() != winrt::Windows::Media::Playback::MediaPlaybackState::Paused && session_.CanPause()) {
             PlayButtonOff();
             player_.Pause();
         }
@@ -377,5 +382,33 @@ namespace winrt::Player::implementation
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>());
+    }
+
+    void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        auto size{ music_.Size() };
+        if (size == 0u) return;
+        if (list_.CurrentItemIndex() != 0u)
+            list_.MovePrevious();
+        else
+            list_.MoveTo(size);
+    }
+    void RootPage::Next_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        auto size{ music_.Size() };
+        if (size == 0) return;
+        if (list_.CurrentItemIndex() != size)
+            list_.MoveNext();
+        else
+            list_.MoveTo(0u);
+    }
+    winrt::Data::Library RootPage::Library() {
+        return library_;
+    }
+    void RootPage::Library(const winrt::Data::Library& value) {
+        library_ = value;
+    }
+    winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> RootPage::InfoList() {
+        return info_list_;
     }
 }

@@ -20,6 +20,7 @@
 #include <winrt/Windows.Media.PlayBack.h>
 #include <winrt/Windows.Storage.FileProperties.h>
 #include <winrt/Windows.Storage.Search.h>
+#include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.UI.Core.h>
 
 #include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
@@ -39,6 +40,7 @@
 #include <winrt/Microsoft.UI.Xaml.Navigation.h>
 #include <winrt/Microsoft.UI.Xaml.Shapes.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
 
 #include <pplawait.h>
 

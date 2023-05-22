@@ -45,22 +45,30 @@ namespace winrt::Player::implementation
             });
 
         MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
-            // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.MusicViewList().SelectedIndex() };
-            if (index == -1) co_return; // workaround beacuse one click trigged event twice
+            if (index == -1) co_return;
+            auto size{ self.music_view_.Size()};
             co_await winrt::resume_background();
-            auto musicContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
-            auto music_view{ self.music_view_.GetView() };
-            musicContainer.reserve(music_view.Size());
-            for (auto const& info : music_view) {
-                musicContainer.emplace_back(
+            auto itemContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
+            itemContainer.reserve(size);
+            auto infoContainer{ std::vector<winrt::Data::MusicInfo>{} };
+            infoContainer.reserve(size);
+            for (auto const& i : self.music_view_.GetView()) {
+                auto info{ i.Get() };
+                itemContainer.emplace_back(
                    winrt::Windows::Media::Core::MediaSource::CreateFromStorageFile(
-                        co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_info_.address + info.Get().Path)
+                        co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_info_.address + info.Path)
                    )
                 );
+                infoContainer.emplace_back(info);
             }
-            RootPage::Music().ReplaceAll(musicContainer);
+            RootPage::Music().ReplaceAll(itemContainer);
+            RootPage::InfoList().ReplaceAll(infoContainer);
             RootPage::List().MoveTo(index);
+            RootPage::Library(::Data::Global::CurrentLibrary);
+            });
+        RootPage::List().CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(RootPage::List()) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+            co_return;
             });
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
