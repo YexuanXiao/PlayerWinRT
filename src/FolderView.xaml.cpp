@@ -43,8 +43,24 @@ namespace winrt::Player::implementation
                 self.Build();
             }
             });
-
+        /* This is a confusing workaround :
+        ListView only produces click events when using both of click mode
+        and single selection mode at the same time, and setting options programmatically is invalid,
+        but this does not mean that there is no selection effect
+        (different from setting the selection mode to None, which does not produce any selection effect),
+        so in clicked event handler, cancel the click mode, turn on the single selection mode,
+        and then call SelectedItem(item) to trigger the single selection change event.
+        This way can achieve both click events and single selection events,
+        making it possible to change the ListView UI programmatically without trigger single selection change event
+        (because ListView is almost always in click mode,
+        so changing selected item programmatically does not trigger single selection events)
+        */
+        MusicViewList().ItemClick([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) {
+            self.MusicViewList().SelectedItem(args.ClickedItem());
+            self.MusicViewList().IsItemClickEnabled(false);
+            });
         MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+            self.MusicViewList().IsItemClickEnabled(true);
             auto index{ self.MusicViewList().SelectedIndex() };
             if (index == -1) co_return;
             auto size{ self.music_view_.Size()};
@@ -67,8 +83,16 @@ namespace winrt::Player::implementation
             RootPage::List().MoveTo(index);
             RootPage::Library(::Data::Global::CurrentLibrary);
             });
-        RootPage::List().CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(RootPage::List()) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
-            co_return;
+        RootPage::List().CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(RootPage::List()) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+            if (sender.CurrentItem() == nullptr) co_return;
+            co_await ui_thread;
+            auto current{ RootPage::InfoList().GetAt(sender.CurrentItemIndex())};
+            for (const auto& info : self.music_view_.GetView()) {
+                if (current.Duration == info.Duration()) {
+                    self.MusicViewList().SelectedItem(info);
+                    break;
+                }
+            }
             });
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
