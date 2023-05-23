@@ -64,17 +64,17 @@ namespace winrt::Player::implementation
             auto index{ args.Index() };
             auto menulist{ self.MainLibraryList().MenuItems() };
             switch (operate) {
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+            case decltype(operate)::ItemRemoved:
             {
                 menulist.RemoveAt(index);
                 break;
             }
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+            case decltype(operate)::ItemChanged:
             {
                 menulist.SetAt(index, self.MakeNavItem(libraries_.GetAt(index)));
                 break;
             }
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+            case decltype(operate)::ItemInserted:
             {
                 menulist.InsertAt(index, self.MakeNavItem(libraries_.GetAt(index)));
                 break;
@@ -89,7 +89,14 @@ namespace winrt::Player::implementation
             self.player_.Volume(self.playerViewModel_.Volume() / 100.);
             });
         // when switch to new music, make button ui on
-        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> IAsyncAction {
+        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> IAsyncAction {
+            auto reason{ args.Reason() };
+            // repeat one
+            if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true) {
+                auto index{ list_.CurrentItemIndex() };
+                self.list_.MoveTo(index > 0u ? index - 1u : 0u);
+                co_return;
+            }
             auto item{ self.list_.CurrentItem() };
             if (item == nullptr) co_return;
             co_await winrt::resume_background();
@@ -108,7 +115,7 @@ namespace winrt::Player::implementation
                 musicprop.AlbumArtist(info.Albumartist);
                 musicprop.AlbumTitle(info.Album);
                 auto artist{ FolderView::DecisionArtist(info.Artist, info.Albumartist) };
-                musicprop.Artist();
+                musicprop.Artist(artist);
                 musicprop.Genres().Append(info.Genre);
                 musicprop.TrackNumber(info.Track);
                 item.ApplyDisplayProperties(prop);
@@ -138,19 +145,19 @@ namespace winrt::Player::implementation
             auto operate{ args.CollectionChange() };
             auto index{ args.Index() };
             switch (operate) {
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemRemoved:
+            case decltype(operate)::ItemRemoved:
             {
                 break;
             }
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemChanged:
+            case decltype(operate)::ItemChanged:
             {
                 break;
             }
-            case winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted:
+            case decltype(operate)::ItemInserted:
             {
                 break;
             }
-            case winrt::Windows::Foundation::Collections::CollectionChange::Reset:
+            case decltype(operate)::Reset:
                 self.player_.Play();
                 co_await ui_thread;
                 self.PlayButtonOn();
@@ -211,13 +218,21 @@ namespace winrt::Player::implementation
         auto fontIcon{ sender.try_as<Button>().Content().try_as<FontIcon>() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uF5E7") {
-            icon = L"\uE8ED";
-        }
-        else if (icon == L"\uE8ED") {
+            // repeat all
             icon = L"\uE8EE";
+            list_.ShuffleEnabled(false);
+            list_.AutoRepeatEnabled(true);
         }
         else if (icon == L"\uE8EE") {
+            // repeat one
+            repeat_one_ = true;
+            icon = L"\uE8ED";
+        }
+        else if (icon == L"\uE8EE") {
+            // no repeat
+            repeat_one_ = false;
             icon = L"\uF5E7";
+            list_.AutoRepeatEnabled(false);
         }
         fontIcon.Glyph(icon);
     }
@@ -416,6 +431,8 @@ namespace winrt::Player::implementation
             list_.MovePrevious();
         else
             list_.MoveTo(size);
+        if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused)
+            player_.Play();
     }
     void RootPage::Next_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
@@ -425,6 +442,8 @@ namespace winrt::Player::implementation
             list_.MoveNext();
         else
             list_.MoveTo(0u);
+        if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused)
+            player_.Play();
     }
     winrt::Data::Library RootPage::Library() {
         return library_;

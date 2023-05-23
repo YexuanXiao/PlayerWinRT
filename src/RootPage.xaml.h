@@ -36,6 +36,7 @@ namespace winrt::Player::implementation
         void Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&);
 
     private:
+        bool repeat_one_{ false };
         // UI helpers
         winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem MakeNavItem(const winrt::Data::Library&);
         void PlayButtonOn();

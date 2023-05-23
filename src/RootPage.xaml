@@ -231,7 +231,7 @@
                             VerticalAlignment="Center"
                             FontSize="19"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="英雄のタクト-起源-"
+                            Text="PlayerWinRT"
                             TextWrapping="NoWrap" />
                         <TextBlock
                             Name="PlayerArtist"
@@ -239,7 +239,7 @@
                             VerticalAlignment="Top"
                             FontSize="13"
                             Opacity="0.7"
-                            Text="末廣健一郎" />
+                            Text="Artist" />
                     </StackPanel>
                 </Grid>
             </Button>
