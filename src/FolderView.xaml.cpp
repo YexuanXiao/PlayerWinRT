@@ -31,7 +31,7 @@ namespace winrt::Player::implementation
                 if (self.path_stack_.empty()) [[unlikely]] {
                     // backed is root
                     self.BuildRoot();
-                }
+                    }
                 else {
                     // backed not root
                     self.Rebuild();
@@ -55,38 +55,46 @@ namespace winrt::Player::implementation
         (because ListView is almost always in click mode,
         so changing selected item programmatically does not trigger single selection events)
         */
-        MusicViewList().ItemClick([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) {
-            self.MusicViewList().SelectedItem(args.ClickedItem());
-            self.MusicViewList().IsItemClickEnabled(false);
-            });
-        MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
-            self.MusicViewList().IsItemClickEnabled(true);
-            auto index{ self.MusicViewList().SelectedIndex() };
-            if (index == -1) co_return;
-            auto size{ self.music_view_.Size()};
+        MusicViewList().ItemClick([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+            auto current{ args.ClickedItem().try_as<winrt::Player::InfoViewModel>().Get() };
+            auto viewlist{ self.MusicViewList() };
+            viewlist.SelectionMode(winrt::Microsoft::UI::Xaml::Controls::ListViewSelectionMode::Single);
+            viewlist.IsItemClickEnabled(false);
+            viewlist.SelectedItem(args.ClickedItem());
             co_await winrt::resume_background();
+            auto view{ self.music_view_.GetView() };
+
+            auto index{ -1ll };
+            for (auto begin{ view.begin() }, end{ view.end() }; begin != end; ++begin) {
+                if (current.Duration == (*begin).Duration()) {
+                    index = std::distance(view.begin(), begin);
+                    break;
+                }
+            }
+            if (index == -1ll) co_return;
+            auto size{ self.music_view_.Size() };
             auto itemContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
             itemContainer.reserve(size);
             auto infoContainer{ std::vector<winrt::Data::MusicInfo>{} };
             infoContainer.reserve(size);
             for (auto const& i : self.music_view_.GetView()) {
                 auto info{ i.Get() };
-                itemContainer.emplace_back(
-                   winrt::Windows::Media::Core::MediaSource::CreateFromStorageFile(
-                        co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_info_.address + info.Path)
-                   )
-                );
+                auto const& file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_info_.address + info.Path) };
+                itemContainer.emplace_back(winrt::Windows::Media::Core::MediaSource::CreateFromStorageFile(file));
                 infoContainer.emplace_back(info);
             }
-            RootPage::Music().ReplaceAll(itemContainer);
-            RootPage::InfoList().ReplaceAll(infoContainer);
-            RootPage::List().MoveTo(index);
             RootPage::Library(::Data::Global::CurrentLibrary);
+            RootPage::InfoList().ReplaceAll(infoContainer);
+            RootPage::Music().ReplaceAll(itemContainer);
+            RootPage::List().MoveTo(static_cast<uint32_t>(index));
+            });
+        MusicViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) {
+            self.MusicViewList().IsItemClickEnabled(true);
             });
         RootPage::List().CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(RootPage::List()) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             if (sender.CurrentItem() == nullptr) co_return;
             co_await ui_thread;
-            auto current{ RootPage::InfoList().GetAt(sender.CurrentItemIndex())};
+            auto current{ RootPage::InfoList().GetAt(sender.CurrentItemIndex()) };
             for (const auto& info : self.music_view_.GetView()) {
                 if (current.Duration == info.Duration()) {
                     self.MusicViewList().SelectedItem(info);
@@ -101,7 +109,7 @@ namespace winrt::Player::implementation
     }
     winrt::Windows::Foundation::IAsyncAction FolderView::Initialize() {
         // event trigged when frame backed and constructed
-        if (library_info_ != ::Data::Global::CurrentLibrary)[[unlikely]] {
+        if (library_info_ != ::Data::Global::CurrentLibrary) [[unlikely]] {
             library_info_ = ::Data::Global::CurrentLibrary;
             folders_stack_.clear();
             path_stack_.clear();
@@ -109,7 +117,7 @@ namespace winrt::Player::implementation
             music_view_.Clear();
             library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(library_info_.name)));
             BuildRoot();
-        }
+            }
     }
     winrt::Windows::Foundation::IAsyncAction FolderView::FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
     {
@@ -132,7 +140,7 @@ namespace winrt::Player::implementation
             auto end{ pathsv.find_last_of(L'.') };
             auto begin{ pathsv.find_last_of(L'\\') };
             return winrt::hstring{ pathsv.substr(begin + 1uz, end - 1uz) };
-        }
+            }
         return title;
     }
     const winrt::hstring& FolderView::DecisionArtist(winrt::hstring const& artist, winrt::hstring const& albumartist) {
@@ -156,7 +164,7 @@ namespace winrt::Player::implementation
             auto time{ 0ll };
             for (auto const& info : music) [[likely]] {
                 time += info.Duration();
-            }
+                }
             auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{time * 100}} };
             auto text{ std::wstring{} };
             text.reserve(20uz);
@@ -164,22 +172,22 @@ namespace winrt::Player::implementation
             if (hms.hours().count()) [[likely]] {
                 text += fast_io::wconcat(hms.hours().count());
                 text += L"h\u2005";
-            }
-            if (hms.minutes().count()) [[likely]] {
-                text += fast_io::wconcat(hms.minutes().count());
-                text += L"m\u2005";
-            }
-            if (hms.seconds().count()) [[likely]] {
-                text += fast_io::wconcat(hms.seconds().count());
-                text += L's';
-            }
-            DurationCount().Text(text);
+                }
+                if (hms.minutes().count()) [[likely]] {
+                    text += fast_io::wconcat(hms.minutes().count());
+                    text += L"m\u2005";
+                    }
+                    if (hms.seconds().count()) [[likely]] {
+                        text += fast_io::wconcat(hms.seconds().count());
+                        text += L's';
+                        }
+                    DurationCount().Text(text);
         }
         {
             auto level{ FolderLevel() };
             if (path_stack_.empty()) [[unlikely]] {
                 level.Content(winrt::box_value(L"\\"));
-            }
+                }
             else {
                 level.Content(winrt::box_value(path_stack_.back()));
             }
@@ -223,7 +231,7 @@ namespace winrt::Player::implementation
                 item.Text(name);
                 items.Append(item);
                 item.Tapped(event);
-            }
+                }
         }
     }
     void FolderView::BuildRoot() {
@@ -245,13 +253,13 @@ namespace winrt::Player::implementation
             else {
                 set.emplace(path.begin() + 1uz, path.begin() + end);
             }
-        }
-        // for folders_view_
+            }
+            // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
         for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
-        }
+            }
         UpdateUI(foldersContainer, musicContainer);
     }
     void FolderView::Build() {
@@ -272,7 +280,7 @@ namespace winrt::Player::implementation
                 if (end != decltype(path)::npos) {
                     frame.emplace_back(info);
                 }
-            }
+                }
             }
         else {
             for (auto const& i : folders_stack_.back()) [[likely]] {
@@ -282,7 +290,7 @@ namespace winrt::Player::implementation
                 if (end != decltype(path)::npos) {
                     frame.emplace_back(i);
                 }
-            }
+                }
         }
 
         auto set{ std::set<std::wstring_view>{} };
@@ -299,14 +307,14 @@ namespace winrt::Player::implementation
             else {
                 set.emplace(path.begin() + 1uz, path.begin() + end);
             }
-        }
-        // for folders_view_
+            }
+            // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
         foldersContainer.emplace_back(L".\u2005.\u2005.\u2005");
         for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
-        }
+            }
         folders_stack_.push_back(std::move(frame));
 
         UpdateUI(foldersContainer, musicContainer);
@@ -323,7 +331,7 @@ namespace winrt::Player::implementation
         auto set{ std::set<std::wstring_view>{} };
         for (auto const& i : frame) [[likely]] {
             auto const& info{ i.get() };
-            auto const path{ std::wstring_view{info.Path}.substr(fullpath.size() + 1uz)};
+            auto const path{ std::wstring_view{info.Path}.substr(fullpath.size() + 1uz) };
             auto const end{ path.find(L'\\', 2uz) };
 
             // if is file
@@ -334,14 +342,14 @@ namespace winrt::Player::implementation
             else {
                 set.emplace(path.begin() + 1uz, path.begin() + end);
             }
-        }
-        // for folders_view_
+            }
+            // for folders_view_
         auto foldersContainer{ std::vector<winrt::hstring>{} };
         foldersContainer.reserve(20uz);
         foldersContainer.emplace_back(L".\u2005.\u2005.\u2005");
         for (auto const& i : set) [[likely]] {
             foldersContainer.emplace_back(i);
-        }
+            }
         UpdateUI(foldersContainer, musicContainer);
     }
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderView::FolderList() {
