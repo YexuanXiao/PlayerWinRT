@@ -20,17 +20,21 @@
             <Setter Property="ExpandDirection" Value="Down" />
         </Style>
     </Page.Resources>
-    <Grid x:Name="ContentGrid">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock
+            x:Uid="Settings"
+            Margin="0,24,0,0"
+            Padding="{x:Bind ContentGrid.Padding, Mode=OneWay}"
+            Style="{StaticResource TitleTextBlockStyle}" />
         <ScrollViewer
             Grid.Row="1"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollMode="Auto">
-            <Grid>
+            <Grid Name="ContentGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -197,7 +201,7 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource BreakpointSmall}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ContentGrid.Padding" Value="60,48,60,0" />
+                        <Setter Target="ContentGrid.Padding" Value="60,0,60,0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>

@@ -4,5 +4,6 @@ namespace Player
     runtimeclass Settings : Microsoft.UI.Xaml.Controls.Page
     {
         Settings();
+        Microsoft.UI.Xaml.Controls.Grid ContentGrid{ get; };
     }
 }
