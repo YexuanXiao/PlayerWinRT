@@ -17,6 +17,7 @@ namespace winrt::Player::implementation
         static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> InfoList();
         static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
         static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> Music();
+
         // events
         void Page_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
         void Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
@@ -48,14 +49,14 @@ namespace winrt::Player::implementation
         void InitializeLibraries();
         // rumtime properties implement
         winrt::hstring title_{L"PlayerWinRT"};
-        Windows::Media::Playback::MediaPlayer player_{};
-        winrt::Windows::Media::Playback::MediaPlaybackSession session_{ player_.PlaybackSession() };
-        winrt::Windows::Media::Playback::MediaPlaybackCommandManager commander_{ player_.CommandManager() };
+        Windows::Media::Playback::MediaPlayer player_{ nullptr };
+        winrt::Windows::Media::Playback::MediaPlaybackSession session_{ nullptr };
+        winrt::Windows::Media::Playback::MediaPlaybackCommandManager commander_{ nullptr };
         inline static winrt::Data::Library library_;
-        inline static winrt::Player::PlayerViewModel playerViewModel_;
-        inline static Windows::Media::Playback::MediaPlaybackList list_{};
+        inline static winrt::Player::PlayerViewModel playerViewModel_{ nullptr };
+        inline static Windows::Media::Playback::MediaPlaybackList list_{ nullptr };
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{ nullptr };
-        inline static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{list_.Items()};
+        inline static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{ nullptr };
         inline static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> info_list_{ winrt::single_threaded_vector<winrt::Data::MusicInfo>() };
     };
 }

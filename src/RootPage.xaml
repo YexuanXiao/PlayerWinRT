@@ -188,18 +188,23 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="11"
-                    Text="0:00:00" />
+                    Text="{x:Bind local:PlayerViewModel.DurationToString(local:RootPage.PlayerViewModel.Position), Mode=OneWay}" />
                 <Slider
+                    Name="PlayerSlider"
                     Grid.Column="1"
                     Margin="0"
-                    HorizontalAlignment="Stretch" />
+                    HorizontalAlignment="Stretch"
+                    IsThumbToolTipEnabled="False"
+                    Maximum="{x:Bind local:RootPage.PlayerViewModel.Duration, Mode=OneWay}"
+                    StepFrequency="1000"
+                    Value="{x:Bind local:RootPage.PlayerViewModel.Position, Mode=TwoWay}" />
                 <TextBlock
                     x:Uid="RemainingTime"
                     Grid.Column="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="11"
-                    Text="0:00:00" />
+                    Text="{x:Bind local:PlayerViewModel.DurationToString(local:RootPage.PlayerViewModel.Duration), Mode=OneWay}" />
             </Grid>
             <Button
                 x:Uid="Playing"

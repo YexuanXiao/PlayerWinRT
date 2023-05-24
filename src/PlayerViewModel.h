@@ -10,12 +10,19 @@ namespace winrt::Player::implementation
         void Volume(double value);
         uint32_t Index();
         void Index(uint32_t value);
+        double Position();
+        void Position(double value);
+        double Duration();
+        void Duration(double value);
         winrt::event_token PropertyChanged(winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler const& handler);
         void PropertyChanged(winrt::event_token const& token) noexcept;
         static winrt::hstring DoubleToString(double);
+        static winrt::hstring DurationToString(double);
     private:
         double volume_;
         uint32_t index_;
+        double position_;
+        double duration_;
         winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> propertyChanged_;
     };
 }

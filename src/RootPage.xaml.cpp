@@ -19,16 +19,20 @@ namespace winrt::Player::implementation
     RootPage::RootPage()
     {
         InitializeComponent();
-
+        playerViewModel_ = winrt::Player::PlayerViewModel{};
+        player_ = winrt::Windows::Media::Playback::MediaPlayer{};
+        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+        session_ = player_.PlaybackSession();
+        commander_ = player_.CommandManager();
+        list_ = winrt::Windows::Media::Playback::MediaPlaybackList{};
+        list_.MaxPlayedItemsToKeepOpen(3);
+        player_.Source(list_);
+        music_ = list_.Items();
         // init state
         if (SettingsHelper::CheckFirstUse()) [[unlikely]] {
             RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>());
             MainNavigation().IsPaneOpen(false);
             }
-            // set player
-        list_.MaxPlayedItemsToKeepOpen(3);
-        player_.Source(list_);
-        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
 
         InitializeLibraries();
         InitializeRegistEvent();
@@ -87,6 +91,30 @@ namespace winrt::Player::implementation
         // volume change
         playerViewModel_.PropertyChanged([&self = *this](IInspectable const&, PropertyChangedEventArgs const&) {
             self.player_.Volume(self.playerViewModel_.Volume() / 100.);
+            });
+        // slider
+        session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, IInspectable const&) -> IAsyncAction {
+            auto state{ self.session_.PlaybackState() };
+            using namespace std::chrono_literals;
+            if (state == decltype(state)::Playing) [[likely]] {
+                auto index{ list_.CurrentItemIndex() };
+                auto info{ self.info_list_.GetAt(index) };
+                co_await ui_thread;
+                self.playerViewModel_.Duration(static_cast<double>(info.Duration));
+            }
+            while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing) [[likely]] {
+                using namespace std::chrono_literals;
+                co_await 1s;
+                co_await ui_thread;
+                auto position{ self.session_.Position().count() };
+                if (position > 0) [[likely]] {
+                    self.playerViewModel_.Position(static_cast<double>(position));
+                    }
+                }
+            });
+        playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](IInspectable const&, PropertyChangedEventArgs const& args) {
+            if (args.PropertyName() != L"Position") return;
+            self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(std::chrono::nanoseconds{ static_cast<int64_t>(self.playerViewModel_.Position()) * 100 }));
             });
         // when switch to new music, make button ui on
         list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> IAsyncAction {

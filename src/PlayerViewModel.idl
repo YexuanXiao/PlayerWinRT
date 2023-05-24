@@ -7,6 +7,9 @@ namespace Player
         PlayerViewModel();
         Double Volume;
         UInt32 Index;
+        Double Position;
+        Double Duration;
         static String DoubleToString(Double volume);
+        static String DurationToString(Double duration);
     }
 }
