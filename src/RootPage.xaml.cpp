@@ -99,6 +99,11 @@ namespace winrt::Player::implementation
             }
             auto item{ self.list_.CurrentItem() };
             if (item == nullptr) co_return;
+            auto state{ self.session_.PlaybackState() };
+            // check if is new list
+            if (state == decltype(state)::Opening || state == decltype(state)::Paused) {
+                self.player_.Play();
+            }
             co_await winrt::resume_background();
             if (self.library_.protocol == L"local") {
                 auto index{ self.list_.CurrentItemIndex() };
@@ -140,10 +145,9 @@ namespace winrt::Player::implementation
             co_await ui_thread;
             self.PlayButtonOff();
             });
-        // listen to music list change
-        music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+        /* listen to music list change
+        music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) {
             auto operate{ args.CollectionChange() };
-            auto index{ args.Index() };
             switch (operate) {
             case decltype(operate)::ItemRemoved:
             {
@@ -158,11 +162,10 @@ namespace winrt::Player::implementation
                 break;
             }
             case decltype(operate)::Reset:
-                self.player_.Play();
-                co_await ui_thread;
-                self.PlayButtonOn();
+                break;
             }
             });
+        */
     }
     hstring RootPage::AppTitleText() {
 #ifdef _DEBUG
