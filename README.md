@@ -2,13 +2,13 @@
 
 PlayerWinRT is an open source local music player intended for the modern Windows experience.
 
-PlayerWinRT is developed using WinUI 3, C++/WinRT and C++ 23.
+PlayerWinRT is being developed using WinUI 3, C++/WinRT and C++ 23.
 
 The project is currently in early stage.
 
 ## Contributing
 
-All kinds of contributions will be appreciated. All suggestions, pull requests and issues are welcome.
+All contributions will be appreciated. All suggestions, pull requests and issues are welcome.
 
 If you want to contribute your own code, you can simply submit a plain pull request explaining you changes.
 For bigger and complex contributions it would be nice if you could open an issue before starting to work on it.
@@ -23,6 +23,10 @@ This list is intended as design goals only.
 - Network storage such as SMB, FTP, WebDAV
 - OneDrive
 
+## Screenshot
+
+![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/b6eadd18-7a32-462d-8543-95bf26b282ab)
+
 ## System Requirements
 
 - Supported OS: Windows 10 Version 1809 or later and Windows 11.
@@ -30,7 +34,7 @@ This list is intended as design goals only.
 
 ## Build
 
-Only guaranteed to compile on the latest VS2022, but welcome to provide forward support, as well as to provide testing of compatibility with older toolchains.
+Only guaranteed to compile on the latest VS2022, but welcome to provide forward support, as well as to provide tests of compatibility with older toolchains.
 
 ## Roadmap
 
