@@ -1,0 +1,9 @@
+namespace Player
+{
+    [default_interface]
+    runtimeclass LibraryEditor : Microsoft.UI.Xaml.Controls.ContentDialog
+    {
+        LibraryEditor();
+        LibraryEditor(String name, String protocol, String address, String icon);
+    }
+}

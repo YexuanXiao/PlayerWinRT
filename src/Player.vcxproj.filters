@@ -152,6 +152,9 @@
     <Filter Include="ViewModel">
       <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{aa415cea-d485-49e7-b718-870830e8bce4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
@@ -167,9 +170,6 @@
       <Filter>Pages\Dependent</Filter>
     </Page>
     <Page Include="About.xaml">
-      <Filter>Pages\Standalone</Filter>
-    </Page>
-    <Page Include="EditLibrary.xaml">
       <Filter>Pages\Standalone</Filter>
     </Page>
     <Page Include="Equalizer.xaml">
@@ -188,9 +188,13 @@
     <Page Include="Progress.xaml">
       <Filter>Pages\Standalone</Filter>
     </Page>
+    <Page Include="LibraryEditor.xaml">
+      <Filter>Controls</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Player_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\Resources.language-en-US.resw">
@@ -199,10 +203,5 @@
     <PRIResource Include="Strings\Resources.language-zh-CN.resw">
       <Filter>Strings</Filter>
     </PRIResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Assets\24 - 英雄のタクト.flac">
-      <Filter>Assets</Filter>
-    </Media>
   </ItemGroup>
 </Project>

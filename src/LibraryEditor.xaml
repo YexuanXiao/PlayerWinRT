@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="Player.LibraryEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <Grid Width="350">
+        <Grid Name="Progress" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ProgressRing
+                Width="50"
+                Height="50"
+                Margin="30" />
+            <TextBlock
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Text="Please wait a minute..." />
+        </Grid>
+        <Grid Name="Editor">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock x:Uid="Name" VerticalAlignment="Center" />
+            <TextBlock
+                x:Uid="Protocol"
+                Grid.Row="1"
+                VerticalAlignment="Center" />
+            <TextBlock
+                x:Uid="Address"
+                Grid.Row="2"
+                VerticalAlignment="Center" />
+            <TextBlock
+                x:Uid="Icon"
+                Grid.Row="3"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text=":" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text=":" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text=":" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text=":" />
+            <TextBox
+                Name="Library"
+                Grid.Column="3"
+                Margin="0,20,0,20" />
+            <SplitButton Grid.Row="1" Grid.Column="3">
+                <TextBlock
+                    Name="Protocol"
+                    x:Uid="Local"
+                    Tag="local" />
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="Local"
+                            Tag="local"
+                            Tapped="ProtocolMenu_Tapped">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE770;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            IsEnabled="False"
+                            Tag="samba"
+                            Tapped="ProtocolMenu_Tapped"
+                            Text="Samba">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEC27;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            IsEnabled="False"
+                            Tag="webdav"
+                            Tapped="ProtocolMenu_Tapped"
+                            Text="WebDAV">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE968;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            IsEnabled="False"
+                            Tag="ftp"
+                            Tapped="ProtocolMenu_Tapped"
+                            Text="FTP">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE839;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
+
+            <Grid Grid.Row="2" Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Name="Address"
+                    Margin="0,20,0,20"
+                    IsReadOnly="True"
+                    Text="X:\Music" />
+                <Button
+                    Name="SelectButton"
+                    Grid.Column="1"
+                    Margin="5,0,0,0"
+                    Tapped="SelectButton_Tapped">
+                    <TextBlock x:Uid="SelectFolder" />
+                </Button>
+            </Grid>
+            <SplitButton Grid.Row="3" Grid.Column="3">
+                <FontIcon Name="Icon" Glyph="&#xE770;" />
+                <SplitButton.Flyout>
+                    <MenuFlyout x:Name="Icons" Placement="Right">
+                        <MenuFlyoutItem Text="Connect">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE703;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Cloud">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE753;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="System">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE770;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Globe">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE774;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="SDCard">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE7F1;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Ethernet">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE839;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="DirectAccess">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE83B;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="USB">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE88E;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="MobileTablet">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8CC;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="MapDrive">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8CE;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Phone">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8EA;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Scan">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8FE;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="MultimediaDMS">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE953;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Dock">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE952;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Network">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE968;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="StorageNetworkWireless">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE969;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="PC1">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE977;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Media">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA69;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Devices3">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA6C;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="MyNetwork">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEC27;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="MultimediaDMP">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xED47;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="HardDrive">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEDA2;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
+            <InfoBar
+                Name="ErrorInfo"
+                Grid.Row="4"
+                Grid.ColumnSpan="3"
+                Margin="0,10,0,-10"
+                IsOpen="False"
+                Message="Input Error."
+                Severity="Error" />
+        </Grid>
+    </Grid>
+</ContentDialog>

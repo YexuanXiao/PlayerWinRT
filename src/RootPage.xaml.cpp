@@ -405,62 +405,12 @@ namespace winrt::Player::implementation
     Windows::Foundation::IAsyncAction RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-        auto dialog{ ContentDialog{} };
+
+        auto dialog{ winrt::Player::LibraryEditor{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(resourceLoader.GetString(L"AddLibrary/Content")));
-        dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
-        dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
-        dialog.DefaultButton(ContentDialogButton::Close);
-        auto page{ Player::EditLibrary{} };
-        dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
 
-        auto json{ winrt::Windows::Data::Json::JsonObject{nullptr} };
-
-        // regist add event
-        dialog.PrimaryButtonClick([&page, &json](ContentDialog sender, ContentDialogButtonClickEventArgs args) -> IAsyncAction {
-            // Cancel = true keep Dialog show after click
-            args.Cancel(true);
-            sender.Content(Player::Progress{});
-            sender.PrimaryButtonText(winrt::hstring{});
-
-            auto const& info{ page.GetResult() };
-
-            if (info.protocol == L"local") [[likely]] {
-                auto library{ ::Data::GetLibraryFromFolderPath(info.name, info.protocol, info.address, info.icon) };
-                // regist cancel event, must capture by value, otherwise hold a dangling reference
-                sender.SecondaryButtonClick([library](ContentDialog const&, ContentDialogButtonClickEventArgs const&) {
-                    library.Cancel();
-                    });
-                // capture calling context.
-                auto ui_thread{ winrt::apartment_context{} };
-                // switch to other thread
-                co_await winrt::resume_background();
-                json = co_await library;
-                // switch back to ui thread
-                co_await ui_thread;
-                }
-            else {
-                // todo: other protocol
-            }
-
-            // hide dialog
-            sender.Hide();
-            });
         static_cast<void>(co_await dialog.ShowAsync());
-
-        if (json == nullptr) [[unlikely]] co_return;
-
-        // consume json
-        co_await SettingsHelper::StoreLibrary(json);
-        auto info{ winrt::Data::Library{} };
-        info.address = json.GetNamedString(L"Path");
-        info.icon = json.GetNamedString(L"Icon");
-        info.protocol = json.GetNamedString(L"Protocol");
-        info.name = json.GetNamedString(L"Name");
-        auto libraries{ RootPage::Libraries() };
-        libraries.InsertAt(libraries.Size(), info);
     }
     Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {

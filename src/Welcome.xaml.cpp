@@ -23,75 +23,21 @@ namespace winrt::Player::implementation
     IAsyncAction Welcome::AddLibrary_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         // show edit library dialog
-        auto dialog{ ContentDialog{} };
-        auto page{ Player::EditLibrary{nullptr} };
+        auto dialog{ LibraryEditor{nullptr} };
         auto const resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 
-        // prepare page
         if (winrt::unbox_value<winrt::hstring>(sender.try_as<Button>().Tag()) == L"music") [[likely]] {
             auto musicFolder{ Windows::Storage::KnownFolders::MusicLibrary() };
-            page = Player::EditLibrary{ musicFolder.DisplayName(),resourceLoader.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), L"\uE770" };
-            dialog.Content(page);
+            dialog = Player::LibraryEditor{ musicFolder.DisplayName(), resourceLoader.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), winrt::hstring{} };
         }
         else {
-            page = Player::EditLibrary{};
+            dialog = Player::LibraryEditor{};
         }
 
-        // set dialog style
-
-        dialog.Content(page);
         dialog.XamlRoot(XamlRoot());
         dialog.RequestedTheme(ActualTheme());
-        dialog.Title(winrt::box_value(resourceLoader.GetString(L"AddLibrary/Content")));
-        dialog.PrimaryButtonText(resourceLoader.GetString(L"Add"));
-        dialog.SecondaryButtonText(resourceLoader.GetString(L"Cancel"));
-        dialog.DefaultButton(ContentDialogButton::Secondary);
 
-        auto json{ winrt::Windows::Data::Json::JsonObject{nullptr} };
-        
-        // regist add event
-        dialog.PrimaryButtonClick([&page, &json](ContentDialog sender, ContentDialogButtonClickEventArgs args) -> IAsyncAction {
-            // Cancel = true keep Dialog show after click
-            args.Cancel(true);
-            sender.Content(Player::Progress{});
-            sender.PrimaryButtonText(winrt::hstring{});
-
-            auto const& info{ page.GetResult() };
-
-            if (info.protocol == L"local") [[likely]] {
-                auto library{ ::Data::GetLibraryFromFolderPath(info.name, info.protocol, info.address, info.icon) };
-                // regist cancel event, must capture by value, otherwise hold a dangling reference
-                sender.SecondaryButtonClick([library](ContentDialog const&, ContentDialogButtonClickEventArgs const&) {
-                    library.Cancel();
-                    });
-                // capture calling context.
-                auto ui_thread{ winrt::apartment_context{} };
-                // switch to other thread
-                co_await winrt::resume_background();
-                json = co_await library;
-                // switch back to ui thread
-                co_await ui_thread;
-            }
-            else {
-                // todo: other protocol
-            }
-            
-            // hide dialog
-            sender.Hide();
-            });
         static_cast<void>(co_await dialog.ShowAsync());
-
-        if (json == nullptr) [[unlikely]] co_return;
-
-        // consume json
-        co_await SettingsHelper::StoreLibrary(json);
-        auto info{ winrt::Data::Library{} };
-        info.address = json.GetNamedString(L"Path");
-        info.icon = json.GetNamedString(L"Icon");
-        info.protocol = json.GetNamedString(L"Protocol");
-        info.name = json.GetNamedString(L"Name");
-        auto libraries{ RootPage::Libraries() };
-        libraries.InsertAt(libraries.Size(), info);
     }
 
     void Welcome::Theme_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
