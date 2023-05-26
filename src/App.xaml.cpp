@@ -138,7 +138,7 @@ void App::SetDragRegionForCustomTitleBar() {
     // make application tool bar clickable
     rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);
 #else
-    rect.Width = appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset();
+    rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset());
 #endif
     titleBar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
 }
