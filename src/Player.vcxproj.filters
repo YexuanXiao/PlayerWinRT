@@ -6,11 +6,11 @@
   <ItemGroup>
     <Midl Include="App.idl" />
     <Midl Include="Data.idl" />
-    <Midl Include="PlayerViewModel.idl">
-      <Filter>ViewModel</Filter>
+    <Midl Include="ViewModels\PlayerViewModel.idl">
+      <Filter>ViewModels</Filter>
     </Midl>
-    <Midl Include="InfoViewModel.idl">
-      <Filter>ViewModel</Filter>
+    <Midl Include="ViewModels\InfoViewModel.idl">
+      <Filter>ViewModels</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -19,18 +19,12 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="PlayerViewModel.cpp">
-      <Filter>ViewModel</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
-    <ClInclude Include="PlayerViewModel.h">
-      <Filter>ViewModel</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -140,20 +134,14 @@
     <Filter Include="Pages">
       <UniqueIdentifier>{346956b3-2064-423c-883a-a8559476f4c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pages\Standalone">
-      <UniqueIdentifier>{8dcb0809-86c4-4a27-af59-fa74aa68f1ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pages\Dependent">
-      <UniqueIdentifier>{7e1202d0-6da1-478b-ad3f-8145ddf95c68}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Strings">
       <UniqueIdentifier>{695139ab-fa6a-4b3f-b8c4-bae7f231455a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ViewModel">
-      <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Controls">
       <UniqueIdentifier>{aa415cea-d485-49e7-b718-870830e8bce4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ViewModels">
+      <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,27 +154,27 @@
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Settings.xaml">
-      <Filter>Pages\Dependent</Filter>
-    </Page>
-    <Page Include="Equalizer.xaml">
-      <Filter>Pages\Standalone</Filter>
-    </Page>
-    <Page Include="MusicInfo.xaml">
-      <Filter>Pages\Standalone</Filter>
-    </Page>
     <Page Include="RootPage.xaml" />
-    <Page Include="FolderView.xaml">
-      <Filter>Pages\Dependent</Filter>
-    </Page>
-    <Page Include="Welcome.xaml">
-      <Filter>Pages\Dependent</Filter>
-    </Page>
     <Page Include="Controls\LibraryEditor.xaml">
       <Filter>Controls</Filter>
     </Page>
     <Page Include="Controls\About.xaml">
       <Filter>Controls</Filter>
+    </Page>
+    <Page Include="Controls\Equalizer.xaml">
+      <Filter>Controls</Filter>
+    </Page>
+    <Page Include="Controls\MusicInfo.xaml">
+      <Filter>Controls</Filter>
+    </Page>
+    <Page Include="Pages\Welcome.xaml">
+      <Filter>Pages</Filter>
+    </Page>
+    <Page Include="Pages\Settings.xaml">
+      <Filter>Pages</Filter>
+    </Page>
+    <Page Include="Pages\FolderView.xaml">
+      <Filter>Pages</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

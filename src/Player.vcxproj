@@ -25,6 +25,7 @@
     <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+    <CppWinRTModernIDL>true</CppWinRTModernIDL>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -103,6 +104,15 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">stdcpplatest</LanguageStandard>
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">false</BuildStlModules>
     </ClCompile>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -116,6 +126,15 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+    <Midl>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
   </ItemDefinitionGroup>
   <ItemGroup Condition="'$(WindowsPackageType)'!='None' and Exists('Package.appxmanifest')">
     <AppxManifest Include="Package.appxmanifest">
@@ -134,47 +153,47 @@
       <DependentUpon>Data.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Equalizer.xaml.h">
-      <DependentUpon>Equalizer.xaml</DependentUpon>
+    <ClInclude Include="Controls\Equalizer.xaml.h">
+      <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="InfoViewModel.h">
-      <DependentUpon>InfoViewModel.idl</DependentUpon>
+    <ClInclude Include="ViewModels\InfoViewModel.h">
+      <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Controls\LibraryEditor.xaml.h">
       <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="MusicInfo.xaml.h">
-      <DependentUpon>MusicInfo.xaml</DependentUpon>
+    <ClInclude Include="Controls\MusicInfo.xaml.h">
+      <DependentUpon>Controls\MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="PlayerViewModel.h">
-      <DependentUpon>PlayerViewModel.idl</DependentUpon>
+    <ClInclude Include="ViewModels\PlayerViewModel.h">
+      <DependentUpon>ViewModels\PlayerViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="FolderView.xaml.h">
-      <DependentUpon>FolderView.xaml</DependentUpon>
+    <ClInclude Include="Pages\FolderView.xaml.h">
+      <DependentUpon>Pages\FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Settings.xaml.h">
-      <DependentUpon>Settings.xaml</DependentUpon>
+    <ClInclude Include="Pages\Settings.xaml.h">
+      <DependentUpon>Pages\Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsHelper.h">
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Welcome.xaml.h">
-      <DependentUpon>Welcome.xaml</DependentUpon>
+    <ClInclude Include="Pages\Welcome.xaml.h">
+      <DependentUpon>Pages\Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Win32Helper.h">
@@ -189,20 +208,20 @@
       <DependentUpon>Controls\About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Equalizer.xaml.cpp">
-      <DependentUpon>Equalizer.xaml</DependentUpon>
+    <ClCompile Include="Controls\Equalizer.xaml.cpp">
+      <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="InfoViewModel.cpp">
-      <DependentUpon>InfoViewModel.idl</DependentUpon>
+    <ClCompile Include="ViewModels\InfoViewModel.cpp">
+      <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Controls\LibraryEditor.xaml.cpp">
       <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="MusicInfo.xaml.cpp">
-      <DependentUpon>MusicInfo.xaml</DependentUpon>
+    <ClCompile Include="Controls\MusicInfo.xaml.cpp">
+      <DependentUpon>Controls\MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -213,20 +232,20 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="PlayerViewModel.cpp">
-      <DependentUpon>PlayerViewModel.idl</DependentUpon>
+    <ClCompile Include="ViewModels\PlayerViewModel.cpp">
+      <DependentUpon>ViewModels\PlayerViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="FolderView.xaml.cpp">
-      <DependentUpon>FolderView.xaml</DependentUpon>
+    <ClCompile Include="Pages\FolderView.xaml.cpp">
+      <DependentUpon>Pages\FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Settings.xaml.cpp">
-      <DependentUpon>Settings.xaml</DependentUpon>
+    <ClCompile Include="Pages\Settings.xaml.cpp">
+      <DependentUpon>Pages\Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="SettingsHelper.cpp">
@@ -237,8 +256,8 @@
       <DependentUpon>Data.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Welcome.xaml.cpp">
-      <DependentUpon>Welcome.xaml</DependentUpon>
+    <ClCompile Include="Pages\Welcome.xaml.cpp">
+      <DependentUpon>Pages\Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Win32Helper.cpp">
@@ -256,38 +275,38 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
     <Midl Include="Data.idl" />
-    <Midl Include="Equalizer.idl">
-      <DependentUpon>Equalizer.xaml</DependentUpon>
+    <Midl Include="Controls\Equalizer.idl">
+      <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="InfoViewModel.idl">
+    <Midl Include="ViewModels\InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Controls\LibraryEditor.idl">
       <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="MusicInfo.idl">
-      <DependentUpon>MusicInfo.xaml</DependentUpon>
+    <Midl Include="Controls\MusicInfo.idl">
+      <DependentUpon>Controls\MusicInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="PlayerViewModel.idl">
+    <Midl Include="ViewModels\PlayerViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="FolderView.idl">
-      <DependentUpon>FolderView.xaml</DependentUpon>
+    <Midl Include="Pages\FolderView.idl">
+      <DependentUpon>Pages\FolderView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="RootPage.idl">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="Settings.idl">
-      <DependentUpon>Settings.xaml</DependentUpon>
+    <Midl Include="Pages\Settings.idl">
+      <DependentUpon>Pages\Settings.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="Welcome.idl">
-      <DependentUpon>Welcome.xaml</DependentUpon>
+    <Midl Include="Pages\Welcome.idl">
+      <DependentUpon>Pages\Welcome.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
   </ItemGroup>
@@ -338,25 +357,25 @@
     <Page Include="Controls\About.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Equalizer.xaml">
+    <Page Include="Controls\Equalizer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\LibraryEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MusicInfo.xaml">
+    <Page Include="Controls\MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FolderView.xaml">
+    <Page Include="Pages\FolderView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Pages\Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Welcome.xaml">
+    <Page Include="Pages\Welcome.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
