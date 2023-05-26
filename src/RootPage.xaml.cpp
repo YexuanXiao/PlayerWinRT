@@ -62,7 +62,7 @@ namespace winrt::Player::implementation
 
         libraries_ = winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
         // update libraries ui
-        libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> IAsyncAction {
+        libraries_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(libraries_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             auto operate{ args.CollectionChange() };
             auto index{ args.Index() };
@@ -93,7 +93,7 @@ namespace winrt::Player::implementation
             self.player_.Volume(self.playerViewModel_.Volume() / 100.);
             });
         // slider
-        session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, IInspectable const&) -> IAsyncAction {
+        session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto state{ self.session_.PlaybackState() };
             using namespace std::chrono_literals;
             if (state == decltype(state)::Playing) [[likely]] {
@@ -117,7 +117,7 @@ namespace winrt::Player::implementation
             self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(std::chrono::nanoseconds{ static_cast<int64_t>(self.playerViewModel_.Position()) * 100 }));
             });
         // when switch to new music, make button ui on
-        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> IAsyncAction {
+        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto reason{ args.Reason() };
             // repeat one
             if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true) {
@@ -165,11 +165,11 @@ namespace winrt::Player::implementation
             self.PlayButtonOn();
             });
         // regist play and pause event to update button ui
-        commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> IAsyncAction {
+        commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOn();
             });
-        commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> IAsyncAction {
+        commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOff();
             });
@@ -229,7 +229,7 @@ namespace winrt::Player::implementation
             RootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
         }
     }
-    IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::Windows::Foundation::IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 

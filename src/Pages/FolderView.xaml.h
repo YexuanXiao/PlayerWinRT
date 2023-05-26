@@ -31,7 +31,7 @@ namespace winrt::Player::implementation
         void BuildRoot();
 
         // async init because constructor cannot be coroutine
-        winrt::Windows::Foundation::IAsyncAction Initialize();
+        [[nodiscard]] winrt::Windows::Foundation::IAsyncAction Initialize();
         void UpdateUI(std::vector<winrt::hstring> const&, std::vector<winrt::Player::InfoViewModel> const&);
 
         // runtime properties implement

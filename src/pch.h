@@ -44,6 +44,8 @@
 
 #include <pplawait.h>
 
+#include <regex>
+
 #include <fast_io.h>
 
 namespace winrt::Player {}
@@ -56,7 +58,6 @@ inline winrt::hstring operator""_hs(const wchar_t* begin, std::size_t size) {
 #if _MSC_VER <= 1937
 
 // for C++ 23 std::size_t literal workaround
-
 inline constexpr std::size_t operator""uz(unsigned long long value) {
 	if constexpr (sizeof(unsigned long long) <= sizeof(std::size_t)) {
 		return std::size_t{ value };
