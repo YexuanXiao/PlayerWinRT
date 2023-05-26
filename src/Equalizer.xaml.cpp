@@ -4,13 +4,16 @@
 #include "Equalizer.g.cpp"
 #endif
 
-using namespace winrt;
-using namespace Microsoft::UI::Xaml;
+#include <winrt/Windows.ApplicationModel.Resources.h>
 
 namespace winrt::Player::implementation
 {
     Equalizer::Equalizer()
     {
         InitializeComponent();
+        auto resource{ winrt::Windows::ApplicationModel::Resources::ResourceLoader{} };
+        Title(winrt::box_value(resource.GetString(L"Equalizer/Content")));
+        PrimaryButtonText(resource.GetString(L"Save"));
+        CloseButtonText(resource.GetString(L"Cancel"));
     }
 }

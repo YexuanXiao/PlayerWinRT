@@ -1,7 +1,7 @@
 namespace Player
 {
     [default_interface]
-    runtimeclass MusicInfo : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass MusicInfo : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         MusicInfo();
     }

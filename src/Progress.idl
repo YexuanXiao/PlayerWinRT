@@ -1,8 +1,0 @@
-namespace Player
-{
-    [default_interface]
-    runtimeclass Progress : Microsoft.UI.Xaml.Controls.Page
-    {
-        Progress();
-    }
-}

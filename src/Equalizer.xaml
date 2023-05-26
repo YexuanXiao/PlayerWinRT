@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
+<ContentDialog
     x:Class="Player.Equalizer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DefaultButton="Close"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-    <Page.Resources>
+    <ContentDialog.Resources>
         <Style
             x:Key="ItemSlider"
             BasedOn="{StaticResource DefaultSliderStyle}"
@@ -18,7 +21,7 @@
             <Setter Property="Grid.ColumnSpan" Value="3" />
             <Setter Property="TickPlacement" Value="Outside" />
         </Style>
-    </Page.Resources>
+    </ContentDialog.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -142,4 +145,4 @@
             Style="{StaticResource ItemSlider}" />
 
     </Grid>
-</Page>
+</ContentDialog>

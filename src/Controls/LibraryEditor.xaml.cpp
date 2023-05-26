@@ -21,7 +21,6 @@ namespace winrt::Player::implementation
         Title(winrt::box_value(resource_.GetString(L"AddLibrary/Content")));
         PrimaryButtonText(resource_.GetString(L"Add"));
         CloseButtonText(resource_.GetString(L"Cancel"));
-        DefaultButton(winrt::Microsoft::UI::Xaml::Controls::ContentDialogButton::Close);
 
         // initialize icons, add click event
         for (auto icon : Icons().Items()) {
@@ -38,7 +37,6 @@ namespace winrt::Player::implementation
         Title(winrt::box_value(resource_.GetString(L"EditLibrary/Content")));
         PrimaryButtonText(resource_.GetString(L"Save"));
         CloseButtonText(resource_.GetString(L"Cancel"));
-        DefaultButton(winrt::Microsoft::UI::Xaml::Controls::ContentDialogButton::Close);
 
         // initialize icons, add click event
         for (auto icon : Icons().Items()) {

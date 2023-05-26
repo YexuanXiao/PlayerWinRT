@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DefaultButton="Close"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 

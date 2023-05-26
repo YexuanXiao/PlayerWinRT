@@ -126,8 +126,8 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="About.xaml.h">
-      <DependentUpon>About.xaml</DependentUpon>
+    <ClInclude Include="Controls\About.xaml.h">
+      <DependentUpon>Controls\About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Data.h">
@@ -142,8 +142,8 @@
       <DependentUpon>InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="LibraryEditor.xaml.h">
-      <DependentUpon>LibraryEditor.xaml</DependentUpon>
+    <ClInclude Include="Controls\LibraryEditor.xaml.h">
+      <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MusicInfo.xaml.h">
@@ -160,10 +160,6 @@
     </ClInclude>
     <ClInclude Include="FolderView.xaml.h">
       <DependentUpon>FolderView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="Progress.xaml.h">
-      <DependentUpon>Progress.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="RootPage.xaml.h">
@@ -189,8 +185,8 @@
     <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="About.xaml.cpp">
-      <DependentUpon>About.xaml</DependentUpon>
+    <ClCompile Include="Controls\About.xaml.cpp">
+      <DependentUpon>Controls\About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Equalizer.xaml.cpp">
@@ -201,8 +197,8 @@
       <DependentUpon>InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="LibraryEditor.xaml.cpp">
-      <DependentUpon>LibraryEditor.xaml</DependentUpon>
+    <ClCompile Include="Controls\LibraryEditor.xaml.cpp">
+      <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="MusicInfo.xaml.cpp">
@@ -223,10 +219,6 @@
     </ClCompile>
     <ClCompile Include="FolderView.xaml.cpp">
       <DependentUpon>FolderView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="Progress.xaml.cpp">
-      <DependentUpon>Progress.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="RootPage.xaml.cpp">
@@ -255,8 +247,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="About.idl">
-      <DependentUpon>About.xaml</DependentUpon>
+    <Midl Include="Controls\About.idl">
+      <DependentUpon>Controls\About.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="App.idl">
@@ -271,8 +263,8 @@
     <Midl Include="InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="LibraryEditor.idl">
-      <DependentUpon>LibraryEditor.xaml</DependentUpon>
+    <Midl Include="Controls\LibraryEditor.idl">
+      <DependentUpon>Controls\LibraryEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="MusicInfo.idl">
@@ -284,10 +276,6 @@
     </Midl>
     <Midl Include="FolderView.idl">
       <DependentUpon>FolderView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="Progress.idl">
-      <DependentUpon>Progress.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="RootPage.idl">
@@ -347,22 +335,19 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="About.xaml">
+    <Page Include="Controls\About.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Equalizer.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LibraryEditor.xaml">
+    <Page Include="Controls\LibraryEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="FolderView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Progress.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RootPage.xaml">

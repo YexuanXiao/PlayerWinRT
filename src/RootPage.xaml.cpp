@@ -232,15 +232,11 @@ namespace winrt::Player::implementation
     IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto dialog{ ContentDialog{} };
-        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+
+        auto dialog{ winrt::Player::MusicInfo{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(resourceLoader.GetString(L"MusicInfo/Text")));
-        dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
-        dialog.DefaultButton(ContentDialogButton::Close);
-        auto page{ Player::MusicInfo{} };
-        dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
+
         static_cast<void>(co_await dialog.ShowAsync());
     }
     void RootPage::Repeat_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
@@ -415,32 +411,22 @@ namespace winrt::Player::implementation
     Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-        auto dialog{ ContentDialog{} };
+
+        auto dialog{ winrt::Player::About{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(resourceLoader.GetString(L"About/Content")));
-        dialog.CloseButtonText(resourceLoader.GetString(L"Close"));
-        dialog.DefaultButton(ContentDialogButton::Close);
-        auto page{ Player::About{} };
-        dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
+
         static_cast<void>(co_await dialog.ShowAsync());
     }
     Windows::Foundation::IAsyncAction RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-        auto dialog{ ContentDialog{} };
+
+        auto dialog{ winrt::Player::Equalizer{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(resourceLoader.GetString(L"Equalizer/Content")));
-        dialog.PrimaryButtonText(resourceLoader.GetString(L"Save"));
-        dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
-        dialog.DefaultButton(ContentDialogButton::Close);
-        auto page{ Player::Equalizer{} };
-        dialog.Content(page);
         dialog.RequestedTheme(ActualTheme());
-        auto result{ co_await dialog.ShowAsync() };
-        // use return value
+
+        static_cast<void>(co_await dialog.ShowAsync());
     }
 
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)

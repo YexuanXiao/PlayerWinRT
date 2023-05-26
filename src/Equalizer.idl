@@ -1,7 +1,7 @@
 namespace Player
 {
     [default_interface]
-    runtimeclass Equalizer : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass Equalizer : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         Equalizer();
     }

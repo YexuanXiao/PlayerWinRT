@@ -169,9 +169,6 @@
     <Page Include="Settings.xaml">
       <Filter>Pages\Dependent</Filter>
     </Page>
-    <Page Include="About.xaml">
-      <Filter>Pages\Standalone</Filter>
-    </Page>
     <Page Include="Equalizer.xaml">
       <Filter>Pages\Standalone</Filter>
     </Page>
@@ -185,10 +182,10 @@
     <Page Include="Welcome.xaml">
       <Filter>Pages\Dependent</Filter>
     </Page>
-    <Page Include="Progress.xaml">
-      <Filter>Pages\Standalone</Filter>
+    <Page Include="Controls\LibraryEditor.xaml">
+      <Filter>Controls</Filter>
     </Page>
-    <Page Include="LibraryEditor.xaml">
+    <Page Include="Controls\About.xaml">
       <Filter>Controls</Filter>
     </Page>
   </ItemGroup>
