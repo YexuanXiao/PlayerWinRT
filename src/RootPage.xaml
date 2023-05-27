@@ -312,7 +312,10 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button x:Uid="Volume" Style="{StaticResource PlayerEllipsis}">
+                                <Button
+                                    x:Uid="Volume"
+                                    Style="{StaticResource PlayerEllipsis}"
+                                    Tapped="Mute_Tapped">
                                     <FontIcon FontSize="16" Glyph="&#xE767;" />
                                 </Button>
                                 <Slider
