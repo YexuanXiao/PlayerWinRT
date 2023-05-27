@@ -12,7 +12,7 @@ namespace Win32Helper {
     /// <param name="appname">size lesser than 16, zero ending</param>
     /// <param name="exitcode">exit code</param>
     void DisableMultiInstanceEntry(std::wstring_view const appname, UINT const exitcode) {
-        using namespace std::literals;
+        using namespace std::string_literals;
         auto constexpr max_size{ 16 };
         assert(appname.size() < max_size);
         // use user's temp folder pathname + appname as part of mutex name
