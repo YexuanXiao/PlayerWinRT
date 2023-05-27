@@ -189,7 +189,7 @@ namespace winrt::Player::implementation
 #endif
     }
     void RootPage::PlayButtonOn() {
-        auto fontIcon{ PlayButton().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
+        auto fontIcon{ PlayIcon() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uE768") {
             fontIcon.Glyph(L"\uE769");
@@ -200,7 +200,7 @@ namespace winrt::Player::implementation
         fontIcon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(0));
     }
     void RootPage::PlayButtonOff() {
-        auto fontIcon{ PlayButton().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
+        auto fontIcon{ PlayIcon() };
         auto icon{ fontIcon.Glyph() };
         if (icon == L"\uE769") {
             fontIcon.Glyph(L"\uE768");
@@ -454,5 +454,26 @@ namespace winrt::Player::implementation
             player_.IsMuted(false);
         }
         fontIcon.Glyph(icon);
+    }
+    void RootPage::Page_ActualThemeChanged(winrt::Microsoft::UI::Xaml::FrameworkElement const&, winrt::Windows::Foundation::IInspectable const&)
+    {
+        auto play{ PlayIcon() };
+        auto glyph{ play.Glyph() };
+        if (glyph == L"\uE768")
+            play.Glyph(L"\uF5B0");
+        else
+            play.Glyph(L"\uE768");
+
+        auto previous{ PreviousIcon() };
+        if (previous.Glyph() == L"\uE892")
+            previous.Glyph(L"\uF8AC");
+        else
+            previous.Glyph(L"\uE892");
+
+        auto next{ NextIcon() };
+        if (next.Glyph() == L"\uE893")
+            next.Glyph(L"\uF8AD");
+        else
+            next.Glyph(L"\uE893");
     }
 }

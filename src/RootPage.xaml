@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    ActualThemeChanged="Page_ActualThemeChanged"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
@@ -265,7 +266,10 @@
                     x:Uid="Previous"
                     Style="{StaticResource PlayerEllipsis}"
                     Tapped="Previous_Tapped">
-                    <FontIcon FontSize="16" Glyph="&#xE892;" />
+                    <FontIcon
+                        Name="PreviousIcon"
+                        FontSize="16"
+                        Glyph="&#xE892;" />
                 </Button>
                 <Button
                     Name="PlayButton"
@@ -288,7 +292,10 @@
                     x:Uid="Next"
                     Style="{StaticResource PlayerEllipsis}"
                     Tapped="Next_Tapped">
-                    <FontIcon FontSize="16" Glyph="&#xE893;" />
+                    <FontIcon
+                        Name="NextIcon"
+                        FontSize="16"
+                        Glyph="&#xE893;" />
                 </Button>
                 <Button
                     Name="Repeat"
