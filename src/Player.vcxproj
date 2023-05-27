@@ -16,7 +16,7 @@
     -->
     <TargetName>$(RootNamespace)</TargetName>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
     <AppxPackage>true</AppxPackage>
     <ApplicationType>Windows Store</ApplicationType>
@@ -105,13 +105,13 @@
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">false</BuildStlModules>
     </ClCompile>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -127,13 +127,13 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup Condition="'$(WindowsPackageType)'!='None' and Exists('Package.appxmanifest')">
@@ -150,7 +150,6 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Data.h">
-      <DependentUpon>Data.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Controls\Equalizer.xaml.h">
@@ -253,7 +252,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Data.cpp">
-      <DependentUpon>Data.idl</DependentUpon>
+      <DependentUpon>Data.h</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Pages\Welcome.xaml.cpp">
@@ -274,11 +273,12 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="Data.idl" />
+    <Midl Include="Structures\Music.idl" />
     <Midl Include="Controls\Equalizer.idl">
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Structures\Library.idl" />
     <Midl Include="ViewModels\InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>

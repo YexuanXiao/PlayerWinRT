@@ -1,13 +1,6 @@
 namespace Data
 {
-    struct Library
-    {
-        String name;
-        String protocol;
-        String address;
-        String icon;
-    };
-	struct MusicInfo {
+	struct Music {
 		String Title;
 		String Album;
 		String Genre;

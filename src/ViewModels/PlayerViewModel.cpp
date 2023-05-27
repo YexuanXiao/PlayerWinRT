@@ -52,6 +52,12 @@ namespace winrt::Player::implementation
     winrt::hstring PlayerViewModel::DoubleToString(double value) {
         return fast_io::wconcat_winrt_hstring(value);
     }
+    winrt::Data::Library PlayerViewModel::Library() {
+        return library_;
+    }
+    void PlayerViewModel::Library(winrt::Data::Library const& value) {
+        library_ = value;
+    }
     winrt::hstring PlayerViewModel::DurationToString(double value) {
          auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{static_cast<int64_t>(value) * 100}} };
          auto hours{ hms.hours().count() };

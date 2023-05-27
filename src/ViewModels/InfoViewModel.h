@@ -7,8 +7,8 @@ namespace winrt::Player::implementation
     {
         InfoViewModel() = default;
 
-        InfoViewModel(winrt::Data::MusicInfo const& info);
-        winrt::Data::MusicInfo Get();
+        InfoViewModel(winrt::Data::Music const& info);
+        winrt::Data::Music Get();
         hstring Title();
         hstring Album();
         hstring Genre();
@@ -21,7 +21,7 @@ namespace winrt::Player::implementation
         uint32_t Track();
 
     private:
-        winrt::Data::MusicInfo info_;
+        winrt::Data::Music info_;
     };
 }
 namespace winrt::Player::factory_implementation

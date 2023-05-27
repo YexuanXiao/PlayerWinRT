@@ -462,7 +462,7 @@ namespace winrt::Player::implementation
     void RootPage::Library(const winrt::Data::Library& value) {
         library_ = value;
     }
-    winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> RootPage::InfoList() {
+    winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> RootPage::InfoList() {
         return info_list_;
     }
 }

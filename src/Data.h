@@ -4,12 +4,12 @@
 #include <winrt/Data.h>
 
 namespace Data {
-    std::vector<winrt::Data::MusicInfo> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array);
+    std::vector<winrt::Data::Music> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array);
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonObject> GetLibraryFromFolderPath(winrt::hstring const& name, winrt::hstring const& protocol,winrt::hstring path, winrt::hstring const& icon);
 	struct PlayList {
 		using String = std::wstring;
 		String name;
-		std::vector<winrt::Data::MusicInfo> list;
+		std::vector<winrt::Data::Music> list;
 	};
 	using Equalizer = std::array<int8_t, 10>;
 

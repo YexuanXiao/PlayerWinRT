@@ -1,0 +1,10 @@
+namespace Data
+{
+    struct Library
+    {
+        String name;
+        String protocol;
+        String address;
+        String icon;
+    };
+}

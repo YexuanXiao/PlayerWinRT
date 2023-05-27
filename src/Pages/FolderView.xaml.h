@@ -21,10 +21,15 @@ namespace winrt::Player::implementation
         winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
         winrt::Windows::Foundation::IAsyncAction FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
     private:
+        // data for private use
         winrt::Data::Library library_info_;
         std::vector<winrt::hstring> path_stack_;
-        std::vector<winrt::Data::MusicInfo> library_;
-        std::vector<std::vector<std::reference_wrapper<const winrt::Data::MusicInfo>>> folders_stack_;
+        std::vector<winrt::Data::Music> library_;
+        std::vector<std::vector<std::reference_wrapper<const winrt::Data::Music>>> folders_stack_;
+
+        // data from root page
+
+
 
         void Build();
         void Rebuild();

@@ -44,15 +44,15 @@ namespace Data {
 		result.SetNamedValue(L"Icon", winrt::Windows::Data::Json::JsonValue::CreateStringValue(icon));
 		co_return result;
 	}
-	std::vector<winrt::Data::MusicInfo> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array) {
+	std::vector<winrt::Data::Music> TramsformJsonArrayToVector(winrt::Windows::Data::Json::JsonArray const& array) {
 		auto size{ std::size_t{array.Size()} };
 		auto vector{ std::vector<winrt::Windows::Data::Json::JsonValue>{size, nullptr} };
 		array.GetMany(0, vector);
-		auto result{ std::vector<winrt::Data::MusicInfo>{} };
+		auto result{ std::vector<winrt::Data::Music>{} };
 		result.reserve(size);
 		for (auto const& i: vector) {
 			auto info{ i.GetObjectW() };
-			auto item{ winrt::Data::MusicInfo{} };
+			auto item{ winrt::Data::Music{} };
 			item.Album = info.GetNamedString(L"Album");
 			item.Albumartist = info.GetNamedString(L"Albumartist");
 			item.Artist = info.GetNamedString(L"Albumartist");

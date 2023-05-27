@@ -6,11 +6,11 @@
 
 namespace winrt::Player::implementation
 {
-    InfoViewModel::InfoViewModel(winrt::Data::MusicInfo const& info)
+    InfoViewModel::InfoViewModel(winrt::Data::Music const& info)
     {
         info_ = info;
     }
-    winrt::Data::MusicInfo InfoViewModel::Get() {
+    winrt::Data::Music InfoViewModel::Get() {
         return info_;
     }
     hstring InfoViewModel::Title()

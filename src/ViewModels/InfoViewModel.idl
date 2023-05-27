@@ -1,4 +1,4 @@
-import "Data.idl";
+import "Music.idl";
 namespace Player
 {
     [bindable]
@@ -6,8 +6,8 @@ namespace Player
     runtimeclass InfoViewModel 
     {
         InfoViewModel();
-        InfoViewModel(ref const Data.MusicInfo info);
-        Data.MusicInfo Get();
+        InfoViewModel(ref const Data.Music info);
+        Data.Music Get();
         String Title{ get; };
         String Album{ get; };
         String Genre{ get; };

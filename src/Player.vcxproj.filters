@@ -5,12 +5,17 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
-    <Midl Include="Data.idl" />
     <Midl Include="ViewModels\PlayerViewModel.idl">
       <Filter>ViewModels</Filter>
     </Midl>
     <Midl Include="ViewModels\InfoViewModel.idl">
       <Filter>ViewModels</Filter>
+    </Midl>
+    <Midl Include="Structures\Music.idl">
+      <Filter>Structures</Filter>
+    </Midl>
+    <Midl Include="Structures\Library.idl">
+      <Filter>Structures</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +147,9 @@
     </Filter>
     <Filter Include="ViewModels">
       <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structures">
+      <UniqueIdentifier>{dac2e82e-bb3e-4d85-97d9-295545d204fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

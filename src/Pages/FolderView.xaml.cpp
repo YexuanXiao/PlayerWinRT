@@ -78,7 +78,7 @@ namespace winrt::Player::implementation
             }
             // prepare music list data
             auto itemContainer{ std::vector<winrt::Windows::Media::Playback::MediaPlaybackItem>{} };
-            auto infoContainer{ std::vector<winrt::Data::MusicInfo>{} };
+            auto infoContainer{ std::vector<winrt::Data::Music>{} };
             {
                 auto size{ view.Size() };
                 itemContainer.reserve(size);
@@ -290,7 +290,7 @@ namespace winrt::Player::implementation
         // for music_view_
         auto musicContainer{ std::vector<winrt::Player::InfoViewModel>{} };
         // for current stack frame
-        auto frame{ std::vector<std::reference_wrapper<const winrt::Data::MusicInfo>>{} };
+        auto frame{ std::vector<std::reference_wrapper<const winrt::Data::Music>>{} };
         {
             musicContainer.reserve(20uz);
             frame.reserve(50uz);

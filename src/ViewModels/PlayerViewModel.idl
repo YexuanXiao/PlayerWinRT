@@ -1,3 +1,4 @@
+import "Library.idl";
 namespace Player
 {
     [bindable]
@@ -9,6 +10,7 @@ namespace Player
         UInt32 Index;
         Double Position;
         Double Duration;
+        Data.Library Library;
         static String DoubleToString(Double volume);
         static String DurationToString(Double duration);
     }

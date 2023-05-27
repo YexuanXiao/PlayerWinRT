@@ -14,6 +14,8 @@ namespace winrt::Player::implementation
         void Position(double value);
         double Duration();
         void Duration(double value);
+        winrt::Data::Library Library();
+        void Library(winrt::Data::Library const&);
         winrt::event_token PropertyChanged(winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler const& handler);
         void PropertyChanged(winrt::event_token const& token) noexcept;
         static winrt::hstring DoubleToString(double);
@@ -23,6 +25,7 @@ namespace winrt::Player::implementation
         uint32_t index_;
         double position_;
         double duration_;
+        winrt::Data::Library library_;
         winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> propertyChanged_;
     };
 }

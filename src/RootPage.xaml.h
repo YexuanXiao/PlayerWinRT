@@ -14,7 +14,7 @@ namespace winrt::Player::implementation
         static void Library(winrt::Data::Library const&);
         static winrt::Player::PlayerViewModel PlayerViewModel();
         static Windows::Media::Playback::MediaPlaybackList List();
-        static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> InfoList();
+        static winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> InfoList();
         static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> Libraries();
         static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> Music();
 
@@ -57,7 +57,7 @@ namespace winrt::Player::implementation
         inline static Windows::Media::Playback::MediaPlaybackList list_{ nullptr };
         inline static winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{ nullptr };
         inline static winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{ nullptr };
-        inline static winrt::Windows::Foundation::Collections::IVector<winrt::Data::MusicInfo> info_list_{ winrt::single_threaded_vector<winrt::Data::MusicInfo>() };
+        inline static winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> info_list_{ winrt::single_threaded_vector<winrt::Data::Music>() };
     };
 }
 
