@@ -7,10 +7,10 @@ namespace Player
     {
         RootPage();
         String AppTitleText{ get; };
-        Windows.Media.Playback.MediaPlayer Player{ get; };
         Microsoft.UI.Xaml.Controls.Frame RootFrame{get; };
         Microsoft.UI.Xaml.Controls.NavigationView MainNavigation{ get; };
         Microsoft.UI.Xaml.Controls.Grid AppTitleBar{get; };
+        Windows.Media.Playback.MediaPlayer Player{ get; };
         static Data.Library Library{ get; set; };
         static PlayerViewModel PlayerViewModel{ get; };
         static Windows.Media.Playback.MediaPlaybackList List{ get; };

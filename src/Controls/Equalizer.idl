@@ -3,6 +3,6 @@ namespace Player
     [default_interface]
     runtimeclass Equalizer : Microsoft.UI.Xaml.Controls.ContentDialog
     {
-        Equalizer();
+        Equalizer(Windows.Media.Playback.MediaPlayer player);
     }
 }

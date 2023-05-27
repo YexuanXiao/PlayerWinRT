@@ -422,7 +422,7 @@ namespace winrt::Player::implementation
     {
         args.Handled(true);
 
-        auto dialog{ winrt::Player::Equalizer{} };
+        auto dialog{ winrt::Player::Equalizer{player_} };
         dialog.XamlRoot(XamlRoot());
         dialog.RequestedTheme(ActualTheme());
 
