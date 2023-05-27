@@ -70,7 +70,7 @@ namespace winrt::Player::implementation
             Address().Text(L"X:\\");
             Icon().Glyph(L"\uE770");
             SelectButton().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
-            }
+        }
         else if (tag == L"ftp") {
             Protocol().Text(L"FTP");
             Address().Text(L"ftp://");

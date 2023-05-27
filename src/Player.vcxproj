@@ -27,6 +27,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <CppWinRTModernIDL>true</CppWinRTModernIDL>
     <CppWinRTUsePrefixes>false</CppWinRTUsePrefixes>
+    <CppWinRTFastAbi>true</CppWinRTFastAbi>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">

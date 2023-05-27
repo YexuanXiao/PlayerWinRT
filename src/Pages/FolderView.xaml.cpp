@@ -183,25 +183,17 @@ namespace winrt::Player::implementation
         }
         // set music duration count
         {
-            auto time{ 0ll };
+            auto count{ winrt::clock::duration{} };
             for (auto const& info : music) [[likely]]
-                time += info.Duration();
-            auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{time * 100}} };
-            auto text{ std::wstring{} };
-            text.reserve(20uz);
+                count += winrt::clock::duration{ info.Duration() };
+            auto const hms{ std::chrono::hh_mm_ss{ count } };
 
-            if (hms.hours().count()) [[likely]] {
-                text += fast_io::wconcat(hms.hours().count());
-                text += L"h\u2005";
-            }
-            if (hms.minutes().count()) [[likely]] {
-                text += fast_io::wconcat(hms.minutes().count());
-                text += L"m\u2005";
-            }
-            if (hms.seconds().count()) [[likely]] {
-                text += fast_io::wconcat(hms.seconds().count());
-                text += L's';
-            }
+            auto text{ winrt::hstring{} };
+
+            if (hms.hours().count()) [[likely]]
+                text = fast_io::wconcat_winrt_hstring(hms.hours(), fast_io::manipulators::chvw(L'\u2005'), hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+            else if (hms.minutes().count())
+                text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
 
             DurationCount().Text(text);
         }
