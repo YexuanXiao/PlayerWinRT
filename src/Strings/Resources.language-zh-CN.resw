@@ -254,7 +254,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>图标</value>
     <comment>Edit Library Page</comment>
   </data>
-  <data name="Librarys.Content" xml:space="preserve">
+  <data name="Libraries.Content" xml:space="preserve">
     <value>音乐库</value>
     <comment>RootPage Navigation</comment>
   </data>

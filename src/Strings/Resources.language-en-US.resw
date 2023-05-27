@@ -254,7 +254,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Icon</value>
     <comment>Edit Library Page</comment>
   </data>
-  <data name="Librarys.Content" xml:space="preserve">
+  <data name="Libraries.Content" xml:space="preserve">
     <value>Librarys</value>
     <comment>RootPage Navigation</comment>
   </data>

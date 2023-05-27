@@ -97,7 +97,7 @@ namespace SettingsHelper {
 		libraries.Append(libraryinfo);
 		localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
 	}
-	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibaray(winrt::hstring const& name) {
+	winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibrary(winrt::hstring const& name) {
 		auto file{ co_await impl_::GetDataFolder().GetItemAsync(name)};
 		co_return winrt::Windows::Data::Json::JsonArray::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file.try_as<winrt::Windows::Storage::StorageFile>()));
 	}

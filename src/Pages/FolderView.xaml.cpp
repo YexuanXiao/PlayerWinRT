@@ -135,7 +135,7 @@ namespace winrt::Player::implementation
         path_stack_.clear();
         folders_view_.Clear();
         music_view_.Clear();
-        library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(library_info_.name)));
+        library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_info_.name)));
         BuildRoot();
     }
     winrt::hstring FolderView::CalculateTrueFolderCount(uint32_t value) {

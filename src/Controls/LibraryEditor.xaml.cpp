@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Controls/LibraryEditor.xaml.h"
+#include "LibraryEditor.xaml.h"
 #if __has_include("LibraryEditor.g.cpp")
 #include "LibraryEditor.g.cpp"
 #endif
