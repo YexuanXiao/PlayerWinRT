@@ -37,17 +37,18 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid
-            Name="AppTitleBar"
             Grid.Column="1"
             Height="48"
-            Margin="48,0,0,0"
             VerticalAlignment="Top"
             Canvas.ZIndex="-1000">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="ButtonPlaceholder" Width="48" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel
+                Name="AppTitleBar"
+                Grid.Column="1"
+                Orientation="Horizontal">
                 <Image
                     Width="24"
                     Height="24"
@@ -392,7 +393,7 @@
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="1*,1*,1*" />
-                        <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
+                        <Setter Target="ButtonPlaceholder.Width" Value="96" />
                         <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
                     </VisualState.Setters>
                 </VisualState>
@@ -409,7 +410,7 @@
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />
-                        <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
+                        <Setter Target="ButtonPlaceholder.Width" Value="96" />
                         <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
                     </VisualState.Setters>
                 </VisualState>

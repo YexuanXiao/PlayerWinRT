@@ -39,8 +39,8 @@ namespace winrt::Player::implementation
         CloseButtonText(resource_.GetString(L"Cancel"));
 
         // initialize icons, add click event
-        for (auto icon : Icons().Items()) {
-            icon.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tapped({ this,&LibraryEditor::Icon_Select });
+        for (auto item : Icons().Items()) {
+            item.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tapped({ this,&LibraryEditor::Icon_Select });
         }
 
         Library().Text(name);

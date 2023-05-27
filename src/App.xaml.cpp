@@ -98,6 +98,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     {
         // In the case that title bar customization is not supported, fallback to WindowChrome
         window_.ExtendsContentIntoTitleBar(true);
+        window_.SetTitleBar(rootPage.AppTitleBar());
     }
 
     // make app only have one instance
