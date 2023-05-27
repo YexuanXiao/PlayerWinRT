@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "winrt/Data.h"
 
 namespace SettingsHelper {
 
@@ -16,7 +17,7 @@ namespace SettingsHelper {
 	};
 	Repeat GetRepeat();
 	void SetRepeat(Repeat);
-	winrt::Windows::Data::Json::JsonArray GetLibraries();
+	winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> GetLibraries();
 	[[nodiscard]] winrt::Windows::Foundation::IAsyncAction StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library);
 	[[nodiscard]] winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibaray(winrt::hstring const& name);
 	[[nodiscard]] winrt::Windows::Foundation::IAsyncAction RemoveLibrary(winrt::hstring const& name);

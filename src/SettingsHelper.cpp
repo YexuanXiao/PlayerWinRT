@@ -68,10 +68,18 @@ namespace SettingsHelper {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		localSettings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
 	}
-	winrt::Windows::Data::Json::JsonArray GetLibraries() {
+	winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> GetLibraries() {
 		auto localSettings{ impl_::GetApplicationSettings() };
 		auto value{ winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()),winrt::hstring{L"[]"})};
-		return winrt::Windows::Data::Json::JsonArray::Parse(value);
+		auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(value) };
+		// make container and data
+		auto container{ std::vector<winrt::Data::Library>{} };
+		container.reserve(libraries.Size());
+		for (auto const& library : libraries) {
+			auto info{ library.GetObjectW() };
+			container.emplace_back(info.GetNamedString(L"Name"), info.GetNamedString(L"Protocol"), info.GetNamedString(L"Path"), info.GetNamedString(L"Icon"));
+		}
+		return winrt::single_threaded_observable_vector<winrt::Data::Library>(std::move(container));
 	}
 	winrt::Windows::Foundation::IAsyncAction StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library) {
 		auto localSettings{ impl_::GetApplicationSettings() };

@@ -11,11 +11,14 @@
     <Midl Include="ViewModels\InfoViewModel.idl">
       <Filter>ViewModels</Filter>
     </Midl>
-    <Midl Include="Structures\Music.idl">
-      <Filter>Structures</Filter>
+    <Midl Include="Data\Music.idl">
+      <Filter>Data</Filter>
     </Midl>
-    <Midl Include="Structures\Library.idl">
-      <Filter>Structures</Filter>
+    <Midl Include="Data\Library.idl">
+      <Filter>Data</Filter>
+    </Midl>
+    <Midl Include="Data\FolderViewParamater.idl">
+      <Filter>Data</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -24,12 +27,18 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Data\FolderViewParamater.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Data\FolderViewParamater.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -148,7 +157,7 @@
     <Filter Include="ViewModels">
       <UniqueIdentifier>{ee3fdf56-a3ce-471f-9f0c-a2feaaea9a6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Structures">
+    <Filter Include="Data">
       <UniqueIdentifier>{dac2e82e-bb3e-4d85-97d9-295545d204fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

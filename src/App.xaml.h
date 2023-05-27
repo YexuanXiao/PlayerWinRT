@@ -17,8 +17,8 @@ namespace winrt::Player::implementation
         std::wstring_view appname_{L"PlayerWinRT"};
 
         void AppWindow_Changed(Microsoft::UI::Windowing::AppWindow, Microsoft::UI::Windowing::AppWindowChangedEventArgs const&);
-        void AppTitleBar_Loaded(IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
-        void AppTitleBar_SizeChanged(IInspectable const&, Microsoft::UI::Xaml::SizeChangedEventArgs const&);
+        void AppTitleBar_Loaded(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::RoutedEventArgs const&);
+        void AppTitleBar_SizeChanged(winrt::Windows::Foundation::IInspectable const&, Microsoft::UI::Xaml::SizeChangedEventArgs const&);
         void SetDragRegionForCustomTitleBar();
 
         static void SetTitleBarTheme(Microsoft::UI::Windowing::AppWindowTitleBar& titlebar, Microsoft::UI::Xaml::ElementTheme theme);

@@ -1,6 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
+import "Library.idl";
 namespace Player
 {
     [default_interface]

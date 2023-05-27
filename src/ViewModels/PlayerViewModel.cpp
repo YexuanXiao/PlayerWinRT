@@ -56,7 +56,10 @@ namespace winrt::Player::implementation
         return library_;
     }
     void PlayerViewModel::Library(winrt::Data::Library const& value) {
-        library_ = value;
+        if (value.name != library_.name) {
+            library_ = value;
+            // propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Library" });
+        }
     }
     winrt::hstring PlayerViewModel::DurationToString(double value) {
          auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{static_cast<int64_t>(value) * 100}} };

@@ -11,10 +11,11 @@ namespace winrt::Player::implementation
 {
     struct LibraryEditor : LibraryEditorT<LibraryEditor>
     {
-        LibraryEditor();
-        LibraryEditor(winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
+        LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const&);
+        LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
     private:
         winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader resource_{};
+        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_;
         bool CheckInfoLegal();
         void Icon_Select(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
     public:

@@ -12,7 +12,6 @@
     <SplitView
         DisplayMode="Inline"
         IsPaneOpen="True"
-        Loaded="FolderView_Loaded"
         OpenPaneLength="256"
         PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         <SplitView.Pane>

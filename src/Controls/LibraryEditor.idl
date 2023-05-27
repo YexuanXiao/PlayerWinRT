@@ -1,9 +1,10 @@
+import "Library.idl";
 namespace Player
 {
     [default_interface]
     runtimeclass LibraryEditor : Microsoft.UI.Xaml.Controls.ContentDialog
     {
-        LibraryEditor();
-        LibraryEditor(String name, String protocol, String address, String icon);
+        LibraryEditor(Windows.Foundation.Collections.IObservableVector<Data.Library> libraries);
+        LibraryEditor(Windows.Foundation.Collections.IObservableVector<Data.Library> libraries, String name, String protocol, String address, String icon);
     }
 }

@@ -19,24 +19,23 @@ namespace winrt::Player::implementation
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> MusicList();
         // event handlers
         winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
-        winrt::Windows::Foundation::IAsyncAction FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
     private:
         // data for private use
-        winrt::Data::Library library_info_;
         std::vector<winrt::hstring> path_stack_;
         std::vector<winrt::Data::Music> library_;
         std::vector<std::vector<std::reference_wrapper<const winrt::Data::Music>>> folders_stack_;
 
         // data from root page
-
-
+        winrt::Player::PlayerViewModel playerViewModel_{ nullptr };
+        winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> music_{ nullptr };
+        winrt::Windows::Media::Playback::MediaPlaybackList list_{ nullptr };
+        decltype(list_.Items()) music_list_{ nullptr };
+        winrt::Data::Library library_info_;
 
         void Build();
         void Rebuild();
         void BuildRoot();
 
-        // async init because constructor cannot be coroutine
-        [[nodiscard]] winrt::Windows::Foundation::IAsyncAction Initialize();
         void UpdateUI(std::vector<winrt::hstring> const&, std::vector<winrt::Player::InfoViewModel> const&);
 
         // runtime properties implement

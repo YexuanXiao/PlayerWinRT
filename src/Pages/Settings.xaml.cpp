@@ -45,7 +45,7 @@ namespace winrt::Player::implementation
 		
 	}
 
-	void Settings::Theme_Changed(IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&)
+	void Settings::Theme_Changed(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&)
 	{
 		auto radioButton{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButtons>().SelectedItem().try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButton>() };
 		// if no item select, return
@@ -62,7 +62,7 @@ namespace winrt::Player::implementation
 		SettingsHelper::SetTheme(XamlRoot(), theme);
 	}
 
-	void Settings::Theme_Loaded(IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
+	void Settings::Theme_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
 	{
 		auto radioButtons{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButtons>() };
 		auto pre{ SettingsHelper::LoadTheme() };

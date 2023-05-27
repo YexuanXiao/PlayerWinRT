@@ -31,7 +31,7 @@ App::App()
     // https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle
 
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
-    UnhandledException([](IInspectable const&, UnhandledExceptionEventArgs const& e)
+    UnhandledException([](winrt::Windows::Foundation::IInspectable const&, UnhandledExceptionEventArgs const& e)
         {
             if (IsDebuggerPresent())
             {
@@ -88,7 +88,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
         auto theme{ SettingsHelper::LoadTheme() };
         SetTitleBarTheme(titleBar, theme);
 
-        rootPage.ActualThemeChanged([appWindow](FrameworkElement const& sender, IInspectable const&) {
+        rootPage.ActualThemeChanged([appWindow](FrameworkElement const& sender, winrt::Windows::Foundation::IInspectable const&) {
             auto titleBar{ appWindow.TitleBar() };
             assert(titleBar.ExtendsContentIntoTitleBar());
             SetTitleBarTheme(titleBar, sender.ActualTheme());
@@ -101,7 +101,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
     }
 
     // make app only have one instance
-    window_.Activated([&self = *this](IInspectable const& sender, WindowActivatedEventArgs const&) {
+    window_.Activated([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, WindowActivatedEventArgs const&) {
         // set window_ property to find instance
         Win32Helper::DisableMultiInstanceWindow(sender.try_as<Window>(), self.appname_);
         });
@@ -115,11 +115,11 @@ void App::OnLaunched(LaunchActivatedEventArgs const&)
 void App::AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs const& args) {
     // todo: https://learn.microsoft.com/zh-cn/windows/apps/develop/title-bar?tabs=wasdk#full-customization-example
 }
-void App::AppTitleBar_Loaded(IInspectable const&, RoutedEventArgs const&) {
+void App::AppTitleBar_Loaded(winrt::Windows::Foundation::IInspectable const&, RoutedEventArgs const&) {
     assert(AppWindowTitleBar::IsCustomizationSupported());
     SetDragRegionForCustomTitleBar();
 }
-void App::AppTitleBar_SizeChanged(IInspectable const&, SizeChangedEventArgs const&) {
+void App::AppTitleBar_SizeChanged(winrt::Windows::Foundation::IInspectable const&, SizeChangedEventArgs const&) {
     assert(AppWindowTitleBar::IsCustomizationSupported());
     assert(window_.AppWindow().TitleBar().ExtendsContentIntoTitleBar());
     SetDragRegionForCustomTitleBar();

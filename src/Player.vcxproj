@@ -26,6 +26,7 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <CppWinRTModernIDL>true</CppWinRTModernIDL>
+    <CppWinRTUsePrefixes>false</CppWinRTUsePrefixes>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -103,15 +104,18 @@
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</BuildStlModules>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">stdcpplatest</LanguageStandard>
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">false</BuildStlModules>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -121,19 +125,22 @@
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BuildStlModules>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">stdcpplatest</LanguageStandard>
       <BuildStlModules Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">false</BuildStlModules>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
     <Midl>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Structures;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup Condition="'$(WindowsPackageType)'!='None' and Exists('Package.appxmanifest')">
@@ -156,6 +163,7 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Data\FolderViewParamater.h" />
     <ClInclude Include="ViewModels\InfoViewModel.h">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -211,6 +219,7 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Data\FolderViewParamater.cpp" />
     <ClCompile Include="ViewModels\InfoViewModel.cpp">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -273,12 +282,13 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="Structures\Music.idl" />
+    <Midl Include="Data\FolderViewParamater.idl" />
+    <Midl Include="Data\Music.idl" />
     <Midl Include="Controls\Equalizer.idl">
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="Structures\Library.idl" />
+    <Midl Include="Data\Library.idl" />
     <Midl Include="ViewModels\InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>

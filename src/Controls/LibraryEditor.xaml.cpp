@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "LibraryEditor.xaml.h"
+#include "Controls/LibraryEditor.xaml.h"
 #if __has_include("LibraryEditor.g.cpp")
 #include "LibraryEditor.g.cpp"
 #endif
@@ -14,7 +14,7 @@
 
 namespace winrt::Player::implementation
 {
-    LibraryEditor::LibraryEditor()
+    LibraryEditor::LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const& libraries): libraries_(libraries)
     {
         InitializeComponent();
 
@@ -30,7 +30,7 @@ namespace winrt::Player::implementation
         // regist add branch
         PrimaryButtonClick({ this, &LibraryEditor::PrimaryButton_Click });
     }
-    LibraryEditor::LibraryEditor(winrt::hstring const& name, winrt::hstring const& protocol, winrt::hstring const& address, winrt::hstring const& icon)
+    LibraryEditor::LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const& libraries, winrt::hstring const& name, winrt::hstring const& protocol, winrt::hstring const& address, winrt::hstring const& icon) : libraries_(libraries)
     {
         InitializeComponent();
 
@@ -121,7 +121,7 @@ namespace winrt::Player::implementation
 
         co_await SettingsHelper::StoreLibrary(library);
         
-        RootPage::Libraries().Append(info);
+        libraries_.Append(info);
         // switch back to ui thread
         co_await ui_thread;
         Hide();

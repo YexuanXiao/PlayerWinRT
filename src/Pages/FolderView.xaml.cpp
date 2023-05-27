@@ -13,9 +13,27 @@ namespace winrt::Player::implementation
     FolderView::FolderView()
     {
         InitializeComponent();
+        // because constructor cannot be coroutine, so initialize in Loaded event
+    }
+    winrt::Windows::Foundation::IAsyncAction FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args) {
+        if (args.Parameter() == nullptr)
+            co_return;
+        
+        auto argument{ args.Parameter().try_as<winrt::Data::FolderViewParamater>() };
+        
+        auto library_info{ argument.Library() };
+        if (library_info_ == library_info)
+            co_return;
+        else
+            library_info_ = library_info;
+
+        playerViewModel_ = argument.PlayerViewModel();
+        music_ = argument.Music();
+        list_ = argument.List();
+        music_list_ = list_.Items();
 
         // init FolderList UI item events
-        FolderViewList().SelectionChanged([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
+        FolderViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.FolderViewList().SelectedIndex() };
             if (index == -1) return; // workaround beacuse one click trigged event twice
@@ -53,21 +71,20 @@ namespace winrt::Player::implementation
             (because ListView is almost always in click mode,
             so changing selected item programmatically does not trigger single selection events)
         */
-        MusicViewList().ItemClick([&self = *this](IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             // important code to make such effect
             auto viewlist{ self.MusicViewList() };
             viewlist.SelectionMode(winrt::Microsoft::UI::Xaml::Controls::ListViewSelectionMode::Single);
             viewlist.IsItemClickEnabled(false);
             viewlist.SelectedItem(args.ClickedItem());
 
+            auto current{ args.ClickedItem().try_as<winrt::Player::InfoViewModel>().Get() };
             // swith to backgroud thread
             co_await winrt::resume_background();
-
             // find index of clicked item
             auto view{ self.music_view_.GetView() };
             auto index{ -1ll };
             {
-                auto current{ args.ClickedItem().try_as<winrt::Player::InfoViewModel>().Get() };
                 for (auto begin{ view.begin() }, end{ view.end() }; begin != end; ++begin) {
                     if (current.Duration == (*begin).Duration()) {
                         index = std::distance(view.begin(), begin);
@@ -91,10 +108,10 @@ namespace winrt::Player::implementation
                 }
             }
             // set data
-            RootPage::Library(::Data::Global::CurrentLibrary);
-            RootPage::InfoList().ReplaceAll(infoContainer);
-            RootPage::Music().ReplaceAll(itemContainer);
-            RootPage::List().MoveTo(static_cast<uint32_t>(index));
+            self.playerViewModel_.Library(self.library_info_);
+            self.music_.ReplaceAll(infoContainer);
+            self.music_list_.ReplaceAll(itemContainer);
+            self.list_.MoveTo(static_cast<uint32_t>(index));
             });
         MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // make click event effective
@@ -102,10 +119,10 @@ namespace winrt::Player::implementation
             });
 
         // regist play list event to update selected item
-        RootPage::List().CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(RootPage::List()) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             if (sender.CurrentItem() == nullptr) co_return;
             co_await ui_thread;
-            auto current{ RootPage::InfoList().GetAt(sender.CurrentItemIndex()) };
+            auto current{ self.music_.GetAt(sender.CurrentItemIndex()) };
             for (const auto& info : self.music_view_.GetView()) {
                 if (current.Duration == info.Duration()) {
                     self.MusicViewList().SelectedItem(info);
@@ -114,26 +131,12 @@ namespace winrt::Player::implementation
             }
             });
 
-        // because constructor cannot be coroutine, so initialize in Loaded event
-    }
-    winrt::Windows::Foundation::IAsyncAction FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&) {
-        co_await Initialize();
-    }
-    winrt::Windows::Foundation::IAsyncAction FolderView::Initialize() {
-        // event trigged when frame backed and constructed
-        if (library_info_ != ::Data::Global::CurrentLibrary) [[unlikely]] {
-            library_info_ = ::Data::Global::CurrentLibrary;
-            folders_stack_.clear();
-            path_stack_.clear();
-            folders_view_.Clear();
-            music_view_.Clear();
-            library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(library_info_.name)));
-            BuildRoot();
-            }
-    }
-    winrt::Windows::Foundation::IAsyncAction FolderView::FolderView_Loaded(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
-    {
-        co_await Initialize();
+        folders_stack_.clear();
+        path_stack_.clear();
+        folders_view_.Clear();
+        music_view_.Clear();
+        library_ = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibaray(library_info_.name)));
+        BuildRoot();
     }
     winrt::hstring FolderView::CalculateTrueFolderCount(uint32_t value) {
         auto adjust{ path_stack_.empty() ? 0 : 1 };

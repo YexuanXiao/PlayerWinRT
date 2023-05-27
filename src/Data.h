@@ -52,7 +52,3 @@ namespace Data {
 }
 )" };
 }
-
-namespace Data::Global {
-    inline winrt::Data::Library CurrentLibrary{};
-}
