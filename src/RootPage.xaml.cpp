@@ -88,6 +88,16 @@ namespace winrt::Player::implementation
                 }
             });
         playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const& args) {
+            // if two events occur within 50ms, discard subsequent events
+            {
+                static auto pre{ winrt::clock::now().time_since_epoch() };
+                auto now{ winrt::clock::now().time_since_epoch() };
+                using namespace std::chrono_literals;
+                if ((now - pre) < std::chrono::duration_cast<winrt::clock::duration>(50ms))
+                    return;
+                else
+                    pre = now;
+            }
             if (args.PropertyName() == L"Position") [[likely]]
                 self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(std::chrono::nanoseconds{ static_cast<int64_t>(self.playerViewModel_.Position()) * 100 }));
             });
@@ -231,7 +241,7 @@ namespace winrt::Player::implementation
             repeat_one_ = true;
             icon = L"\uE8ED";
         }
-        else if (icon == L"\uE8EE") {
+        else if (icon == L"\uE8ED") {
             // no repeat
             repeat_one_ = false;
             icon = L"\uF5E7";
@@ -348,6 +358,16 @@ namespace winrt::Player::implementation
     }
     void RootPage::Volume_LostFocus(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&)
     {
+        // if two events occur within 50ms, discard subsequent events
+        {
+            static auto pre{ winrt::clock::now().time_since_epoch() };
+            auto now{ winrt::clock::now().time_since_epoch() };
+            using namespace std::chrono_literals;
+            if ((now - pre) < std::chrono::duration_cast<winrt::clock::duration>(50ms))
+                return;
+            else
+                pre = now;
+        }
         SettingsHelper::SetVolume(playerViewModel_.Volume());
     }
     void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
