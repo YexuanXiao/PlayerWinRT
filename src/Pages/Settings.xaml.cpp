@@ -112,8 +112,10 @@ namespace winrt::Player::implementation
 		icon.Glyph(L"\uE7BA");
 		icon.FontSize(50.);
 		icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(30.));
+		icon.MaxWidth(300.);
 		auto text{ winrt::Microsoft::UI::Xaml::Controls::TextBlock{} };
 		text.Text(L"Are you sure you want to delete all data of this app? This operation is irreversible!");
+		text.TextAlignment(winrt::Microsoft::UI::Xaml::TextAlignment::Center);
 		text.TextWrapping(winrt::Microsoft::UI::Xaml::TextWrapping::Wrap);
 		text.HorizontalAlignment(winrt::Microsoft::UI::Xaml::HorizontalAlignment::Center);
 		winrt::Microsoft::UI::Xaml::Controls::Grid::SetRow(icon, 0);

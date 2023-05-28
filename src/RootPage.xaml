@@ -81,6 +81,7 @@
                     MinWidth="200"
                     VerticalAlignment="Center"
                     x:FieldModifier="public"
+                    IsEnabled="False"
                     KeyboardAcceleratorPlacementMode="Hidden"
                     QueryIcon="Find">
                     <AutoSuggestBox.KeyboardAccelerators>
@@ -119,8 +120,12 @@
                 <NavigationViewItem
                     Name="NainPlayList"
                     x:Uid="PlayList"
-                    Icon="MusicInfo" />
-                <NavigationViewItem x:Uid="Songs" Icon="Audio" />
+                    Icon="MusicInfo"
+                    IsEnabled="False" />
+                <NavigationViewItem
+                    x:Uid="Songs"
+                    Icon="Audio"
+                    IsEnabled="False" />
                 <NavigationViewItem
                     Name="Folders"
                     x:Uid="Folders"
@@ -129,17 +134,17 @@
                         <FontIcon Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Albums">
+                <NavigationViewItem x:Uid="Albums" IsEnabled="False">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE93C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Artists">
+                <NavigationViewItem x:Uid="Artists" IsEnabled="False">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF12E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Genres">
+                <NavigationViewItem x:Uid="Genres" IsEnabled="False">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE909;" />
                     </NavigationViewItem.Icon>
@@ -152,7 +157,10 @@
                         <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Equalizer" Tapped="Equalizer_Tapped">
+                <NavigationViewItem
+                    x:Uid="Equalizer"
+                    IsEnabled="False"
+                    Tapped="Equalizer_Tapped">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9E9;" />
                     </NavigationViewItem.Icon>
@@ -345,10 +353,16 @@
                     </Button.Flyout>
                     <FontIcon FontSize="16" Glyph="&#xE767;" />
                 </Button>
-                <Button x:Uid="FullScreen" Style="{StaticResource PlayerEllipsis}">
+                <Button
+                    x:Uid="FullScreen"
+                    IsEnabled="False"
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xE740;" />
                 </Button>
-                <Button x:Uid="Expand" Style="{StaticResource PlayerEllipsis}">
+                <Button
+                    x:Uid="Expand"
+                    IsEnabled="False"
+                    Style="{StaticResource PlayerEllipsis}">
                     <FontIcon FontSize="16" Glyph="&#xEE47;" />
                 </Button>
                 <Button
@@ -363,7 +377,7 @@
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="SelectDevices">
+                            <MenuFlyoutItem x:Uid="SelectDevices" IsEnabled="False">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xF4C3;" />
                                 </MenuFlyoutItem.Icon>

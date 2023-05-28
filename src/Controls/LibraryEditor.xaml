@@ -10,7 +10,7 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <Grid Width="350">
+    <Grid Width="400">
         <Grid Name="Progress" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

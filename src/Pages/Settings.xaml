@@ -34,7 +34,7 @@
             Grid.Row="1"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollMode="Auto">
-            <Grid Name="ContentGrid">
+            <Grid Name="ContentGrid" Margin="0,0,0,40">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -131,18 +131,15 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Text="Default Page" />
-                            <DropDownButton
-                                Grid.Column="2"
-                                HorizontalAlignment="Right"
-                                IsEnabled="False">
+                            <DropDownButton Grid.Column="2" HorizontalAlignment="Right">
                                 <TextBlock Text="Choose default page" />
                                 <DropDownButton.Flyout>
                                     <MenuFlyout x:Name="DefaultPage" Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem Text="Songs" />
+                                        <MenuFlyoutItem IsEnabled="False" Text="Songs" />
                                         <MenuFlyoutItem Text="Folder" />
-                                        <MenuFlyoutItem Text="Album" />
-                                        <MenuFlyoutItem Text="Artist" />
-                                        <MenuFlyoutItem Text="Genre" />
+                                        <MenuFlyoutItem IsEnabled="False" Text="Album" />
+                                        <MenuFlyoutItem IsEnabled="False" Text="Artist" />
+                                        <MenuFlyoutItem IsEnabled="False" Text="Genre" />
                                     </MenuFlyout>
                                 </DropDownButton.Flyout>
                             </DropDownButton>

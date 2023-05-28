@@ -10,7 +10,7 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <Grid MinWidth="350">
+    <Grid MinWidth="400">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -137,12 +137,12 @@
         <Button
             Grid.Row="7"
             Width="Auto"
-            Margin="-10,0,0,-15"
+            Margin="-10,-10,0,-10"
             HorizontalAlignment="Left"
             Foreground="{StaticResource SystemAccentColor}"
             Style="{StaticResource EllipsisButton}"
             Tapped="Folder_Tapped">
-            <TextBlock x:Uid="OpenInExplorer" Padding="8,4,8,4" />
+            <TextBlock x:Uid="OpenInExplorer" Padding="10,5,10,5" />
         </Button>
     </Grid>
 </ContentDialog>
