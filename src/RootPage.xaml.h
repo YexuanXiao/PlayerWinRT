@@ -25,10 +25,10 @@ namespace winrt::Player::implementation
         void Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Navigation_ItemInvoked(Microsoft::UI::Xaml::Controls::NavigationView const&, Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const&);
-        Windows::Foundation::IAsyncAction Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
-        Windows::Foundation::IAsyncAction About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
-        Windows::Foundation::IAsyncAction Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
-        Windows::Foundation::IAsyncAction MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        winrt::Windows::Foundation::IAsyncAction Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        winrt::Windows::Foundation::IAsyncAction About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        winrt::Windows::Foundation::IAsyncAction Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        winrt::Windows::Foundation::IAsyncAction MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
         void Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&);
 
     private:
@@ -42,10 +42,9 @@ namespace winrt::Player::implementation
         bool repeat_one_{ false };
         winrt::Data::Library library_{};
         winrt::hstring title_{L"PlayerWinRT"};
-        Windows::Media::Playback::MediaPlayer player_{};
         winrt::Player::PlayerViewModel playerViewModel_{};
-        Windows::Media::Playback::MediaPlaybackList play_list_{};
-        decltype(play_list_.Items()) music_list_{ play_list_.Items() };
+        winrt::Windows::Media::Playback::MediaPlayer player_{};
+        winrt::Windows::Media::Playback::MediaPlaybackList play_list_{};
         decltype(player_.CommandManager()) commander_{ player_.CommandManager()};
         decltype(player_.PlaybackSession()) session_{ player_.PlaybackSession() };
         decltype(SettingsHelper::GetLibraries()) libraries_{ SettingsHelper::GetLibraries() };

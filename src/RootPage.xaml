@@ -275,7 +275,10 @@
                     x:Uid="Shuffle"
                     Style="{StaticResource PlayerEllipsis}"
                     Tapped="Shuffle_Tapped">
-                    <FontIcon FontSize="16" Glyph="&#xE8B1;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xE30D;" />
                 </Button>
                 <Button
                     x:Uid="Previous"

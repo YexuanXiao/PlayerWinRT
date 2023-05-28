@@ -89,7 +89,7 @@ namespace winrt::Player::implementation
                     }
                 }
             });
-        playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const& args) {
+        playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             // if two events occur within 50ms, discard subsequent events
             {
                 static auto pre{ winrt::clock::now().time_since_epoch() };
@@ -158,6 +158,10 @@ namespace winrt::Player::implementation
             self.PlayButtonOn();
             });
         commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+            co_await ui_thread;
+            self.PlayButtonOff();
+            });
+        player_.MediaEnded([&self = *this, ui_thread = winrt::apartment_context{}](decltype(player_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOff();
             });
@@ -238,7 +242,6 @@ namespace winrt::Player::implementation
         if (icon == L"\uF5E7") {
             // repeat all
             icon = L"\uE8EE";
-            play_list_.ShuffleEnabled(false);
             play_list_.AutoRepeatEnabled(true);
         }
         else if (icon == L"\uE8EE") {
@@ -260,11 +263,13 @@ namespace winrt::Player::implementation
         args.Handled(true);
         auto fontIcon{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
         auto icon{ fontIcon.Glyph() };
-        if (icon == L"\uE8B1") {
-            icon = L"\uE70F";
-        }
-        else if (icon == L"\uE70F") {
+        if (icon == L"\uE30D") {
             icon = L"\uE8B1";
+            play_list_.ShuffleEnabled(true);
+        }
+        else if (icon == L"\uE8B1") {
+            play_list_.ShuffleEnabled(false);
+            icon = L"\uE30D";
         }
         fontIcon.Glyph(icon);
     }
@@ -432,23 +437,19 @@ namespace winrt::Player::implementation
 
     void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto size{ music_list_.Size() };
-        if (size == 0u) [[unlikely]] return;
-        if (play_list_.CurrentItemIndex() != 0u) [[likely]]
-            play_list_.MovePrevious();
-        else
-            play_list_.MoveTo(size);
+        auto state{ play_list_.AutoRepeatEnabled() };
+        play_list_.AutoRepeatEnabled(true);
+        play_list_.MovePrevious();
+        play_list_.AutoRepeatEnabled(state);
         if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused) [[unlikely]]
             player_.Play();
     }
     void RootPage::Next_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto size{ music_list_.Size() };
-        if (size == 0u) [[unlikely]] return;
-        if (play_list_.CurrentItemIndex() != size) [[likely]]
-            play_list_.MoveNext();
-        else
-            play_list_.MoveTo(0u);
+        auto state{ play_list_.AutoRepeatEnabled() };
+        play_list_.AutoRepeatEnabled(true);
+        play_list_.MoveNext();
+        play_list_.AutoRepeatEnabled(state);
         if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused) [[unlikely]]
             player_.Play();
     }
