@@ -164,7 +164,7 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Data\FolderViewParamater.h" />
+    <ClInclude Include="Data\FolderViewParameter.h" />
     <ClInclude Include="ViewModels\InfoViewModel.h">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -220,7 +220,7 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Data\FolderViewParamater.cpp" />
+    <ClCompile Include="Data\FolderViewParameter.cpp" />
     <ClCompile Include="ViewModels\InfoViewModel.cpp">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -283,13 +283,14 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="Data\FolderViewParamater.idl" />
+    <Midl Include="Data\FolderViewParameter.idl" />
     <Midl Include="Data\Music.idl" />
     <Midl Include="Controls\Equalizer.idl">
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="Data\Library.idl" />
+    <Midl Include="MusicInfoParameter.idl" />
     <Midl Include="ViewModels\InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>

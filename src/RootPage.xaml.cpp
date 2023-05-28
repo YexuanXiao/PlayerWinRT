@@ -99,7 +99,7 @@ namespace winrt::Player::implementation
                     pre = now;
             }
             if (args.PropertyName() == L"Position") [[likely]]
-                self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(std::chrono::nanoseconds{ static_cast<int64_t>(self.playerViewModel_.Position()) * 100 }));
+                self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.playerViewModel_.Position()) }));
             });
         // when switch to new music, make button ui on
         list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
@@ -218,8 +218,11 @@ namespace winrt::Player::implementation
     winrt::Windows::Foundation::IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
+        auto index{ list_.CurrentItemIndex() };
+        if (index == std::numeric_limits<decltype(index)>::max()) [[unlikely]]
+            co_return;
 
-        auto dialog{ winrt::Player::MusicInfo{} };
+        auto dialog{ winrt::Player::MusicInfo{winrt::Data::MusicInfoParameter{library_, info_list_.GetAt(index)}} };
         dialog.XamlRoot(XamlRoot());
         dialog.RequestedTheme(ActualTheme());
 
@@ -343,7 +346,7 @@ namespace winrt::Player::implementation
     }
     void RootPage::NavigateToDefaultPage() {
         Folders().IsSelected(true);
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParamater{ playerViewModel_, info_list_, list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, list_, library_ });
     }
     void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
     {
@@ -415,7 +418,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParamater{ playerViewModel_, info_list_, list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, list_, library_ });
     }
 
     void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)

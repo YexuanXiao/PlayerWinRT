@@ -10,7 +10,7 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid MinWidth="350">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -30,42 +30,42 @@
                 x:Uid="Title"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="英雄のタクト-起源-" />
+            <TextBlock Text="{x:Bind MusicTitle()}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="0,8">
             <TextBlock
                 x:Uid="Album"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="Re:ゼロから始める異世界生活 -CD2" />
+            <TextBlock Text="{x:Bind Album()}" />
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="0,8">
             <TextBlock
                 x:Uid="Track"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="1" />
+            <TextBlock Text="{x:Bind Track()}" />
         </StackPanel>
         <StackPanel Grid.Row="3" Margin="0,8">
             <TextBlock
                 x:Uid="Genre"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="Anime" />
+            <TextBlock Text="{x:Bind Genre()}" />
         </StackPanel>
         <StackPanel Grid.Row="4" Margin="0,8">
             <TextBlock
                 x:Uid="Bitrate"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="925 kbps" />
+            <TextBlock Text="{x:Bind Bitrate()}" />
         </StackPanel>
         <StackPanel Grid.Row="5" Margin="0,8">
             <TextBlock
                 x:Uid="SampleRate"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="48000hz" />
+            <TextBlock Name="SampleRate" Text="Unknown" />
         </StackPanel>
         <StackPanel
             Grid.Row="6"
@@ -75,14 +75,14 @@
                 x:Uid="Path"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="D:\Music\Re：0\S1\O.S.T.1\01 - 英雄のタクト-起源-.flac" />
+            <TextBlock Text="{x:Bind Path()}" />
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,8">
             <TextBlock
                 x:Uid="Artist"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="末廣健一郎" />
+            <TextBlock Text="{x:Bind Artist()}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
@@ -92,7 +92,7 @@
                 x:Uid="AlbumArtist"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="末廣健一郎" />
+            <TextBlock Text="{x:Bind Albumartist()}" />
         </StackPanel>
         <StackPanel
             Grid.Row="2"
@@ -102,7 +102,7 @@
                 x:Uid="Duration"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="02:52" />
+            <TextBlock Text="{x:Bind Duration()}" />
         </StackPanel>
         <StackPanel
             Grid.Row="3"
@@ -112,7 +112,7 @@
                 x:Uid="Year"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="2016" />
+            <TextBlock Text="{x:Bind Year()}" />
         </StackPanel>
         <StackPanel
             Grid.Row="4"
@@ -122,26 +122,27 @@
                 x:Uid="Format"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text=".flac" />
+            <TextBlock Text="{x:Bind Format()}" />
         </StackPanel>
         <StackPanel
             Grid.Row="5"
             Grid.Column="1"
             Margin="0,8">
             <TextBlock
-                x:Uid="CDNum"
+                x:Uid="BitDepth"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="1" />
+            <TextBlock Name="BitDepth" Text="Unknown" />
         </StackPanel>
         <Button
             Grid.Row="7"
             Width="Auto"
-            Margin="-10,0,0,0"
+            Margin="-10,0,0,-15"
             HorizontalAlignment="Left"
             Foreground="{StaticResource SystemAccentColor}"
-            Style="{StaticResource EllipsisButton}">
-            <TextBlock x:Uid="OpenInExplorer" Padding="8,4,8,8" />
+            Style="{StaticResource EllipsisButton}"
+            Tapped="Folder_Tapped">
+            <TextBlock x:Uid="OpenInExplorer" Padding="8,4,8,4" />
         </Button>
     </Grid>
 </ContentDialog>

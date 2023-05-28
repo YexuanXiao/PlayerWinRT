@@ -62,7 +62,7 @@ namespace winrt::Player::implementation
         }
     }
     winrt::hstring PlayerViewModel::DurationToString(double value) {
-         auto const hms{ std::chrono::hh_mm_ss{std::chrono::nanoseconds{static_cast<int64_t>(value) * 100}} };
+         auto const hms{ std::chrono::hh_mm_ss{winrt::clock::duration{static_cast<int64_t>(value)}} };
          auto hours{ hms.hours().count() };
          if (hours)
              return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hours, 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));

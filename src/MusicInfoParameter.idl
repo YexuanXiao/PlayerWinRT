@@ -1,0 +1,11 @@
+import "Library.idl";
+import "Music.idl";
+
+namespace Data
+{
+	struct MusicInfoParameter
+	{
+		Library Library;
+		Music Music;
+    };
+}

@@ -93,4 +93,12 @@ namespace Win32Helper {
     void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const& object) {
         object.try_as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
     }
+    void OpenExplorer(std::wstring const& path) {
+        auto info{ SHELLEXECUTEINFOW{} };
+        info.cbSize = sizeof(info);
+        info.lpFile = L"explorer.exe";
+        info.lpParameters = path.c_str();
+        info.nShow = SW_SHOWNORMAL;
+        ::ShellExecuteExW(&info);
+    }
 }

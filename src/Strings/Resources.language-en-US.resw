@@ -157,6 +157,10 @@
     <value>Author</value>
     <comment>About Page</comment>
   </data>
+  <data name="BitDepth.Text" xml:space="preserve">
+    <value>Bit Depth</value>
+    <comment>Music Info Page</comment>
+  </data>
   <data name="Bitrate.Text" xml:space="preserve">
     <value>Bitrate</value>
     <comment>Music Info Page</comment>
@@ -164,10 +168,6 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Dialog Button</comment>
-  </data>
-  <data name="CDNum.Text" xml:space="preserve">
-    <value>CD Number</value>
-    <comment>Music Info Page</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>

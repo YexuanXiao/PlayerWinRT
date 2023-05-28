@@ -24,4 +24,5 @@ namespace Win32Helper {
     void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const&);
     void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const&);
     winrt::hstring GetMusicFolderPath();
+    void OpenExplorer(std::wstring const&);
 }

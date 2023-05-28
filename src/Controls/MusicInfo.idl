@@ -1,8 +1,21 @@
+import "MusicInfoParameter.idl";
+
 namespace Player
 {
     [default_interface]
     runtimeclass MusicInfo : Microsoft.UI.Xaml.Controls.ContentDialog
     {
-        MusicInfo();
+        MusicInfo(Data.MusicInfoParameter para);
+        String MusicTitle();
+        String Artist();
+        String Album();
+        String Albumartist();
+        String Track();
+        String Duration();
+        String Genre();
+        String Year();
+        String Bitrate();
+        String Format();
+        String Path();
     }
 }

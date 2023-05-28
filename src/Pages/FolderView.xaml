@@ -30,7 +30,7 @@
                         <TextBlock VerticalAlignment="Center" Text=" Folders" />
                     </StackPanel>
                     <DropDownButton
-                        x:Name="FolderLevel"
+                        Name="FolderLevel"
                         Grid.Column="1"
                         MinWidth="64"
                         MaxWidth="144"

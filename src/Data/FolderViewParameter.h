@@ -1,11 +1,11 @@
 #pragma once
-#include "FolderViewParamater.g.h"
+#include "FolderViewParameter.g.h"
 
 namespace winrt::Data::implementation
 {
-    struct FolderViewParamater : FolderViewParamaterT<FolderViewParamater>
+    struct FolderViewParameter : FolderViewParameterT<FolderViewParameter>
     {
-        FolderViewParamater(winrt::Player::PlayerViewModel const&, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const&, winrt::Windows::Media::Playback::MediaPlaybackList const&, winrt::Data::Library const&);
+        FolderViewParameter(winrt::Player::PlayerViewModel const&, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const&, winrt::Windows::Media::Playback::MediaPlaybackList const&, winrt::Data::Library const&);
 
         winrt::Player::PlayerViewModel PlayerViewModel();
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> Music();
@@ -22,7 +22,7 @@ namespace winrt::Data::implementation
 
 namespace winrt::Data::factory_implementation
 {
-    struct FolderViewParamater : FolderViewParamaterT<FolderViewParamater, implementation::FolderViewParamater>
+    struct FolderViewParameter : FolderViewParameterT<FolderViewParameter, implementation::FolderViewParameter>
     {
     };
 }

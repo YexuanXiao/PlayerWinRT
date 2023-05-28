@@ -17,7 +17,10 @@
     <Midl Include="Data\Library.idl">
       <Filter>Data</Filter>
     </Midl>
-    <Midl Include="Data\FolderViewParamater.idl">
+    <Midl Include="Data\FolderViewParameter.idl">
+      <Filter>Data</Filter>
+    </Midl>
+    <Midl Include="MusicInfoParameter.idl">
       <Filter>Data</Filter>
     </Midl>
   </ItemGroup>
@@ -27,7 +30,7 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="Data\FolderViewParamater.cpp">
+    <ClCompile Include="Data\FolderViewParameter.cpp">
       <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,7 +39,7 @@
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
-    <ClInclude Include="Data\FolderViewParamater.h">
+    <ClInclude Include="Data\FolderViewParameter.h">
       <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
