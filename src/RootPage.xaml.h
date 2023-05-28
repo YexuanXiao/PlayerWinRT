@@ -9,7 +9,6 @@ namespace winrt::Player::implementation
     {
         RootPage();
         // rumtime properties
-        winrt::hstring AppTitleText();
         winrt::Player::PlayerViewModel PlayerViewModel();
 
         // events

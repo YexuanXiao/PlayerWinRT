@@ -147,6 +147,10 @@ namespace winrt::Player::implementation
                     self.PlayerPicture().Source(image);
                     self.PlayerArtist().Text(artist);
                     self.PlayerTitle().Text(title);
+                    if (artist.empty())
+                        self.playerViewModel_.Title(title);
+                    else
+                        self.playerViewModel_.Title(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
                 }
             }
             co_await ui_thread;
@@ -187,13 +191,6 @@ namespace winrt::Player::implementation
             });
         */
     }
-    hstring RootPage::AppTitleText() {
-#ifdef _DEBUG
-        return L"PlayerWinRT Dev";
-#else
-        return title_;
-#endif
-    }
     void RootPage::PlayButtonOn() {
         auto fontIcon{ PlayIcon() };
         auto icon{ fontIcon.Glyph() };
@@ -215,6 +212,7 @@ namespace winrt::Player::implementation
             fontIcon.Glyph(L"\uF5B0");
         }
         fontIcon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromLengths(2, 0, 0, 0));
+        playerViewModel_.Title(L"PlayerWinRT");
     }
     void RootPage::Navigation_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args) {
         if (args.IsSettingsInvoked()) {

@@ -61,7 +61,7 @@
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind AppTitleText}" />
+                    Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}" />
             </StackPanel>
         </Grid>
         <NavigationView

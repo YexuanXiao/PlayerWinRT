@@ -11,6 +11,7 @@ namespace Player
         Double Position;
         Double Duration;
         Data.Library Library;
+        String Title;
         static String DoubleToString(Double volume);
         static String DurationToString(Double duration);
     }

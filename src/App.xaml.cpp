@@ -43,16 +43,18 @@ namespace winrt::Player::implementation {
     /// </param>
     void App::OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
     {
+
         // lazy initialize window
         window_ = winrt::Microsoft::UI::Xaml::Window{};
-
         // make rootPage
-        auto rootPage{ window_.Content().try_as<Player::RootPage>() };
-        if (!rootPage) [[likely]] {
-            rootPage = Player::RootPage{};
-            auto rootFrame{ rootPage.RootFrame() };
-            window_.Content(rootPage);
-            }
+        auto rootPage{ winrt::Player::RootPage{} };
+        window_.Content(rootPage);
+        auto playerViewModel{ rootPage.PlayerViewModel() };
+        window_.Title(playerViewModel.Title());
+        playerViewModel.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
+            if (args.PropertyName() != L"Title") return;
+            self.window_.Title(sender.try_as<winrt::Player::PlayerViewModel>().Title());
+            });
 
         auto appTitleBar{ rootPage.AppTitleBar() };
 

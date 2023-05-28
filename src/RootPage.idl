@@ -7,7 +7,6 @@ namespace Player
     runtimeclass RootPage : Microsoft.UI.Xaml.Controls.Page
     {
         RootPage();
-        String AppTitleText{ get; };
         Microsoft.UI.Xaml.Controls.Frame RootFrame{get; };
         Microsoft.UI.Xaml.Controls.NavigationView MainNavigation{ get; };
         Microsoft.UI.Xaml.Controls.StackPanel AppTitleBar{get; };
