@@ -6,7 +6,7 @@
 
 namespace winrt::Data::implementation
 {
-    FolderViewParameter::FolderViewParameter(winrt::Player::PlayerViewModel const& playerViewModel, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const& music, winrt::Windows::Media::Playback::MediaPlaybackList const& list, winrt::Data::Library const& library): playerViewModel_(playerViewModel), music_(music), list_(list), library_(library) {
+    FolderViewParameter::FolderViewParameter(winrt::Player::PlayerViewModel const& playerViewModel, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const& music, winrt::Windows::Media::Playback::MediaPlaybackList const& list, winrt::Data::Library const& library): playerViewModel_(playerViewModel), music_(music), play_list_(list), library_(library) {
     }
 
     winrt::Player::PlayerViewModel FolderViewParameter::PlayerViewModel()
@@ -19,7 +19,7 @@ namespace winrt::Data::implementation
     }
     winrt::Windows::Media::Playback::MediaPlaybackList FolderViewParameter::List()
     {
-        return list_;
+        return play_list_;
     }
     winrt::Data::Library FolderViewParameter::Library()
     {

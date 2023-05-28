@@ -13,9 +13,9 @@ namespace winrt::Player::implementation
     {
         InitializeComponent();
 
-        list_.MaxPlayedItemsToKeepOpen(3);
+        play_list_.MaxPlayedItemsToKeepOpen(3);
         player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
-        player_.Source(list_);
+        player_.Source(play_list_);
         {
             // prepare and update ui elements
             auto menulist{ MainLibraryList().MenuItems() };
@@ -72,7 +72,7 @@ namespace winrt::Player::implementation
             auto state{ self.session_.PlaybackState() };
             if (state == decltype(state)::Paused)
                 co_return;
-            auto index{ self.list_.CurrentItemIndex() };
+            auto index{ self.play_list_.CurrentItemIndex() };
             if (index == std::numeric_limits<decltype(index)>::max())
                 co_return;
 
@@ -104,15 +104,15 @@ namespace winrt::Player::implementation
                 self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.playerViewModel_.Position()) }));
             });
         // when switch to new music, make button ui on
-        list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto reason{ args.Reason() };
             // repeat one
             if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true) {
-                auto index{ self.list_.CurrentItemIndex() };
-                self.list_.MoveTo(index > 0u ? index - 1u : 0u);
+                auto index{ self.play_list_.CurrentItemIndex() };
+                self.play_list_.MoveTo(index > 0u ? index - 1u : 0u);
                 co_return;
             }
-            auto item{ self.list_.CurrentItem() };
+            auto item{ self.play_list_.CurrentItem() };
             if (item == nullptr) co_return;
             auto state{ self.session_.PlaybackState() };
             // check if is new list
@@ -122,7 +122,7 @@ namespace winrt::Player::implementation
             co_await winrt::resume_background();
             auto library{ self.playerViewModel_.Library() };
             if (library.protocol == L"local") {
-                auto index{ self.list_.CurrentItemIndex() };
+                auto index{ self.play_list_.CurrentItemIndex() };
                 auto info{ self.info_list_.GetAt(index) };
                 auto const& file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(library.address + info.Path).get() };
                 auto prop{ item.GetDisplayProperties() };
@@ -162,7 +162,7 @@ namespace winrt::Player::implementation
             self.PlayButtonOff();
             });
         /* listen to music list change
-        music_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) {
+        music_list_.VectorChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(music_list_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) {
             auto operate{ args.CollectionChange() };
             switch (operate) {
             case decltype(operate)::ItemRemoved:
@@ -220,7 +220,7 @@ namespace winrt::Player::implementation
     winrt::Windows::Foundation::IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto index{ list_.CurrentItemIndex() };
+        auto index{ play_list_.CurrentItemIndex() };
         if (index == std::numeric_limits<decltype(index)>::max()) [[unlikely]]
             co_return;
 
@@ -238,8 +238,8 @@ namespace winrt::Player::implementation
         if (icon == L"\uF5E7") {
             // repeat all
             icon = L"\uE8EE";
-            list_.ShuffleEnabled(false);
-            list_.AutoRepeatEnabled(true);
+            play_list_.ShuffleEnabled(false);
+            play_list_.AutoRepeatEnabled(true);
         }
         else if (icon == L"\uE8EE") {
             // repeat one
@@ -250,7 +250,7 @@ namespace winrt::Player::implementation
             // no repeat
             repeat_one_ = false;
             icon = L"\uF5E7";
-            list_.AutoRepeatEnabled(false);
+            play_list_.AutoRepeatEnabled(false);
         }
         fontIcon.Glyph(icon);
     }
@@ -348,7 +348,7 @@ namespace winrt::Player::implementation
     }
     void RootPage::NavigateToDefaultPage() {
         Folders().IsSelected(true);
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, play_list_, library_ });
     }
     void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
     {
@@ -420,28 +420,28 @@ namespace winrt::Player::implementation
 
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, play_list_, library_ });
     }
 
     void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto size{ music_.Size() };
+        auto size{ music_list_.Size() };
         if (size == 0u) [[unlikely]] return;
-        if (list_.CurrentItemIndex() != 0u) [[likely]]
-            list_.MovePrevious();
+        if (play_list_.CurrentItemIndex() != 0u) [[likely]]
+            play_list_.MovePrevious();
         else
-            list_.MoveTo(size);
+            play_list_.MoveTo(size);
         if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused) [[unlikely]]
             player_.Play();
     }
     void RootPage::Next_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        auto size{ music_.Size() };
+        auto size{ music_list_.Size() };
         if (size == 0u) [[unlikely]] return;
-        if (list_.CurrentItemIndex() != size) [[likely]]
-            list_.MoveNext();
+        if (play_list_.CurrentItemIndex() != size) [[likely]]
+            play_list_.MoveNext();
         else
-            list_.MoveTo(0u);
+            play_list_.MoveTo(0u);
         if (session_.PlaybackState() == winrt::Windows::Media::Playback::MediaPlaybackState::Paused) [[unlikely]]
             player_.Play();
     }

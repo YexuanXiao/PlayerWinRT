@@ -15,7 +15,7 @@ namespace winrt::Data::implementation
     private:
         winrt::Player::PlayerViewModel playerViewModel_;
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> music_;
-        winrt::Windows::Media::Playback::MediaPlaybackList list_;
+        winrt::Windows::Media::Playback::MediaPlaybackList play_list_;
         winrt::Data::Library library_;
     };
 }

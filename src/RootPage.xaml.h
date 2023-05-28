@@ -44,11 +44,11 @@ namespace winrt::Player::implementation
         winrt::hstring title_{L"PlayerWinRT"};
         Windows::Media::Playback::MediaPlayer player_{};
         winrt::Player::PlayerViewModel playerViewModel_{};
-        Windows::Media::Playback::MediaPlaybackList list_{};
-        winrt::Windows::Media::Playback::MediaPlaybackSession session_{ player_.PlaybackSession() };
-        winrt::Windows::Media::Playback::MediaPlaybackCommandManager commander_{ player_.CommandManager()};
-        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> libraries_{ SettingsHelper::GetLibraries() };
-        winrt::Windows::Foundation::Collections::IObservableVector<Windows::Media::Playback::MediaPlaybackItem> music_{ list_.Items() };
+        Windows::Media::Playback::MediaPlaybackList play_list_{};
+        decltype(play_list_.Items()) music_list_{ play_list_.Items() };
+        decltype(player_.CommandManager()) commander_{ player_.CommandManager()};
+        decltype(player_.PlaybackSession()) session_{ player_.PlaybackSession() };
+        decltype(SettingsHelper::GetLibraries()) libraries_{ SettingsHelper::GetLibraries() };
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> info_list_{ winrt::single_threaded_vector<winrt::Data::Music>() };
     };
 }

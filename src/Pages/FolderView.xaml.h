@@ -8,7 +8,7 @@ namespace winrt::Player::implementation
     {
         FolderView();
 
-        // UI helpers
+        // binding helpers
         static winrt::hstring TransformBitrate(uint32_t);
         static winrt::hstring TransformDuration(int64_t);
         winrt::hstring CalculateTrueFolderCount(uint32_t);
@@ -22,20 +22,20 @@ namespace winrt::Player::implementation
     private:
         // data for private use
         std::vector<winrt::hstring> path_stack_;
-        std::vector<winrt::Data::Music> library_;
+        std::vector<winrt::Data::Music> whole_library;
         std::vector<std::vector<std::reference_wrapper<const winrt::Data::Music>>> folders_stack_;
 
         // data from root page
+        winrt::Data::Library library_{};
         winrt::Player::PlayerViewModel playerViewModel_{ nullptr };
-        winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> music_{ nullptr };
-        winrt::Windows::Media::Playback::MediaPlaybackList list_{ nullptr };
-        decltype(list_.Items()) music_list_{ nullptr };
-        winrt::Data::Library library_info_;
+        winrt::Windows::Media::Playback::MediaPlaybackList play_list_{ nullptr };
+        winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> info_list_{ nullptr };
+        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Media::Playback::MediaPlaybackItem> music_list_{ nullptr };
 
+        // UI helpers
         void Build();
         void Rebuild();
         void BuildRoot();
-
         void UpdateUI(std::vector<winrt::hstring> const&, std::vector<winrt::Player::InfoViewModel> const&);
 
         // runtime properties implement
