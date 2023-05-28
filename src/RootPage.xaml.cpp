@@ -70,22 +70,24 @@ namespace winrt::Player::implementation
         // slider
         session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto state{ self.session_.PlaybackState() };
-            using namespace std::chrono_literals;
-            if (state == decltype(state)::Playing) [[likely]] {
-                auto index{ self.list_.CurrentItemIndex() };
-                auto info{ self.info_list_.GetAt(index) };
-                co_await ui_thread;
-                self.playerViewModel_.Duration(static_cast<double>(info.Duration));
-                }
-                while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing) [[likely]] {
-                    using namespace std::chrono_literals;
-                    co_await 1s;
+            if (state == decltype(state)::Paused)
+                co_return;
+            auto index{ self.list_.CurrentItemIndex() };
+            if (index == std::numeric_limits<decltype(index)>::max())
+                co_return;
+
+            co_await ui_thread;
+            self.playerViewModel_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
+
+            while (self.session_.PlaybackState() == decltype(state)::Playing) [[likely]] {
+                using namespace std::chrono_literals;
+                co_await 1s;
+                auto position{ self.session_.Position().count() };
+                if (position > 0) [[likely]] {
                     co_await ui_thread;
-                    auto position{ self.session_.Position().count() };
-                    if (position > 0) [[likely]] {
-                        self.playerViewModel_.Position(static_cast<double>(position));
-                        }
+                    self.playerViewModel_.Position(static_cast<double>(position));
                     }
+                }
             });
         playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const& args) {
             // if two events occur within 50ms, discard subsequent events
