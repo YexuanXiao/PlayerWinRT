@@ -119,7 +119,7 @@ namespace winrt::Player::implementation
             });
 
         // regist play list event to update selected item
-        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             if (sender.CurrentItem() == nullptr) co_return;
             co_await ui_thread;
             auto current{ self.info_list_.GetAt(sender.CurrentItemIndex()) };

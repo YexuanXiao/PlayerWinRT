@@ -27,7 +27,7 @@ namespace winrt::Player::implementation
         auto const resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 
         if (winrt::unbox_value<winrt::hstring>(sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Tag()) == L"music") [[likely]]
-            dialog = Player::LibraryEditor{libraries_, Windows::Storage::KnownFolders::MusicLibrary().DisplayName(), resource.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), winrt::hstring{} };
+            dialog = Player::LibraryEditor{libraries_, winrt::Windows::Storage::KnownFolders::MusicLibrary().DisplayName(), resource.GetString(L"Local/Text"), Win32Helper::GetMusicFolderPath(), winrt::hstring{} };
         else
             dialog = Player::LibraryEditor{libraries_};
 

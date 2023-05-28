@@ -6,9 +6,8 @@ namespace winrt::Player::implementation
     struct InfoViewModel : InfoViewModelT<InfoViewModel>
     {
         InfoViewModel() = default;
-
         InfoViewModel(winrt::Data::Music const& info);
-        winrt::Data::Music Get();
+
         hstring Title();
         hstring Album();
         hstring Genre();
@@ -19,6 +18,8 @@ namespace winrt::Player::implementation
         uint32_t Year();
         uint32_t Bitrate();
         uint32_t Track();
+
+        winrt::Data::Music Get();
 
     private:
         winrt::Data::Music info_;

@@ -17,7 +17,7 @@ namespace winrt::Player::implementation
 
 		// add default lang item
 		{
-			auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+			auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 			auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{}};
 			item.Text(resourceLoader.GetString(L"Default/Content"));
 			item.Tag(winrt::box_value(hstring{ L"default" }));
@@ -92,7 +92,7 @@ namespace winrt::Player::implementation
 	winrt::Windows::Foundation::IAsyncAction Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
 	{
 		args.Handled(true);
-		auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+		auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 		auto theme{ ActualTheme() };
 		auto dialog{ winrt::Microsoft::UI::Xaml::Controls::ContentDialog{} };
 		dialog.XamlRoot(XamlRoot());

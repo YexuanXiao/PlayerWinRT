@@ -18,11 +18,11 @@ namespace winrt::Player::implementation
         winrt::hstring Bitrate();
         winrt::hstring Format();
         winrt::hstring Path();
+
+        void Folder_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
     private:
         winrt::Data::Music music_;
         winrt::Data::Library library_;
-    public:
-        void Folder_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
     };
 }
 

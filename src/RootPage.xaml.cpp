@@ -14,7 +14,7 @@ namespace winrt::Player::implementation
         InitializeComponent();
 
         play_list_.MaxPlayedItemsToKeepOpen(3);
-        player_.AudioCategory(Windows::Media::Playback::MediaPlayerAudioCategory::Media);
+        player_.AudioCategory(winrt::Windows::Media::Playback::MediaPlayerAudioCategory::Media);
         player_.Source(play_list_);
         {
             // prepare and update ui elements
@@ -104,7 +104,7 @@ namespace winrt::Player::implementation
                 self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.playerViewModel_.Position()) }));
             });
         // when switch to new music, make button ui on
-        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const&, Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto reason{ args.Reason() };
             // repeat one
             if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true) {
@@ -153,11 +153,11 @@ namespace winrt::Player::implementation
             self.PlayButtonOn();
             });
         // regist play and pause event to update button ui
-        commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOn();
             });
-        commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        commander_.PauseReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_) const&, winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOff();
             });
@@ -306,7 +306,7 @@ namespace winrt::Player::implementation
                 auto edit{ decltype(up){} };
                 auto remove{ decltype(up){} };
                 {
-                    auto resourceLoader{ Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+                    auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
                     auto upIcon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
                     auto downIcon{ decltype(upIcon){} };
                     auto editIcon{ decltype(upIcon){} };
@@ -399,7 +399,7 @@ namespace winrt::Player::implementation
             player_.Play();
         }
     }
-    Windows::Foundation::IAsyncAction RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::Windows::Foundation::IAsyncAction RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 
@@ -409,7 +409,7 @@ namespace winrt::Player::implementation
 
         static_cast<void>(co_await dialog.ShowAsync());
     }
-    Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 
@@ -419,7 +419,7 @@ namespace winrt::Player::implementation
 
         static_cast<void>(co_await dialog.ShowAsync());
     }
-    Windows::Foundation::IAsyncAction RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::Windows::Foundation::IAsyncAction RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 
