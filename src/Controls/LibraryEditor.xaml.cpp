@@ -65,8 +65,8 @@ namespace winrt::Player::implementation
         auto tag{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tag().try_as<hstring>() };
 
         if (tag == L"local") [[likely]] {
-            auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-            Protocol().Text(resourceLoader.GetString(L"Local/Text"));
+            auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+            Protocol().Text(resource.GetString(L"Local/Text"));
             Address().Text(L"X:\\");
             Icon().Glyph(L"\uE770");
             SelectButton().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);

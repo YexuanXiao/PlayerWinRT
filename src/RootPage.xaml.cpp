@@ -306,7 +306,7 @@ namespace winrt::Player::implementation
                 auto edit{ decltype(up){} };
                 auto remove{ decltype(up){} };
                 {
-                    auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+                    auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
                     auto upIcon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
                     auto downIcon{ decltype(upIcon){} };
                     auto editIcon{ decltype(upIcon){} };
@@ -321,10 +321,10 @@ namespace winrt::Player::implementation
                     downIcon.FontFamily(font);
                     editIcon.FontFamily(font);
                     removeIcon.FontFamily(font);
-                    up.Text(resourceLoader.GetString(L"Up/Text"));
-                    down.Text(resourceLoader.GetString(L"Down/Text"));
-                    edit.Text(resourceLoader.GetString(L"Edit/Text"));
-                    remove.Text(resourceLoader.GetString(L"Delete/Text"));
+                    up.Text(resource.GetString(L"Up/Text"));
+                    down.Text(resource.GetString(L"Down/Text"));
+                    edit.Text(resource.GetString(L"Edit/Text"));
+                    remove.Text(resource.GetString(L"Delete/Text"));
                     up.Icon(upIcon);
                     down.Icon(downIcon);
                     edit.Icon(editIcon);

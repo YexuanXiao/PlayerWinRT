@@ -17,9 +17,9 @@ namespace winrt::Player::implementation
 
 		// add default lang item
 		{
-			auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+			auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 			auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{}};
-			item.Text(resourceLoader.GetString(L"Default/Content"));
+			item.Text(resource.GetString(L"Default/Content"));
 			item.Tag(winrt::box_value(hstring{ L"default" }));
 			item.Tapped(&Settings::Language_Selected);
 			items.Append(item);
@@ -92,12 +92,12 @@ namespace winrt::Player::implementation
 	winrt::Windows::Foundation::IAsyncAction Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
 	{
 		args.Handled(true);
-		auto resourceLoader{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
+		auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
 		auto theme{ ActualTheme() };
 		auto dialog{ winrt::Microsoft::UI::Xaml::Controls::ContentDialog{} };
 		dialog.XamlRoot(XamlRoot());
 		dialog.Title(winrt::box_value(L"Reset Application"));
-		dialog.CloseButtonText(resourceLoader.GetString(L"Cancel"));
+		dialog.CloseButtonText(resource.GetString(L"Cancel"));
 		dialog.DefaultButton(winrt::Microsoft::UI::Xaml::Controls::ContentDialogButton::Close);
 		dialog.PrimaryButtonText(L"Reset");
 		auto content{ winrt::Microsoft::UI::Xaml::Controls::Grid{} };

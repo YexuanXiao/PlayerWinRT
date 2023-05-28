@@ -45,7 +45,7 @@ namespace winrt::Player::implementation
         winrt::Player::PlayerViewModel playerViewModel_{};
         winrt::Windows::Media::Playback::MediaPlayer player_{};
         winrt::Windows::Media::Playback::MediaPlaybackList play_list_{};
-        decltype(player_.CommandManager()) commander_{ player_.CommandManager()};
+        decltype(player_.CommandManager()) commander_{ player_.CommandManager() };
         decltype(player_.PlaybackSession()) session_{ player_.PlaybackSession() };
         decltype(SettingsHelper::GetLibraries()) libraries_{ SettingsHelper::GetLibraries() };
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> info_list_{ winrt::single_threaded_vector<winrt::Data::Music>() };
