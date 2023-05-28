@@ -86,7 +86,7 @@
                             Tag="local"
                             Tapped="ProtocolMenu_Tapped">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE770;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE770;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -95,7 +95,7 @@
                             Tapped="ProtocolMenu_Tapped"
                             Text="Samba">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEC27;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xEC27;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -104,7 +104,7 @@
                             Tapped="ProtocolMenu_Tapped"
                             Text="WebDAV">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE968;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE968;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -113,7 +113,7 @@
                             Tapped="ProtocolMenu_Tapped"
                             Text="FTP">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE839;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE839;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -139,117 +139,120 @@
                 </Button>
             </Grid>
             <SplitButton Grid.Row="3" Grid.Column="3">
-                <FontIcon Name="Icon" Glyph="&#xE770;" />
+                <FontIcon
+                    Name="Icon"
+                    FontFamily="{StaticResource IconFontFamily}"
+                    Glyph="&#xE770;" />
                 <SplitButton.Flyout>
                     <MenuFlyout x:Name="Icons" Placement="Right">
                         <MenuFlyoutItem Text="Connect">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE703;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE703;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Cloud">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE753;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE753;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="System">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE770;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE770;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Globe">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE774;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE774;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="SDCard">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE7F1;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE7F1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Ethernet">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE839;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE839;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="DirectAccess">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE83B;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE83B;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="USB">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE88E;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE88E;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="MobileTablet">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8CC;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8CC;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="MapDrive">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8CE;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8CE;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Phone">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8EA;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8EA;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Scan">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8FE;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8FE;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="MultimediaDMS">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE953;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE953;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Dock">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE952;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE952;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Network">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE968;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE968;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="StorageNetworkWireless">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE969;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE969;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="PC1">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE977;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE977;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Media">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEA69;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xEA69;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="Devices3">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEA6C;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xEA6C;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="MyNetwork">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEC27;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xEC27;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="MultimediaDMP">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xED47;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xED47;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Text="HardDrive">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEDA2;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xEDA2;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

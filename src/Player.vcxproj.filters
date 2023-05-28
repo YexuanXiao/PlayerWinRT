@@ -209,4 +209,9 @@
       <Filter>Strings</Filter>
     </PRIResource>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\MediaPlayerIcons.ttf">
+      <Filter>Assets</Filter>
+    </Font>
+  </ItemGroup>
 </Project>

@@ -291,6 +291,8 @@ namespace winrt::Player::implementation
                 self.MainLibraryList().IsExpanded(false);
                 self.NavigateToDefaultPage();
                 });
+
+            auto font{ winrt::Microsoft::UI::Xaml::Application::Current().Resources().Lookup(winrt::box_value(L"IconFontFamily")).try_as<winrt::Microsoft::UI::Xaml::Media::FontFamily>() };
             // menu
             {
                 auto menuFlyout{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyout{} };
@@ -310,6 +312,10 @@ namespace winrt::Player::implementation
                     downIcon.Glyph(L"\uE70D");
                     editIcon.Glyph(L"\uE70F");
                     removeIcon.Glyph(L"\uE74D");
+                    upIcon.FontFamily(font);
+                    downIcon.FontFamily(font);
+                    editIcon.FontFamily(font);
+                    removeIcon.FontFamily(font);
                     up.Text(resourceLoader.GetString(L"Up/Text"));
                     down.Text(resourceLoader.GetString(L"Down/Text"));
                     edit.Text(resourceLoader.GetString(L"Edit/Text"));
@@ -335,6 +341,7 @@ namespace winrt::Player::implementation
             // icon
             auto icon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
             icon.Glyph(library.icon);
+            icon.FontFamily(font);
             item.Icon(icon);
         }
         return item;

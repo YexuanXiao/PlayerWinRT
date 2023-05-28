@@ -82,8 +82,10 @@
                     VerticalAlignment="Center"
                     x:FieldModifier="public"
                     IsEnabled="False"
-                    KeyboardAcceleratorPlacementMode="Hidden"
-                    QueryIcon="Find">
+                    KeyboardAcceleratorPlacementMode="Hidden">
+                    <AutoSuggestBox.QueryIcon>
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE721;" />
+                    </AutoSuggestBox.QueryIcon>
                     <AutoSuggestBox.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F" Modifiers="Control" />
                     </AutoSuggestBox.KeyboardAccelerators>
@@ -98,7 +100,7 @@
                     Tapped="Current_Tapped"
                     Visibility="Collapsed">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE80F;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
@@ -106,12 +108,12 @@
                     x:Uid="Libraries"
                     IsExpanded="{x:Bind MainNavigation.IsPaneOpen, Mode=OneWay}">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Library" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8F1;" />
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
                         <NavigationViewItem x:Uid="AddLibrary" Tapped="Add_Tapped">
                             <NavigationViewItem.Icon>
-                                <FontIcon Glyph="&#xE710;" />
+                                <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE710;" />
                             </NavigationViewItem.Icon>
                         </NavigationViewItem>
                     </NavigationViewItem.MenuItems>
@@ -120,33 +122,38 @@
                 <NavigationViewItem
                     Name="NainPlayList"
                     x:Uid="PlayList"
-                    Icon="MusicInfo"
-                    IsEnabled="False" />
-                <NavigationViewItem
-                    x:Uid="Songs"
-                    Icon="Audio"
-                    IsEnabled="False" />
+                    IsEnabled="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE90B;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Songs" IsEnabled="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8D6;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem
                     Name="Folders"
                     x:Uid="Folders"
                     Tapped="Folders_Tapped">
+                    >
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8B7;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Albums" IsEnabled="False">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE93C;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE93C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Artists" IsEnabled="False">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xF12E;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xF12E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Genres" IsEnabled="False">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE909;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE909;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator />
@@ -154,7 +161,7 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem x:Uid="About" Tapped="About_Tapped">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE946;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
@@ -162,7 +169,7 @@
                     IsEnabled="False"
                     Tapped="Equalizer_Tapped">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE9E9;" />
+                        <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE9E9;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
@@ -276,6 +283,7 @@
                     Tapped="Previous_Tapped">
                     <FontIcon
                         Name="PreviousIcon"
+                        FontFamily="{StaticResource IconFontFamily}"
                         FontSize="16"
                         Glyph="&#xE892;" />
                 </Button>
@@ -293,6 +301,7 @@
                         Name="PlayIcon"
                         Margin="2,0,0,0"
                         HorizontalAlignment="Center"
+                        FontFamily="{StaticResource IconFontFamily}"
                         FontSize="23"
                         Glyph="&#xE768;" />
                 </Button>
@@ -302,6 +311,7 @@
                     Tapped="Next_Tapped">
                     <FontIcon
                         Name="NextIcon"
+                        FontFamily="{StaticResource IconFontFamily}"
                         FontSize="16"
                         Glyph="&#xE893;" />
                 </Button>
@@ -310,7 +320,10 @@
                     x:Uid="Repeat"
                     Style="{StaticResource PlayerEllipsis}"
                     Tapped="Repeat_Tapped">
-                    <FontIcon FontSize="16" Glyph="&#xF5E7;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xF5E7;" />
                 </Button>
             </StackPanel>
             <StackPanel
@@ -331,7 +344,10 @@
                                     x:Uid="Volume"
                                     Style="{StaticResource PlayerEllipsis}"
                                     Tapped="Mute_Tapped">
-                                    <FontIcon FontSize="16" Glyph="&#xE767;" />
+                                    <FontIcon
+                                        FontFamily="{StaticResource IconFontFamily}"
+                                        FontSize="16"
+                                        Glyph="&#xE767;" />
                                 </Button>
                                 <Slider
                                     Name="VolumeSlider"
@@ -351,35 +367,47 @@
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
-                    <FontIcon FontSize="16" Glyph="&#xE767;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xE767;" />
                 </Button>
                 <Button
                     x:Uid="FullScreen"
                     IsEnabled="False"
                     Style="{StaticResource PlayerEllipsis}">
-                    <FontIcon FontSize="16" Glyph="&#xE740;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xE740;" />
                 </Button>
                 <Button
                     x:Uid="Expand"
                     IsEnabled="False"
                     Style="{StaticResource PlayerEllipsis}">
-                    <FontIcon FontSize="16" Glyph="&#xEE47;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xEE47;" />
                 </Button>
                 <Button
                     Name="More"
                     x:Uid="More"
                     Style="{StaticResource PlayerEllipsis}">
-                    <FontIcon FontSize="16" Glyph="&#xE712;" />
+                    <FontIcon
+                        FontFamily="{StaticResource IconFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xE712;" />
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Uid="MusicInfo" Tapped="MusicInfo_Tapped">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE946;" />
+                                    <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Uid="SelectDevices" IsEnabled="False">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF4C3;" />
+                                    <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xF4C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

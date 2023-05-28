@@ -59,7 +59,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <FontIcon Margin="0,23,16,23" Glyph="&#xF2B7;" />
+                            <FontIcon
+                                Margin="0,23,16,23"
+                                FontFamily="{StaticResource IconFontFamily}"
+                                Glyph="&#xF2B7;" />
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -85,7 +88,10 @@
                 <Expander Grid.Row="2" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <FontIcon Margin="0,23,16,23" Glyph="&#xF08C;" />
+                            <FontIcon
+                                Margin="0,23,16,23"
+                                FontFamily="{StaticResource IconFontFamily}"
+                                Glyph="&#xF08C;" />
                             <TextBlock x:Uid="Theme" VerticalAlignment="Center" />
                         </StackPanel>
                     </Expander.Header>
@@ -102,7 +108,10 @@
                 <Expander Grid.Row="3" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <FontIcon Margin="0,23,16,23" Glyph="&#xE790;" />
+                            <FontIcon
+                                Margin="0,23,16,23"
+                                FontFamily="{StaticResource IconFontFamily}"
+                                Glyph="&#xE790;" />
                             <TextBlock x:Uid="Color" VerticalAlignment="Center" />
                         </StackPanel>
                     </Expander.Header>
@@ -126,7 +135,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <FontIcon Margin="0,23,16,23" Glyph="&#xF2B7;" />
+                            <FontIcon
+                                Margin="0,23,16,23"
+                                FontFamily="{StaticResource IconFontFamily}"
+                                Glyph="&#xF2B7;" />
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
@@ -167,7 +179,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <FontIcon Margin="0,23,16,23" Glyph="&#xEBE8;" />
+                            <FontIcon
+                                Margin="0,23,16,23"
+                                FontFamily="{StaticResource IconFontFamily}"
+                                Glyph="&#xEBE8;" />
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"

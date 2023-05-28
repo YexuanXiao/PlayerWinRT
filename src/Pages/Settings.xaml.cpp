@@ -109,6 +109,8 @@ namespace winrt::Player::implementation
 		rows.Append(def1);
 		rows.Append(def2);
 		auto icon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
+		auto font{ winrt::Microsoft::UI::Xaml::Application::Current().Resources().Lookup(winrt::box_value(L"IconFontFamily")).try_as<winrt::Microsoft::UI::Xaml::Media::FontFamily>() };
+		icon.FontFamily(font);
 		icon.Glyph(L"\uE7BA");
 		icon.FontSize(50.);
 		icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(30.));
