@@ -31,10 +31,10 @@ namespace winrt::Player::implementation
 
         // init state
         if (SettingsHelper::CheckFirstUse()) [[unlikely]]
-            {
-                RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>(), libraries_);
-                MainNavigation().IsPaneOpen(false);
-            }
+        {
+            RootFrame().Navigate(winrt::xaml_typename<Player::Welcome>(), libraries_);
+            MainNavigation().IsPaneOpen(false);
+        }
     }
 
     void RootPage::InitializeRegistEvents() {

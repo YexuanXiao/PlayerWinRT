@@ -37,7 +37,7 @@
                 x:Uid="Album"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="{x:Bind Album()}" />
+            <TextBlock Text="{x:Bind Album()}" TextWrapping="Wrap" />
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="0,8">
             <TextBlock
@@ -75,7 +75,7 @@
                 x:Uid="Path"
                 FontSize="13"
                 Opacity="0.7" />
-            <TextBlock Text="{x:Bind Path()}" />
+            <TextBlock Text="{x:Bind Path()}" TextWrapping="Wrap" />
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,8">
             <TextBlock
