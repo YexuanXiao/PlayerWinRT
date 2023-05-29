@@ -18,12 +18,12 @@ namespace winrt::Player::implementation
         player_.Source(play_list_);
         {
             // prepare and update ui elements
-            auto menulist{ MainLibraryList().MenuItems() };
-            auto itemadd{ *menulist.begin() };
-            menulist.Clear();
+            auto menu_list{ MainLibraryList().MenuItems() };
+            auto item_add{ *menu_list.begin() };
+            menu_list.Clear();
             for (auto const& library : libraries_.GetView())
-                menulist.Append(RootPage::MakeNavItem(library));
-            menulist.Append(itemadd);
+                menu_list.Append(RootPage::MakeNavItem(library));
+            menu_list.Append(item_add);
         }
 
         InitializeRegistEvents();
@@ -44,25 +44,25 @@ namespace winrt::Player::implementation
             co_await ui_thread;
             auto operate{ args.CollectionChange() };
             auto index{ args.Index() };
-            auto menulist{ self.MainLibraryList().MenuItems() };
+            auto menu_list{ self.MainLibraryList().MenuItems() };
             switch (operate)
             {
             case decltype(operate)::ItemRemoved: {
-                menulist.RemoveAt(index);
+                menu_list.RemoveAt(index);
                 break;
             }
             case decltype(operate)::ItemChanged: {
-                menulist.SetAt(index, self.MakeNavItem(self.libraries_.GetAt(index)));
+                menu_list.SetAt(index, self.MakeNavItem(self.libraries_.GetAt(index)));
                 break;
             }
             case decltype(operate)::ItemInserted: {
-                menulist.InsertAt(index, self.MakeNavItem(self.libraries_.GetAt(index)));
+                menu_list.InsertAt(index, self.MakeNavItem(self.libraries_.GetAt(index)));
                 break;
             }
             }
         });
         // volume change
-        playerViewModel_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) { self.player_.Volume(self.playerViewModel_.Volume() / 100.); });
+        player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) { self.player_.Volume(self.player_view_model_.Volume() / 100.); });
         // slider
         session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto state{ self.session_.PlaybackState() };
@@ -73,7 +73,7 @@ namespace winrt::Player::implementation
                 co_return;
 
             co_await ui_thread;
-            self.playerViewModel_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
+            self.player_view_model_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
 
             while (self.session_.PlaybackState() == decltype(state)::Playing) [[likely]]
             {
@@ -83,23 +83,23 @@ namespace winrt::Player::implementation
                 if (position > 0) [[likely]]
                 {
                     co_await ui_thread;
-                    self.playerViewModel_.Position(static_cast<double>(position));
+                    self.player_view_model_.Position(static_cast<double>(position));
                 }
             }
         });
-        playerViewModel_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
+        player_view_model_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             // if two events occur within 50ms, discard subsequent events
             {
-                static auto pre{ winrt::clock::now().time_since_epoch() };
+                static auto previous{ winrt::clock::now().time_since_epoch() };
                 auto now{ winrt::clock::now().time_since_epoch() };
                 using namespace std::chrono_literals;
-                if ((now - pre) < std::chrono::duration_cast<winrt::clock::duration>(50ms))
-                    return;
+                if ((now - previous) > std::chrono::duration_cast<winrt::clock::duration>(50ms))
+                    previous = now;
                 else
-                    pre = now;
+                    return;
             }
             if (args.PropertyName() == L"Position") [[likely]]
-                self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.playerViewModel_.Position()) }));
+                self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.player_view_model_.Position()) }));
         });
         // when switch to new music, make button ui on
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
@@ -120,26 +120,26 @@ namespace winrt::Player::implementation
                 self.player_.Play();
 
             co_await winrt::resume_background();
-            auto library{ self.playerViewModel_.Library() };
+            auto library{ self.player_view_model_.Library() };
             if (library.protocol == L"local")
             {
                 auto index{ self.play_list_.CurrentItemIndex() };
                 auto info{ self.info_list_.GetAt(index) };
-                auto const& file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(library.address + info.Path).get() };
+                auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(library.address + info.Path).get() };
                 auto prop{ item.GetDisplayProperties() };
                 prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
                 auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView).get()) };
                 prop.Thumbnail(thumb);
-                auto musicprop{ prop.MusicProperties() };
+                auto music_prop{ prop.MusicProperties() };
                 prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
                 auto title{ FolderView::DecisionTitle(info.Title, info.Path) };
-                musicprop.Title(title);
-                musicprop.AlbumArtist(info.Albumartist);
-                musicprop.AlbumTitle(info.Album);
+                music_prop.Title(title);
+                music_prop.AlbumArtist(info.Albumartist);
+                music_prop.AlbumTitle(info.Album);
                 auto artist{ FolderView::DecisionArtist(info.Artist, info.Albumartist) };
-                musicprop.Artist(artist);
-                musicprop.Genres().Append(info.Genre);
-                musicprop.TrackNumber(info.Track);
+                music_prop.Artist(artist);
+                music_prop.Genres().Append(info.Genre);
+                music_prop.TrackNumber(info.Track);
                 item.ApplyDisplayProperties(prop);
                 {
                     co_await ui_thread;
@@ -149,9 +149,9 @@ namespace winrt::Player::implementation
                     self.PlayerArtist().Text(artist);
                     self.PlayerTitle().Text(title);
                     if (artist.empty())
-                        self.playerViewModel_.Title(title);
+                        self.player_view_model_.Title(title);
                     else
-                        self.playerViewModel_.Title(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
+                        self.player_view_model_.Title(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
                 }
             }
             co_await ui_thread;
@@ -195,29 +195,29 @@ namespace winrt::Player::implementation
 
     void RootPage::PlayButtonOn()
     {
-        auto fontIcon{ PlayIcon() };
-        auto icon{ fontIcon.Glyph() };
+        auto font_icon{ PlayIcon() };
+        auto icon{ font_icon.Glyph() };
 
         if (icon == L"\uE768")
-            fontIcon.Glyph(L"\uE769");
+            font_icon.Glyph(L"\uE769");
         else if (icon == L"\uF5B0")
-            fontIcon.Glyph(L"\uF8AE");
+            font_icon.Glyph(L"\uF8AE");
 
-        fontIcon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(0));
+        font_icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(0));
     }
 
     void RootPage::PlayButtonOff()
     {
-        auto fontIcon{ PlayIcon() };
-        auto icon{ fontIcon.Glyph() };
+        auto font_icon{ PlayIcon() };
+        auto icon{ font_icon.Glyph() };
 
         if (icon == L"\uE769")
-            fontIcon.Glyph(L"\uE768");
+            font_icon.Glyph(L"\uE768");
         else if (icon == L"\uF8AE")
-            fontIcon.Glyph(L"\uF5B0");
+            font_icon.Glyph(L"\uF5B0");
 
-        fontIcon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromLengths(2, 0, 0, 0));
-        playerViewModel_.Title(L"PlayerWinRT");
+        font_icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromLengths(2, 0, 0, 0));
+        player_view_model_.Title(L"PlayerWinRT");
     }
 
     void RootPage::Navigation_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)
@@ -270,8 +270,8 @@ namespace winrt::Player::implementation
     void RootPage::Shuffle_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto fontIcon{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
-        auto icon{ fontIcon.Glyph() };
+        auto font_icon{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
+        auto icon{ font_icon.Glyph() };
         if (icon == L"\uE30D")
         {
             icon = L"\uE8B1";
@@ -282,12 +282,12 @@ namespace winrt::Player::implementation
             play_list_.ShuffleEnabled(false);
             icon = L"\uE30D";
         }
-        fontIcon.Glyph(icon);
+        font_icon.Glyph(icon);
     }
 
     PlayerViewModel RootPage::PlayerViewModel()
     {
-        return playerViewModel_;
+        return player_view_model_;
     }
 
     winrt::Microsoft::UI::Xaml::Controls::NavigationViewItem RootPage::MakeNavItem(const winrt::Data::Library& library)
@@ -315,48 +315,48 @@ namespace winrt::Player::implementation
             auto font{ winrt::Microsoft::UI::Xaml::Application::Current().Resources().Lookup(winrt::box_value(L"IconFontFamily")).try_as<winrt::Microsoft::UI::Xaml::Media::FontFamily>() };
             // menu
             {
-                auto menuFlyout{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyout{} };
+                auto menu_flyout{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyout{} };
                 auto up{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
                 auto down{ decltype(up){} };
                 auto edit{ decltype(up){} };
                 auto remove{ decltype(up){} };
                 {
                     auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
-                    auto upIcon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
-                    auto downIcon{ decltype(upIcon){} };
-                    auto editIcon{ decltype(upIcon){} };
-                    auto removeIcon{ decltype(upIcon){} };
+                    auto up_icon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
+                    auto down_icon{ decltype(up_icon){} };
+                    auto edit_icon{ decltype(up_icon){} };
+                    auto remove_icon{ decltype(up_icon){} };
 
                     // todo: add actual function
-                    upIcon.Glyph(L"\uE70E");
-                    downIcon.Glyph(L"\uE70D");
-                    editIcon.Glyph(L"\uE70F");
-                    removeIcon.Glyph(L"\uE74D");
-                    upIcon.FontFamily(font);
-                    downIcon.FontFamily(font);
-                    editIcon.FontFamily(font);
-                    removeIcon.FontFamily(font);
+                    up_icon.Glyph(L"\uE70E");
+                    down_icon.Glyph(L"\uE70D");
+                    edit_icon.Glyph(L"\uE70F");
+                    remove_icon.Glyph(L"\uE74D");
+                    up_icon.FontFamily(font);
+                    down_icon.FontFamily(font);
+                    edit_icon.FontFamily(font);
+                    remove_icon.FontFamily(font);
                     up.Text(resource.GetString(L"Up/Text"));
                     down.Text(resource.GetString(L"Down/Text"));
                     edit.Text(resource.GetString(L"Edit/Text"));
                     remove.Text(resource.GetString(L"Delete/Text"));
-                    up.Icon(upIcon);
-                    down.Icon(downIcon);
-                    edit.Icon(editIcon);
-                    remove.Icon(removeIcon);
+                    up.Icon(up_icon);
+                    down.Icon(down_icon);
+                    edit.Icon(edit_icon);
+                    remove.Icon(remove_icon);
                     up.Tag(tag);
                     down.Tag(tag);
                     edit.Tag(tag);
                     remove.Tag(tag);
                 }
                 {
-                    auto items{ menuFlyout.Items() };
+                    auto items{ menu_flyout.Items() };
                     items.Append(up);
                     items.Append(down);
                     items.Append(edit);
                     items.Append(remove);
                 }
-                item.ContextFlyout(menuFlyout);
+                item.ContextFlyout(menu_flyout);
             }
             // icon
             auto icon{ winrt::Microsoft::UI::Xaml::Controls::FontIcon{} };
@@ -378,7 +378,7 @@ namespace winrt::Player::implementation
     void RootPage::NavigateToDefaultPage()
     {
         Folders().IsSelected(true);
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, play_list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ player_view_model_, info_list_, play_list_, library_ });
     }
 
     void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
@@ -397,15 +397,15 @@ namespace winrt::Player::implementation
     {
         // if two events occur within 50ms, discard subsequent events
         {
-            static auto pre{ winrt::clock::now().time_since_epoch() };
+            static auto previous{ winrt::clock::now().time_since_epoch() };
             auto now{ winrt::clock::now().time_since_epoch() };
             using namespace std::chrono_literals;
-            if ((now - pre) < std::chrono::duration_cast<winrt::clock::duration>(50ms))
+            if ((now - previous) < std::chrono::duration_cast<winrt::clock::duration>(50ms))
                 return;
             else
-                pre = now;
+                previous = now;
         }
-        SettingsHelper::SetVolume(playerViewModel_.Volume());
+        SettingsHelper::SetVolume(player_view_model_.Volume());
     }
 
     void RootPage::PlayButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
@@ -458,7 +458,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ playerViewModel_, info_list_, play_list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ player_view_model_, info_list_, play_list_, library_ });
     }
 
     void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
@@ -484,8 +484,8 @@ namespace winrt::Player::implementation
     void RootPage::Mute_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
-        auto fontIcon{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
-        auto icon{ fontIcon.Glyph() };
+        auto font_icon{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::Button>().Content().try_as<winrt::Microsoft::UI::Xaml::Controls::FontIcon>() };
+        auto icon{ font_icon.Glyph() };
         if (icon == L"\uE767")
         {
             icon = L"\uE74F";
@@ -496,7 +496,7 @@ namespace winrt::Player::implementation
             icon = L"\uE767";
             player_.IsMuted(false);
         }
-        fontIcon.Glyph(icon);
+        font_icon.Glyph(icon);
     }
 
     void RootPage::Page_ActualThemeChanged(winrt::Microsoft::UI::Xaml::FrameworkElement const&, winrt::Windows::Foundation::IInspectable const&)

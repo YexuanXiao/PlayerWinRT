@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "SettingsHelper.h"
 
-
 namespace SettingsHelper
 {
     namespace impl_
@@ -25,16 +24,16 @@ namespace SettingsHelper
 
         void StoreTheme(winrt::Microsoft::UI::Xaml::ElementTheme theme)
         {
-            auto localSettings{ impl_::GetApplicationSettings() };
+            auto settings{ impl_::GetApplicationSettings() };
             auto value{ static_cast<int32_t>(theme) };
-            localSettings.Insert(impl_::Theme_Key.data(), winrt::box_value(value));
+            settings.Insert(impl_::Theme_Key.data(), winrt::box_value(value));
         }
     }
 
     winrt::Microsoft::UI::Xaml::ElementTheme LoadTheme()
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        auto value{ winrt::unbox_value_or<int32_t>(localSettings.Lookup(impl_::Theme_Key.data()), 0) };
+        auto settings{ impl_::GetApplicationSettings() };
+        auto value{ winrt::unbox_value_or<int32_t>(settings.Lookup(impl_::Theme_Key.data()), 0) };
         return winrt::Microsoft::UI::Xaml::ElementTheme{ value };
     }
 
@@ -53,51 +52,44 @@ namespace SettingsHelper
 
     bool CheckFirstUse()
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        auto result{ localSettings.HasKey(impl_::First_Key.data()) };
-        if (result) [[likely]]
-        {
-            return false;
-        }
-        else
-        {
+        auto settings{ impl_::GetApplicationSettings() };
 #ifndef _DEBUG
-            localSettings.Insert(impl_::First_Key.data(), winrt::box_value(true));
+        return !settings.Insert(impl_::First_Key.data(), winrt::box_value(true);
+#else
+        return true;
 #endif
-            return true;
-        }
     }
 
     double GetVolume()
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        auto value{ winrt::unbox_value_or<double>(localSettings.Lookup(impl_::Volume_Key.data()), 100.) };
+        auto settings{ impl_::GetApplicationSettings() };
+        auto value{ winrt::unbox_value_or<double>(settings.Lookup(impl_::Volume_Key.data()), 100.) };
         return value;
     }
 
     void SetVolume(double value)
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        localSettings.Insert(impl_::Volume_Key.data(), winrt::box_value(value));
+        auto settings{ impl_::GetApplicationSettings() };
+        settings.Insert(impl_::Volume_Key.data(), winrt::box_value(value));
     }
 
     Repeat GetRepeat()
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        auto value{ winrt::unbox_value_or<int32_t>(localSettings.Lookup(impl_::Repeat_Key.data()), 0) };
+        auto settings{ impl_::GetApplicationSettings() };
+        auto value{ winrt::unbox_value_or<int32_t>(settings.Lookup(impl_::Repeat_Key.data()), 0) };
         return Repeat{ value };
     }
 
     void SetRepeat(Repeat value)
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        localSettings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
+        auto settings{ impl_::GetApplicationSettings() };
+        settings.Insert(impl_::Repeat_Key.data(), winrt::box_value(static_cast<int32_t>(value)));
     }
 
     winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> GetLibraries()
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
-        auto value{ winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" }) };
+        auto settings{ impl_::GetApplicationSettings() };
+        auto value{ winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" }) };
         auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(value) };
         // make container and data
         auto container{ std::vector<winrt::Data::Library>{} };
@@ -112,40 +104,40 @@ namespace SettingsHelper
 
     winrt::Windows::Foundation::IAsyncAction StoreLibrary(winrt::Windows::Data::Json::JsonObject const& library)
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
+        auto settings{ impl_::GetApplicationSettings() };
         // first, insert library to local settings
         auto const name{ library.GetNamedString(L"Name") };
         auto file{ co_await impl_::GetDataFolder().CreateFileAsync(name, winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
         winrt::Windows::Storage::FileIO::WriteTextAsync(file, library.GetNamedArray(L"List").ToString());
         // second, insert library name to libraries
-        auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
+        auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
         auto libraryinfo{ winrt::Windows::Data::Json::JsonObject{} };
         libraryinfo.SetNamedValue(L"Name", library.GetNamedValue(L"Name"));
         libraryinfo.SetNamedValue(L"Path", library.GetNamedValue(L"Path"));
         libraryinfo.SetNamedValue(L"Protocol", library.GetNamedValue(L"Protocol"));
         libraryinfo.SetNamedValue(L"Icon", library.GetNamedValue(L"Icon"));
         libraries.Append(libraryinfo);
-        localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
+        settings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
     }
 
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibrary(winrt::hstring const& name)
     {
-        auto file{ co_await impl_::GetDataFolder().GetItemAsync(name) };
-        co_return winrt::Windows::Data::Json::JsonArray::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file.try_as<winrt::Windows::Storage::StorageFile>()));
+        auto file{ (co_await impl_::GetDataFolder().GetItemAsync(name)).try_as<winrt::Windows::Storage::StorageFile>() };
+        co_return winrt::Windows::Data::Json::JsonArray::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file));
     }
 
     winrt::Windows::Foundation::IAsyncAction RemoveLibrary(winrt::hstring const& name)
     {
-        auto localSettings{ impl_::GetApplicationSettings() };
+        auto settings{ impl_::GetApplicationSettings() };
         // first, remove library data
         auto file{ co_await impl_::GetDataFolder().GetItemAsync(name) };
         co_await file.try_as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
         // second, remove library from libraries
-        auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(localSettings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
+        auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
         auto index{ decltype(libraries.Size()){} };
-        for (auto const& i : libraries)
+        for (auto const& object : libraries)
         {
-            auto library{ i.GetObjectW() };
+            auto library{ object.GetObjectW() };
             if (library.GetNamedString(L"Name") == name)
             {
                 libraries.RemoveAt(index);
@@ -156,7 +148,7 @@ namespace SettingsHelper
                 ++index;
             };
         }
-        localSettings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
+        settings.Insert(impl_::Libraries_Key.data(), winrt::box_value(libraries.ToString()));
     }
 
     winrt::Windows::Foundation::IAsyncAction RemoveAllData()

@@ -46,23 +46,23 @@ namespace winrt::Player::implementation
 
         // lazy initialize window
         window_ = winrt::Microsoft::UI::Xaml::Window{};
-        // make rootPage
-        auto rootPage{ winrt::Player::RootPage{} };
-        window_.Content(rootPage);
-        auto playerViewModel{ rootPage.PlayerViewModel() };
-        window_.Title(playerViewModel.Title());
-        playerViewModel.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
+        // make root_page
+        auto root_page{ winrt::Player::RootPage{} };
+        window_.Content(root_page);
+        auto player_view_model{ root_page.PlayerViewModel() };
+        window_.Title(player_view_model.Title());
+        player_view_model.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             if (args.PropertyName() != L"Title")
                 return;
             self.window_.Title(sender.try_as<winrt::Player::PlayerViewModel>().Title());
         });
 
-        auto appTitleBar{ rootPage.AppTitleBar() };
+        auto app_titlebar{ root_page.AppTitleBar() };
 
         // initialize AppWindow
-        auto appWindow{ window_.AppWindow() };
+        auto app_window{ window_.AppWindow() };
         // https://www.aconvert.com/cn/icon/png-to-ico/
-        appWindow.SetIcon(L"Assets/PlayerWinRT.ico");
+        app_window.SetIcon(L"Assets/PlayerWinRT.ico");
 
 #define Windows10 false
         // test winrt::Windows 10 branch on winrt::Windows 11
@@ -70,19 +70,19 @@ namespace winrt::Player::implementation
 
 #undef Windows10
         {
-            auto titleBar{ appWindow.TitleBar() };
-            titleBar.ExtendsContentIntoTitleBar(true);
-            titleBar.PreferredHeightOption(winrt::Microsoft::UI::Windowing::TitleBarHeightOption::Tall);
-            appWindow.Changed({ this, &App::AppWindow_Changed });
-            appTitleBar.Loaded({ this, &App::AppTitleBar_Loaded });
-            appTitleBar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
+            auto titlebar{ app_window.TitleBar() };
+            titlebar.ExtendsContentIntoTitleBar(true);
+            titlebar.PreferredHeightOption(winrt::Microsoft::UI::Windowing::TitleBarHeightOption::Tall);
+            app_window.Changed({ this, &App::AppWindow_Changed });
+            app_titlebar.Loaded({ this, &App::AppTitleBar_Loaded });
+            app_titlebar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
 
             // set titlebar theme
             auto theme{ SettingsHelper::LoadTheme() };
-            SetTitleBarTheme(titleBar, theme);
+            SetTitleBarTheme(titlebar, theme);
 
-            rootPage.ActualThemeChanged([appWindow](winrt::Microsoft::UI::Xaml::FrameworkElement const& sender, winrt::Windows::Foundation::IInspectable const&) {
-                auto titleBar{ appWindow.TitleBar() };
+            root_page.ActualThemeChanged([app_window](winrt::Microsoft::UI::Xaml::FrameworkElement const& sender, winrt::Windows::Foundation::IInspectable const&) {
+                auto titleBar{ app_window.TitleBar() };
                 assert(titleBar.ExtendsContentIntoTitleBar());
                 SetTitleBarTheme(titleBar, sender.ActualTheme());
             });
@@ -91,7 +91,7 @@ namespace winrt::Player::implementation
         {
             // In the case that title bar customization is not supported, fallback to WindowChrome
             window_.ExtendsContentIntoTitleBar(true);
-            window_.SetTitleBar(rootPage.AppTitleBar());
+            window_.SetTitleBar(root_page.AppTitleBar());
         }
 
         // make app only have one instance
@@ -129,17 +129,17 @@ namespace winrt::Player::implementation
         assert(winrt::Microsoft::UI::Windowing::AppWindowTitleBar::IsCustomizationSupported());
         auto titleBar{ window_.AppWindow().TitleBar() };
         assert(titleBar.ExtendsContentIntoTitleBar());
-        auto scaleAdjustment{ Win32Helper::GetScaleAdjustment(window_) };
+        auto scale_adjustment{ Win32Helper::GetScaleAdjustment(window_) };
         auto appTitleBar{ window_.Content().try_as<Player::RootPage>().AppTitleBar() };
         auto rect{ winrt::Windows::Graphics::RectInt32{} };
-        rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scaleAdjustment);
+        rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scale_adjustment);
         rect.Y = 0;
-        rect.Height = static_cast<int32_t>(48 * scaleAdjustment);
+        rect.Height = static_cast<int32_t>(48 * scale_adjustment);
 #ifdef _DEBUG
         // make application tool bar clickable
-        rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment / 3);
+        rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scale_adjustment / 3);
 #else
-        rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scaleAdjustment - rect.X - titleBar.RightInset());
+        rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment - rect.X - titlebar.RightInset());
 #endif
         titleBar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
     }

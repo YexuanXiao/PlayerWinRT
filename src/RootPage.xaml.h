@@ -3,6 +3,10 @@
 #include "RootPage.g.h"
 #include "SettingsHelper.h"
 
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Storage.h>
+
 namespace winrt::Player::implementation
 {
     struct RootPage: RootPageT<RootPage>
@@ -41,7 +45,7 @@ namespace winrt::Player::implementation
         bool repeat_one_{ false };
         winrt::Data::Library library_{};
         winrt::hstring title_{ L"PlayerWinRT" };
-        winrt::Player::PlayerViewModel playerViewModel_{};
+        winrt::Player::PlayerViewModel player_view_model_{};
         winrt::Windows::Media::Playback::MediaPlayer player_{};
         winrt::Windows::Media::Playback::MediaPlaybackList play_list_{};
         decltype(player_.CommandManager()) commander_{ player_.CommandManager() };

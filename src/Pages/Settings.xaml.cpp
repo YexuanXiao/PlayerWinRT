@@ -48,17 +48,17 @@ namespace winrt::Player::implementation
 
     void Settings::Theme_Changed(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&)
     {
-        auto radioButton{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButtons>().SelectedItem().try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButton>() };
+        auto radio_button{ sender.try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButtons>().SelectedItem().try_as<winrt::Microsoft::UI::Xaml::Controls::RadioButton>() };
         // if no item select, return
-        if (radioButton == nullptr) [[likely]]
+        if (radio_button == nullptr) [[likely]]
             return;
 
-        auto tagName{ winrt::unbox_value<winrt::hstring>(radioButton.Tag()) };
+        auto tag{ winrt::unbox_value<winrt::hstring>(radio_button.Tag()) };
         auto theme{ winrt::Microsoft::UI::Xaml::ElementTheme::Default };
 
-        if (tagName == L"dark") [[likely]]
+        if (tag == L"dark") [[likely]]
             theme = winrt::Microsoft::UI::Xaml::ElementTheme::Dark;
-        else if (tagName == L"light")
+        else if (tag == L"light")
             theme = winrt::Microsoft::UI::Xaml::ElementTheme::Light;
 
         SettingsHelper::SetTheme(XamlRoot(), theme);

@@ -25,7 +25,8 @@ namespace winrt::Player::implementation
         {
             Loaded([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
                 auto ui_thread{ winrt::apartment_context{} };
-                co_await winrt::resume_background();
+                using namespace std::chrono_literals;
+                co_await 500ms;
                 auto graph{ winrt::Windows::Media::Audio::AudioGraph::CreateAsync(winrt::Windows::Media::Audio::AudioGraphSettings{ winrt::Windows::Media::Render::AudioRenderCategory::Media }).get() };
                 auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.Path()).get() };
                 auto result{ graph.Graph().CreateFileInputNodeAsync(file).get() };

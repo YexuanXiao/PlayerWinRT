@@ -14,7 +14,6 @@ namespace Win32Helper
     /// <param name="exitcode">exit code</param>
     void DisableMultiInstanceEntry(std::wstring_view const appname, UINT const exitcode)
     {
-        using namespace std::string_literals;
         auto constexpr max_size{ 16 };
         assert(appname.size() < max_size);
         // use user's temp folder pathname + appname as part of mutex name
@@ -30,22 +29,21 @@ namespace Win32Helper
         if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) [[likely]]
         {
             // enumerate all direct child windows of desktop
-            for (auto pre{ ::FindWindowExW(nullptr, nullptr, nullptr, nullptr) };
+            for (auto previous{ ::FindWindowExW(nullptr, nullptr, nullptr, nullptr) };
                  // return null if at the end
-                 pre != nullptr;
-                 // pass the pre as the 2nd argument to get next handle
-                 pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr)) [[likely]]
+                 previous != nullptr;
+                 // pass the previous as the 2nd argument to get next window_handle
+                 previous = ::FindWindowExW(nullptr, previous, nullptr, nullptr)) [[likely]]
             {
                 // check if window_ has the specified property
                 // set in MainWindow constructor
-                if (::GetPropW(pre, appname.data())) [[unlikely]]
+                if (::GetPropW(previous, appname.data())) [[unlikely]]
                 {
                     // show and restore window_
-                    ::ShowWindow(pre, SW_RESTORE);
+                    ::ShowWindow(previous, SW_RESTORE);
                     // activate, set foreground and get forcus
-                    if (::SetForegroundWindow(pre))
+                    if (::SetForegroundWindow(previous))
                         ::ExitProcess(exitcode);
-                    break;
                 }
             }
         }
@@ -53,16 +51,16 @@ namespace Win32Helper
 
     HWND GetHandleFromWindow(winrt::Microsoft::UI::Xaml::Window const& window)
     {
-        auto hWnd{ HWND{} };
-        window.try_as<IWindowNative>()->get_WindowHandle(&hWnd);
-        return hWnd;
+        auto handle{ HWND{} };
+        window.try_as<IWindowNative>()->get_WindowHandle(&handle);
+        return handle;
     }
 
     double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const& window)
     {
-        auto dpiX{ ::GetDpiForWindow(GetHandleFromWindow(window)) };
-        auto scaleFactorPercent{ (dpiX * 100 + (96 >> 1)) / 96 };
-        return scaleFactorPercent / 100.;
+        auto dpi_x{ ::GetDpiForWindow(GetHandleFromWindow(window)) };
+        auto scale_factor_percent{ (dpi_x * 100 + (96 >> 1)) / 96 };
+        return scale_factor_percent / 100.;
     }
 
     /// <summary>
@@ -70,24 +68,24 @@ namespace Win32Helper
     /// call at window_ initialized
     /// </summary>
     /// <param name="appname">size lesser than 16</param>
-    /// <param name="handle">handle of window_</param>
+    /// <param name="window_handle">window_handle of window_</param>
     void DisableMultiInstanceWindow(winrt::Microsoft::UI::Xaml::Window const& window, std::wstring_view const appname)
     {
-        auto handle{ GetHandleFromWindow(window) };
-        ::SetPropW(handle, appname.data(), handle);
+        auto window_handle{ GetHandleFromWindow(window) };
+        ::SetPropW(window_handle, appname.data(), window_handle);
     }
 
     std::atomic<uintptr_t> old_proc;
 
-    LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK WindowProc(HWND window_handle, UINT unsigned_message, WPARAM wide_parameter, LPARAM long_parameter)
     {
-        auto scaleFactor(::GetDpiForWindow(hWnd));
-        if (WM_GETMINMAXINFO == uMsg) [[unlikely]]
+        auto scale_factor(::GetDpiForWindow(window_handle));
+        if (WM_GETMINMAXINFO == unsigned_message) [[unlikely]]
         {
-            reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = (362 * scaleFactor * 100 + (96 >> 1)) / 9600;
-            reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = (170 * scaleFactor * 100 + (96 >> 1)) / 9600;
+            reinterpret_cast<MINMAXINFO*>(long_parameter)->ptMinTrackSize.x = (362 * scale_factor * 100 + (96 >> 1)) / 9600;
+            reinterpret_cast<MINMAXINFO*>(long_parameter)->ptMinTrackSize.y = (170 * scale_factor * 100 + (96 >> 1)) / 9600;
         }
-        return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), hWnd, uMsg, wParam, lParam);
+        return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), window_handle, unsigned_message, wide_parameter, long_parameter);
     }
 
     void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window)
@@ -99,8 +97,7 @@ namespace Win32Helper
     {
         auto path{ PWSTR{} };
 #pragma comment(lib, "Shell32.lib")
-        auto res{ ::SHGetKnownFolderPath(FOLDERID_Music, 0, NULL, &path) };
-        if (!res) [[likely]]
+        if (!::SHGetKnownFolderPath(FOLDERID_Music, 0, NULL, &path)) [[likely]]
         {
             auto result{ winrt::hstring{ path } };
             ::CoTaskMemFree(path);

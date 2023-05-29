@@ -6,13 +6,13 @@
 
 namespace winrt::Data::implementation
 {
-    FolderViewParameter::FolderViewParameter(winrt::Player::PlayerViewModel const& playerViewModel, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const& music, winrt::Windows::Media::Playback::MediaPlaybackList const& list, winrt::Data::Library const& library) : playerViewModel_(playerViewModel), music_(music), play_list_(list), library_(library)
+    FolderViewParameter::FolderViewParameter(winrt::Player::PlayerViewModel const& playerViewModel, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const& music, winrt::Windows::Media::Playback::MediaPlaybackList const& list, winrt::Data::Library const& library) : player_view_model_(playerViewModel), music_(music), play_list_(list), library_(library)
     {
     }
 
     winrt::Player::PlayerViewModel FolderViewParameter::PlayerViewModel()
     {
-        return playerViewModel_;
+        return player_view_model_;
     }
 
     winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> FolderViewParameter::Music()
