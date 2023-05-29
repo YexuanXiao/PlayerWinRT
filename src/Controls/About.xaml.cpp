@@ -18,6 +18,6 @@ namespace winrt::Player::implementation
         CloseButtonText(resource.GetString(L"Close"));
         auto version{ winrt::Windows::ApplicationModel::Package::Current().Id().Version() };
         auto dot{ fast_io::mnp::chvw('.') };
-        Version().Text(fast_io::wconcat_winrt_hstring(version.Major,dot,version.Major,dot,version.Minor,dot,version.Revision));
+        Version().Text(fast_io::wconcat_winrt_hstring(version.Major, dot, version.Major, dot, version.Minor, dot, version.Revision));
     }
 }

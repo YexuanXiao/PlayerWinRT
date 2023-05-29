@@ -4,7 +4,7 @@
 
 namespace winrt::Player::implementation
 {
-    struct Equalizer : EqualizerT<Equalizer>
+    struct Equalizer: EqualizerT<Equalizer>
     {
         Equalizer();
     };
@@ -12,7 +12,7 @@ namespace winrt::Player::implementation
 
 namespace winrt::Player::factory_implementation
 {
-    struct Equalizer : EqualizerT<Equalizer, implementation::Equalizer>
+    struct Equalizer: EqualizerT<Equalizer, implementation::Equalizer>
     {
     };
 }

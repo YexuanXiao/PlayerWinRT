@@ -165,7 +165,9 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Data\FolderViewParameter.h" />
+    <ClInclude Include="Data\FolderViewParameter.h">
+      <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    </ClInclude>
     <ClInclude Include="ViewModels\InfoViewModel.h">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -221,7 +223,9 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Data\FolderViewParameter.cpp" />
+    <ClCompile Include="Data\FolderViewParameter.cpp">
+      <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    </ClCompile>
     <ClCompile Include="ViewModels\InfoViewModel.cpp">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
       <SubType>Code</SubType>

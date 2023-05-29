@@ -8,9 +8,10 @@ namespace winrt::Player::implementation
     {
         App();
         void OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
-    private:
+
+      private:
         // use for disable multi-instance, keep A-Za-z, and no '\'
-        std::wstring_view appname_{L"PlayerWinRT"};
+        std::wstring_view appname_{ L"PlayerWinRT" };
         // lazy initialization, use nullptr constructor
         // and initialize at other time
         // or use default constructor or other constructor

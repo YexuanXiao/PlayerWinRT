@@ -6,7 +6,7 @@
 
 namespace winrt::Player::implementation
 {
-    struct LibraryEditor : LibraryEditorT<LibraryEditor>
+    struct LibraryEditor: LibraryEditorT<LibraryEditor>
     {
         LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const&);
         LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
@@ -25,7 +25,7 @@ namespace winrt::Player::implementation
 
 namespace winrt::Player::factory_implementation
 {
-    struct LibraryEditor : LibraryEditorT<LibraryEditor, implementation::LibraryEditor>
+    struct LibraryEditor: LibraryEditorT<LibraryEditor, implementation::LibraryEditor>
     {
     };
 }

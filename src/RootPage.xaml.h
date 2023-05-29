@@ -5,7 +5,7 @@
 
 namespace winrt::Player::implementation
 {
-    struct RootPage : RootPageT<RootPage>
+    struct RootPage: RootPageT<RootPage>
     {
         RootPage();
         // rumtime properties
@@ -40,7 +40,7 @@ namespace winrt::Player::implementation
 
         bool repeat_one_{ false };
         winrt::Data::Library library_{};
-        winrt::hstring title_{L"PlayerWinRT"};
+        winrt::hstring title_{ L"PlayerWinRT" };
         winrt::Player::PlayerViewModel playerViewModel_{};
         winrt::Windows::Media::Playback::MediaPlayer player_{};
         winrt::Windows::Media::Playback::MediaPlaybackList play_list_{};
@@ -53,7 +53,7 @@ namespace winrt::Player::implementation
 
 namespace winrt::Player::factory_implementation
 {
-    struct RootPage : RootPageT<RootPage, implementation::RootPage>
+    struct RootPage: RootPageT<RootPage, implementation::RootPage>
     {
     };
 }

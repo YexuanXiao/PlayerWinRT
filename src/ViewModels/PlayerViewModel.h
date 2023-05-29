@@ -1,9 +1,10 @@
 #pragma once
+
 #include "PlayerViewModel.g.h"
 
 namespace winrt::Player::implementation
 {
-    struct PlayerViewModel : PlayerViewModelT<PlayerViewModel>
+    struct PlayerViewModel: PlayerViewModelT<PlayerViewModel>
     {
         PlayerViewModel();
         double Volume();
@@ -25,6 +26,7 @@ namespace winrt::Player::implementation
 
         void PropertyChanged(winrt::event_token const&) noexcept;
         winrt::event_token PropertyChanged(winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler const&);
+
     private:
         double volume_;
         uint32_t index_;
@@ -35,9 +37,10 @@ namespace winrt::Player::implementation
         winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> propertyChanged_;
     };
 }
+
 namespace winrt::Player::factory_implementation
 {
-    struct PlayerViewModel : PlayerViewModelT<PlayerViewModel, implementation::PlayerViewModel>
+    struct PlayerViewModel: PlayerViewModelT<PlayerViewModel, implementation::PlayerViewModel>
     {
     };
 }

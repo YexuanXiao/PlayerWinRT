@@ -10,45 +10,57 @@ namespace winrt::Player::implementation
     {
         info_ = info;
     }
-    winrt::Data::Music InfoViewModel::Get() {
+
+    winrt::Data::Music InfoViewModel::Get()
+    {
         return info_;
     }
-    hstring InfoViewModel::Title()
+
+    winrt::hstring InfoViewModel::Title()
     {
         return info_.Title;
     }
-    hstring InfoViewModel::Album()
+
+    winrt::hstring InfoViewModel::Album()
     {
         return info_.Album;
     }
-    hstring InfoViewModel::Genre()
+
+    winrt::hstring InfoViewModel::Genre()
     {
         return info_.Genre;
     }
-    hstring InfoViewModel::Artist()
+
+    winrt::hstring InfoViewModel::Artist()
     {
         return info_.Artist;
     }
-    hstring InfoViewModel::Albumartist()
+
+    winrt::hstring InfoViewModel::Albumartist()
     {
         return info_.Albumartist;
     }
-    hstring InfoViewModel::Path()
+
+    winrt::hstring InfoViewModel::Path()
     {
         return info_.Path;
     }
+
     int64_t InfoViewModel::Duration()
     {
         return info_.Duration;
     }
+
     uint32_t InfoViewModel::Year()
     {
         return info_.Year;
     }
+
     uint32_t InfoViewModel::Bitrate()
     {
         return info_.Bitrate;
     }
+
     uint32_t InfoViewModel::Track()
     {
         return info_.Track;

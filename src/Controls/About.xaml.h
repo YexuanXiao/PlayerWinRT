@@ -4,7 +4,7 @@
 
 namespace winrt::Player::implementation
 {
-    struct About : AboutT<About>
+    struct About: AboutT<About>
     {
         About();
     };
@@ -12,7 +12,7 @@ namespace winrt::Player::implementation
 
 namespace winrt::Player::factory_implementation
 {
-    struct About : AboutT<About, implementation::About>
+    struct About: AboutT<About, implementation::About>
     {
     };
 }
