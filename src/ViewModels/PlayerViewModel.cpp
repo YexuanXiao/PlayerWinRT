@@ -1,105 +1,92 @@
 #include "pch.h"
 #include "PlayerViewModel.h"
+#if __has_include("PlayerViewModel.g.cpp")
 #include "PlayerViewModel.g.cpp"
-
-#include "SettingsHelper.h"
-
+#endif
 namespace winrt::Player::implementation
 {
-    PlayerViewModel::PlayerViewModel()
-    {
-        volume_ = SettingsHelper::GetVolume();
-        position_ = 0.;
-        duration_ = 0.;
-#ifdef _DEBUG
-        title_ = L"PlayerWinRT Dev";
-#else
-        title_ = L"PlayerWinRT";
-#endif
-    }
-
-    double PlayerViewModel::Volume()
+    double PlayerViewModel::Volume() const
     {
         return volume_;
     }
 
     void PlayerViewModel::Volume(double value)
     {
-        if (value != volume_)
-        {
-            volume_ = value;
-            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Volume" });
-        }
+        if (value == volume_)
+            return;
+
+        volume_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Volume" });
     }
 
-    uint32_t PlayerViewModel::Index()
+    uint32_t PlayerViewModel::Index() const
     {
         return index_;
     }
 
     void PlayerViewModel::Index(uint32_t value)
     {
-        if (value != index_)
-        {
-            index_ = value;
-            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Index" });
-        }
+        if (value == index_)
+            return;
+
+        index_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Index" });
     }
 
-    double PlayerViewModel::Position()
+    double PlayerViewModel::Position() const
     {
         return position_;
     }
 
     void PlayerViewModel::Position(double value)
     {
-        if (value != position_)
-        {
-            position_ = value;
-            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Position" });
-        }
+        if (value == position_)
+            return;
+
+        position_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Position" });
     }
 
-    double PlayerViewModel::Duration()
+    double PlayerViewModel::Duration() const
     {
         return duration_;
     }
 
     void PlayerViewModel::Duration(double value)
     {
-        if (value != duration_)
-        {
-            duration_ = value;
-            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Duration" });
-        }
+        if (value == duration_)
+            return;
+
+        duration_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Duration" });
     }
 
-    winrt::hstring PlayerViewModel::Title()
+    winrt::hstring PlayerViewModel::Title() const
     {
         return title_;
     }
 
     void PlayerViewModel::Title(winrt::hstring const& value)
     {
-        if (value != title_)
-        {
-            title_ = value;
-            propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Title" });
-        }
+        if (value == title_)
+            return;
+
+        title_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Title" });
     }
 
-    winrt::Data::Library PlayerViewModel::Library()
+    winrt::Data::Library PlayerViewModel::Library() const
     {
         return library_;
     }
 
     void PlayerViewModel::Library(winrt::Data::Library const& value)
     {
-        if (value.name != library_.name)
-        {
-            library_ = value;
-            // propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Library" });
-        }
+        if (value.name == library_.name)
+            return;
+
+        library_ = value;
+        // propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Library" });
     }
 
     winrt::hstring PlayerViewModel::DoubleToString(double value)

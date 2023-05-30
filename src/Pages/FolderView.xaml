@@ -90,6 +90,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -114,15 +115,21 @@
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind local:InfoViewModel.DecisionArtist(Artist, Albumartist)}"
                                 TextWrapping="NoWrap" />
-                            <TextBlock
+                            <FontIcon
+                                Grid.RowSpan="2"
                                 Grid.Column="2"
+                                Margin="10,0,10,0"
+                                Foreground="{StaticResource AccentFillColorDefaultBrush}"
+                                Glyph="{x:Bind State, Mode=OneWay}" />
+                            <TextBlock
+                                Grid.Column="3"
                                 Foreground="DimGray"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
                                 TextWrapping="NoWrap" />
                             <TextBlock
                                 Grid.Row="1"
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Foreground="DimGray"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind local:InfoViewModel.TransformDuration(Duration)}"

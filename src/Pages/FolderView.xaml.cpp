@@ -135,12 +135,16 @@ namespace winrt::Player::implementation
                 co_return;
             co_await ui_thread;
             auto current{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            for (const auto& info : self.music_view_.GetView())
+            for (auto info : self.music_view_)
             {
                 if (current.Duration == info.Duration())
                 {
                     self.MusicViewList().SelectedItem(info);
-                    break;
+                    info.SetState(true);
+                }
+                else
+                {
+                    info.SetState(false);
                 }
             }
         });

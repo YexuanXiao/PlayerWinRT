@@ -3,7 +3,7 @@ namespace Player
 {
     [bindable]
     [default_interface]
-    runtimeclass InfoViewModel 
+    runtimeclass InfoViewModel: Microsoft.UI.Xaml.Data.INotifyPropertyChanged
     {
         InfoViewModel();
         InfoViewModel(ref const Data.Music info);
@@ -18,6 +18,8 @@ namespace Player
         UInt32 Year{ get; };
         UInt32 Bitrate{ get; };
         UInt32 Track{ get; };
+        String State{ get; };
+        void SetState(Boolean state);
         static String TransformBitrate(UInt32 value);
         static String TransformDuration(Int64 value);
         static String DecisionTitle(String title, String path);

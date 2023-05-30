@@ -11,59 +11,73 @@ namespace winrt::Player::implementation
         info_ = info;
     }
 
-    winrt::Data::Music InfoViewModel::Get()
+    winrt::Data::Music InfoViewModel::Get() const
     {
         return info_;
     }
 
-    winrt::hstring InfoViewModel::Title()
+    winrt::hstring InfoViewModel::Title() const
     {
         return info_.Title;
     }
 
-    winrt::hstring InfoViewModel::Album()
+    winrt::hstring InfoViewModel::Album() const
     {
         return info_.Album;
     }
 
-    winrt::hstring InfoViewModel::Genre()
+    winrt::hstring InfoViewModel::Genre() const
     {
         return info_.Genre;
     }
 
-    winrt::hstring InfoViewModel::Artist()
+    winrt::hstring InfoViewModel::Artist() const
     {
         return info_.Artist;
     }
 
-    winrt::hstring InfoViewModel::Albumartist()
+    winrt::hstring InfoViewModel::Albumartist() const
     {
         return info_.Albumartist;
     }
 
-    winrt::hstring InfoViewModel::Path()
+    winrt::hstring InfoViewModel::Path() const
     {
         return info_.Path;
     }
 
-    int64_t InfoViewModel::Duration()
+    int64_t InfoViewModel::Duration() const
     {
         return info_.Duration;
     }
 
-    uint32_t InfoViewModel::Year()
+    uint32_t InfoViewModel::Year() const
     {
         return info_.Year;
     }
 
-    uint32_t InfoViewModel::Bitrate()
+    uint32_t InfoViewModel::Bitrate() const
     {
         return info_.Bitrate;
     }
 
-    uint32_t InfoViewModel::Track()
+    uint32_t InfoViewModel::Track() const
     {
         return info_.Track;
+    }
+
+    winrt::hstring InfoViewModel::State() const
+    {
+        return is_active_ ? NoiseCancelation : EmptyString;
+    }
+
+    void InfoViewModel::SetState(bool value)
+    {
+        if (value == is_active_)
+            return;
+
+        is_active_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"State" });
     }
 
     winrt::hstring InfoViewModel::TransformBitrate(uint32_t value)
@@ -98,5 +112,15 @@ namespace winrt::Player::implementation
         if (artist.empty()) [[unlikely]]
             return albumartist;
         return artist;
+    }
+
+    winrt::event_token InfoViewModel::PropertyChanged(winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler const& handler)
+    {
+        return propertyChanged_.add(handler);
+    }
+
+    void InfoViewModel::PropertyChanged(winrt::event_token const& token) noexcept
+    {
+        propertyChanged_.remove(token);
     }
 }
