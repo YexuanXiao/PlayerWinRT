@@ -106,26 +106,26 @@
                                 Grid.Column="1"
                                 FontSize="14"
                                 LineHeight="20"
-                                Text="{x:Bind local:FolderView.DecisionTitle(Title, Path)}"
+                                Text="{x:Bind local:InfoViewModel.DecisionTitle(Title, Path)}"
                                 TextWrapping="NoWrap" />
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:FolderView.DecisionArtist(Artist, Albumartist)}"
+                                Text="{x:Bind local:InfoViewModel.DecisionArtist(Artist, Albumartist)}"
                                 TextWrapping="NoWrap" />
                             <TextBlock
                                 Grid.Column="2"
                                 Foreground="DimGray"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:FolderView.TransformBitrate(Bitrate)}"
+                                Text="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
                                 TextWrapping="NoWrap" />
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Foreground="DimGray"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:FolderView.TransformDuration(Duration)}"
+                                Text="{x:Bind local:InfoViewModel.TransformDuration(Duration)}"
                                 TextAlignment="Right"
                                 TextWrapping="NoWrap" />
                         </Grid>

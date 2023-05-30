@@ -132,11 +132,11 @@ namespace winrt::Player::implementation
                 prop.Thumbnail(thumb);
                 auto music_prop{ prop.MusicProperties() };
                 prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
-                auto title{ FolderView::DecisionTitle(info.Title, info.Path) };
+                auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
                 music_prop.Title(title);
                 music_prop.AlbumArtist(info.Albumartist);
                 music_prop.AlbumTitle(info.Album);
-                auto artist{ FolderView::DecisionArtist(info.Artist, info.Albumartist) };
+                auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
                 music_prop.Artist(artist);
                 music_prop.Genres().Append(info.Genre);
                 music_prop.TrackNumber(info.Track);

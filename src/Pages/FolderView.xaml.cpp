@@ -159,40 +159,6 @@ namespace winrt::Player::implementation
         return fast_io::wconcat_winrt_hstring(value - adjust);
     }
 
-    winrt::hstring FolderView::TransformBitrate(uint32_t value)
-    {
-        return fast_io::wconcat_winrt_hstring(value / 1000, L"kbps");
-    }
-
-    winrt::hstring FolderView::TransformDuration(int64_t value)
-    {
-        auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ static_cast<int64_t>(value) } } };
-        auto hours{ hms.hours().count() };
-        if (hours)
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hours, 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
-        else
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
-    }
-
-    winrt::hstring FolderView::DecisionTitle(winrt::hstring const& title, winrt::hstring const& path)
-    {
-        if (title.empty()) [[unlikely]]
-        {
-            auto path_sv{ std::wstring_view{ path } };
-            auto end{ path_sv.find_last_of(L'.') };
-            auto begin{ path_sv.find_last_of(L'\\') };
-            return winrt::hstring{ path_sv.substr(begin + 1uz, end - 1uz) };
-        }
-        return title;
-    }
-
-    const winrt::hstring& FolderView::DecisionArtist(winrt::hstring const& artist, winrt::hstring const& albumartist)
-    {
-        if (artist.empty()) [[unlikely]]
-            return albumartist;
-        return artist;
-    }
-
     void FolderView::UpdateUI(std::vector<winrt::hstring> const& folders, std::vector<winrt::Player::InfoViewModel> const& music)
     {
 

@@ -8,12 +8,8 @@ namespace winrt::Player::implementation
     {
         FolderView();
 
-        // binding helpers
-        static winrt::hstring TransformBitrate(uint32_t);
-        static winrt::hstring TransformDuration(int64_t);
+        // binding helper
         winrt::hstring CalculateTrueFolderCount(uint32_t);
-        static winrt::hstring DecisionTitle(winrt::hstring const&, winrt::hstring const&);
-        static const winrt::hstring& DecisionArtist(winrt::hstring const&, winrt::hstring const&);
         // runtime properties
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderList();
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> MusicList();

@@ -20,6 +20,11 @@ namespace winrt::Player::implementation
         uint32_t Bitrate();
         uint32_t Track();
 
+        static winrt::hstring TransformBitrate(uint32_t);
+        static winrt::hstring TransformDuration(int64_t);
+        static winrt::hstring DecisionTitle(winrt::hstring const&, winrt::hstring const&);
+        static const winrt::hstring& DecisionArtist(winrt::hstring const&, winrt::hstring const&);
+
         winrt::Data::Music Get();
 
     private:

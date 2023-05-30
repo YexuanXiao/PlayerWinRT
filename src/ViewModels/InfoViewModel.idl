@@ -18,5 +18,9 @@ namespace Player
         UInt32 Year{ get; };
         UInt32 Bitrate{ get; };
         UInt32 Track{ get; };
+        static String TransformBitrate(UInt32 value);
+        static String TransformDuration(Int64 value);
+        static String DecisionTitle(String title, String path);
+        static String DecisionArtist(String artist, String albumartist);
     }
 }
