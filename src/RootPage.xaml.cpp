@@ -102,7 +102,7 @@ namespace winrt::Player::implementation
                 self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.player_view_model_.Position()) }));
         });
         // when switch to new music, make button ui on
-        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto reason{ args.Reason() };
             // repeat one
             if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true)
