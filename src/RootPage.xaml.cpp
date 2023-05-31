@@ -77,14 +77,14 @@ namespace winrt::Player::implementation
 
             while (self.session_.PlaybackState() == decltype(state)::Playing) [[likely]]
             {
-                using namespace std::chrono_literals;
-                co_await 1s;
                 auto position{ self.session_.Position().count() };
                 if (position > 0) [[likely]]
                 {
                     co_await ui_thread;
                     self.player_view_model_.Position(static_cast<double>(position));
                 }
+                using namespace std::chrono_literals;
+                co_await 1s;
             }
         });
         player_view_model_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
@@ -146,12 +146,19 @@ namespace winrt::Player::implementation
                     auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
                     image.SetSource(co_await thumb.OpenReadAsync());
                     self.PlayerPicture().Source(image);
+                    auto title_ui{ self.PlayerTitle() };
+                    title_ui.Text(title);
                     self.PlayerArtist().Text(artist);
-                    self.PlayerTitle().Text(title);
                     if (artist.empty())
+                    {
+                        winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 2);
                         self.player_view_model_.Title(title);
+                    }
                     else
+                    {
+                        winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
                         self.player_view_model_.Title(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
+                    }
                 }
             }
             co_await ui_thread;
@@ -520,4 +527,12 @@ namespace winrt::Player::implementation
         else
             next.Glyph(L"\uE893");
     }
+
+    void RootPage::Playing_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        if (!info_list_.Size())
+            return;
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::NowPlaying>());
+    }
+
 }

@@ -57,6 +57,12 @@ namespace winrt::Player::implementation
     void InfoListItem::Artist(winrt::hstring const& value)
     {
         ArtistUI().Text(value);
+
+        auto title_ui{ TitleUI() };
+        if (value.empty())
+            winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 2);
+        else
+            winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
     }
 
     void InfoListItem::State(winrt::hstring const& value)

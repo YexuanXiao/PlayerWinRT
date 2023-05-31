@@ -28,6 +28,7 @@
     <TextBlock
         Name="TitleUI"
         Grid.Column="1"
+        VerticalAlignment="Center"
         FontSize="14"
         LineHeight="20"
         TextWrapping="NoWrap" />

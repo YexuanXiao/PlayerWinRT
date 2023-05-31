@@ -8,6 +8,7 @@ namespace winrt::Player::implementation
     {
         InfoListItem();
 
+        // All getters are just to make the compiler happy, WindowsRuntimeClass does not support setter-only properties
         winrt::hstring Track();
         winrt::hstring Title();
         winrt::hstring Artist();
