@@ -1,0 +1,14 @@
+namespace Player
+{
+    [default_interface]
+    runtimeclass InfoListItem : Microsoft.UI.Xaml.Controls.Grid
+    {
+        InfoListItem();
+        String Track;
+        String Title;
+        String Artist;
+        String State;
+        String Bitrate;
+        String Duration;
+    }
+}

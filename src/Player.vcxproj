@@ -109,6 +109,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpplatest</LanguageStandard>
     </ClCompile>
     <Midl>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)Controls;$(ProjectDir)ViewModels;$(ProjectDir)Pages;$(ProjectDir)Data;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -130,6 +131,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(GeneratedFilesDir)Data;$(GeneratedFilesDir)Pages;$(GeneratedFilesDir)Controls;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -167,6 +169,14 @@
     </ClInclude>
     <ClInclude Include="Data\FolderViewParameter.h">
       <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="InfoListItem.xaml.h">
+      <DependentUpon>InfoListItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="NowPlaying.xaml.h">
+      <DependentUpon>NowPlaying.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\InfoViewModel.h">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
@@ -225,6 +235,14 @@
     </ClCompile>
     <ClCompile Include="Data\FolderViewParameter.cpp">
       <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="InfoListItem.xaml.cpp">
+      <DependentUpon>InfoListItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="NowPlaying.xaml.cpp">
+      <DependentUpon>NowPlaying.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\InfoViewModel.cpp">
       <DependentUpon>ViewModels\InfoViewModel.idl</DependentUpon>
@@ -295,7 +313,15 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="Data\Library.idl" />
+    <Midl Include="InfoListItem.idl">
+      <DependentUpon>InfoListItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="MusicInfoParameter.idl" />
+    <Midl Include="NowPlaying.idl">
+      <DependentUpon>NowPlaying.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="ViewModels\InfoViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -381,6 +407,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\MusicInfo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InfoListItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NowPlaying.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\FolderView.xaml">

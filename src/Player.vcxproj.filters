@@ -196,6 +196,12 @@
     <Page Include="Pages\FolderView.xaml">
       <Filter>Pages</Filter>
     </Page>
+    <Page Include="NowPlaying.xaml">
+      <Filter>Pages</Filter>
+    </Page>
+    <Page Include="InfoListItem.xaml">
+      <Filter>Controls</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,12 @@
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+namespace Player
+{
+    [default_interface]
+    runtimeclass NowPlaying : Microsoft.UI.Xaml.Controls.Page
+    {
+        NowPlaying();
+        Int32 MyProperty;
+    }
+}

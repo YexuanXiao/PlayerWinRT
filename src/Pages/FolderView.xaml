@@ -85,57 +85,14 @@
                 ItemsSource="{x:Bind MusicList}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:InfoViewModel">
-                        <Grid Margin="0,8,0,8" Tag="{x:Bind}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.RowSpan="2"
-                                Width="20"
-                                Margin="0,0,10,0"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind Track}"
-                                TextWrapping="NoWrap" />
-                            <TextBlock
-                                Grid.Column="1"
-                                FontSize="14"
-                                LineHeight="20"
-                                Text="{x:Bind local:InfoViewModel.DecisionTitle(Title, Path)}"
-                                TextWrapping="NoWrap" />
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:InfoViewModel.DecisionArtist(Artist, Albumartist)}"
-                                TextWrapping="NoWrap" />
-                            <FontIcon
-                                Grid.RowSpan="2"
-                                Grid.Column="2"
-                                Margin="10,0,10,0"
-                                Foreground="{StaticResource AccentFillColorDefaultBrush}"
-                                Glyph="{x:Bind State, Mode=OneWay}" />
-                            <TextBlock
-                                Grid.Column="3"
-                                Foreground="DimGray"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
-                                TextWrapping="NoWrap" />
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="3"
-                                Foreground="DimGray"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind local:InfoViewModel.TransformDuration(Duration)}"
-                                TextAlignment="Right"
-                                TextWrapping="NoWrap" />
-                        </Grid>
+                        <local:InfoListItem
+                            Title="{x:Bind Title}"
+                            Artist="{x:Bind Artist}"
+                            Bitrate="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
+                            State="{x:Bind State, Mode=OneWay}"
+                            Tag="{x:Bind}"
+                            Track="{x:Bind Track}"
+                            Duration="{x:Bind local:InfoViewModel.TransformDuration(Duration)}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
