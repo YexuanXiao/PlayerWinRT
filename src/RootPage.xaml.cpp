@@ -64,18 +64,9 @@ namespace winrt::Player::implementation
         // volume change
         player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) { self.player_.Volume(self.player_view_model_.Volume() / 100.); });
         // slider
-        session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const& sender, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
-            auto state{ self.session_.PlaybackState() };
-            if (state == decltype(state)::Paused)
-                co_return;
-            auto index{ self.play_list_.CurrentItemIndex() };
-            if (index == std::numeric_limits<decltype(index)>::max())
-                co_return;
-
-            co_await ui_thread;
-            self.player_view_model_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
-
-            while (self.session_.PlaybackState() == decltype(state)::Playing) [[likely]]
+        session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
+            // clang-format off
+            do [[likely]]
             {
                 auto position{ self.session_.Position().count() };
                 if (position > 0) [[likely]]
@@ -85,7 +76,8 @@ namespace winrt::Player::implementation
                 }
                 using namespace std::chrono_literals;
                 co_await 1s;
-            }
+            } while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing);
+            // clang-format on
         });
         player_view_model_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             // if two events occur within 50ms, discard subsequent events
@@ -104,43 +96,51 @@ namespace winrt::Player::implementation
         // when switch to new music, make button ui on
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto reason{ args.Reason() };
-            // repeat one
+            auto index{ self.play_list_.CurrentItemIndex() };
             if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true)
             {
-                auto index{ self.play_list_.CurrentItemIndex() };
+                // repeat one
                 self.play_list_.MoveTo(index > 0u ? index - 1u : 0u);
                 co_return;
             }
             auto item{ self.play_list_.CurrentItem() };
             if (item == nullptr)
                 co_return;
-            auto state{ self.session_.PlaybackState() };
+
+            co_await ui_thread;
+            // update duration
+            self.player_view_model_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
             // check if is new list
+            auto state{ self.session_.PlaybackState() };
             if (state == decltype(state)::Opening || state == decltype(state)::Paused) [[unlikely]]
                 self.player_.Play();
+
+            self.PlayButtonOn();
 
             co_await winrt::resume_background();
             auto library{ self.player_view_model_.Library() };
             if (library.protocol == L"local")
             {
-                auto index{ self.play_list_.CurrentItemIndex() };
                 auto info{ self.info_list_.GetAt(index) };
                 auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(library.address + info.Path).get() };
-                auto prop{ item.GetDisplayProperties() };
-                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
                 auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView).get()) };
-                prop.Thumbnail(thumb);
-                auto music_prop{ prop.MusicProperties() };
-                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
                 auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
-                music_prop.Title(title);
-                music_prop.AlbumArtist(info.Albumartist);
-                music_prop.AlbumTitle(info.Album);
                 auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
-                music_prop.Artist(artist);
-                music_prop.Genres().Append(info.Genre);
-                music_prop.TrackNumber(info.Track);
-                item.ApplyDisplayProperties(prop);
+                {
+
+                    auto prop{ item.GetDisplayProperties() };
+                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                    prop.Thumbnail(thumb);
+                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                    auto music_prop{ prop.MusicProperties() };
+                    music_prop.Title(title);
+                    music_prop.AlbumArtist(info.Albumartist);
+                    music_prop.AlbumTitle(info.Album);
+                    music_prop.Artist(artist);
+                    music_prop.Genres().Append(info.Genre);
+                    music_prop.TrackNumber(info.Track);
+                    item.ApplyDisplayProperties(prop);
+                }
                 {
                     co_await ui_thread;
                     auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
@@ -161,8 +161,6 @@ namespace winrt::Player::implementation
                     }
                 }
             }
-            co_await ui_thread;
-            self.PlayButtonOn();
         });
         // regist play and pause event to update button ui
         commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
