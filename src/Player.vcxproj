@@ -167,8 +167,8 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Data\FolderViewParameter.h">
-      <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    <ClInclude Include="Data\ControlPageParameter.h">
+      <DependentUpon>Data\ControlPageParameter.idl</DependentUpon>
     </ClInclude>
     <ClInclude Include="Controls\InfoListItem.xaml.h">
       <DependentUpon>Controls\InfoListItem.xaml</DependentUpon>
@@ -233,8 +233,8 @@
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Data\FolderViewParameter.cpp">
-      <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
+    <ClCompile Include="Data\ControlPageParameter.cpp">
+      <DependentUpon>Data\ControlPageParameter.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="Controls\InfoListItem.xaml.cpp">
       <DependentUpon>Controls\InfoListItem.xaml</DependentUpon>
@@ -306,7 +306,7 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="Data\FolderViewParameter.idl" />
+    <Midl Include="Data\ControlPageParameter.idl" />
     <Midl Include="Data\Music.idl" />
     <Midl Include="Controls\Equalizer.idl">
       <DependentUpon>Controls\Equalizer.xaml</DependentUpon>

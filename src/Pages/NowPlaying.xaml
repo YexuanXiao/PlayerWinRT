@@ -32,22 +32,22 @@
             <Image
                 Width="250"
                 Margin="20"
-                Source="/Assets/Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+                Source="{x:Bind PlayerViewModel.Image, Mode=OneWay}" />
             <TextBlock
                 Grid.Row="1"
                 Margin="10,0,0,0"
                 Foreground="DimGray"
-                Text="Album" />
+                Text="{x:Bind PlayerViewModel.Album, Mode=OneWay}" />
             <TextBlock
                 Grid.Row="2"
                 Margin="10,0,0,0"
                 FontSize="25"
-                Text="Title" />
+                Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}" />
             <TextBlock
                 Grid.Row="3"
                 Margin="10,0,0,0"
                 Foreground="DimGray"
-                Text="Artist" />
+                Text="{x:Bind PlayerViewModel.Artist, Mode=OneWay}" />
         </Grid>
     </Grid>
 </Page>

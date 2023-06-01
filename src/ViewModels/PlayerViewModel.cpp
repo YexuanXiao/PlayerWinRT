@@ -131,16 +131,13 @@ namespace winrt::Player::implementation
         propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Artist" });
     }
 
-    winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage PlayerViewModel::Image() const
+    winrt::Microsoft::UI::Xaml::Media::ImageSource PlayerViewModel::Image() const
     {
         return image_;
     }
 
-    void PlayerViewModel::Image(winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage const& value)
+    void PlayerViewModel::Image(winrt::Microsoft::UI::Xaml::Media::ImageSource const& value)
     {
-        // DO NOT USE THIS SETTER, USE SetSource INSTEAD
-        /* if (value == image_)
-            return; */
         image_ = value;
         propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Image" });
     }

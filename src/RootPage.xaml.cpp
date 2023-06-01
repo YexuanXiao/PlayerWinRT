@@ -357,7 +357,7 @@ namespace winrt::Player::implementation
     void RootPage::NavigateToDefaultPage()
     {
         Folders().IsSelected(true);
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ player_view_model_, info_list_, play_list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::ControlPageParameter{ player_view_model_, info_list_, play_list_, library_ });
     }
 
     void RootPage::Navigation_BackRequested(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewBackRequestedEventArgs const&)
@@ -437,7 +437,7 @@ namespace winrt::Player::implementation
 
     void RootPage::Folders_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::FolderViewParameter{ player_view_model_, info_list_, play_list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::FolderView>(), winrt::Data::ControlPageParameter{ player_view_model_, info_list_, play_list_, library_ });
     }
 
     void RootPage::Previous_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
@@ -504,7 +504,7 @@ namespace winrt::Player::implementation
     {
         if (!info_list_.Size())
             return;
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::NowPlaying>());
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::NowPlaying>(), winrt::Data::ControlPageParameter{ player_view_model_, info_list_, play_list_, library_ });
     }
 
 }

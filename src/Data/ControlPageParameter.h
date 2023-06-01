@@ -1,12 +1,12 @@
 #pragma once
 
-#include "FolderViewParameter.g.h"
+#include "ControlPageParameter.g.h"
 
 namespace winrt::Data::implementation
 {
-    struct FolderViewParameter: FolderViewParameterT<FolderViewParameter>
+    struct ControlPageParameter: ControlPageParameterT<ControlPageParameter>
     {
-        FolderViewParameter(winrt::Player::PlayerViewModel const&, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const&, winrt::Windows::Media::Playback::MediaPlaybackList const&, winrt::Data::Library const&);
+        ControlPageParameter(winrt::Player::PlayerViewModel const&, winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> const&, winrt::Windows::Media::Playback::MediaPlaybackList const&, winrt::Data::Library const&);
 
         winrt::Player::PlayerViewModel PlayerViewModel();
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> Music();
@@ -23,7 +23,7 @@ namespace winrt::Data::implementation
 
 namespace winrt::Data::factory_implementation
 {
-    struct FolderViewParameter: FolderViewParameterT<FolderViewParameter, implementation::FolderViewParameter>
+    struct ControlPageParameter: ControlPageParameterT<ControlPageParameter, implementation::ControlPageParameter>
     {
     };
 }

@@ -3,9 +3,9 @@ import "Music.idl";
 import "Library.idl";
 namespace Data
 {
-    runtimeclass FolderViewParameter
+    runtimeclass ControlPageParameter
     {
-        FolderViewParameter(Player.PlayerViewModel playerViewModel, Windows.Foundation.Collections.IVector<Data.Music> music, Windows.Media.Playback.MediaPlaybackList list, Data.Library library_);
+        ControlPageParameter(Player.PlayerViewModel playerViewModel, Windows.Foundation.Collections.IVector<Data.Music> music, Windows.Media.Playback.MediaPlaybackList list, Data.Library library_);
         Player.PlayerViewModel PlayerViewModel{get; };
         Windows.Foundation.Collections.IVector<Data.Music> Music{ get; };
         Windows.Media.Playback.MediaPlaybackList List{ get; };

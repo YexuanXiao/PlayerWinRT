@@ -17,7 +17,7 @@ namespace winrt::Player::implementation
         winrt::hstring Artist() const;
         winrt::hstring AppTitle() const;
         winrt::Data::Library Library() const;
-        winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage Image() const;
+        winrt::Microsoft::UI::Xaml::Media::ImageSource Image() const;
 
         void Volume(double value);
         void Index(uint32_t value);
@@ -28,7 +28,7 @@ namespace winrt::Player::implementation
         void Artist(winrt::hstring const&);
         void AppTitle(winrt::hstring const&);
         void Library(winrt::Data::Library const&);
-        void Image(winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage const&);
+        void Image(winrt::Microsoft::UI::Xaml::Media::ImageSource const&);
 
         static winrt::hstring DoubleToString(double);
         static winrt::hstring DurationToString(double);
@@ -53,7 +53,7 @@ namespace winrt::Player::implementation
         winrt::Data::Library library_{};
         double volume_{ SettingsHelper::GetVolume() };
         winrt::event<winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> propertyChanged_{};
-        winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage image_{ winrt::Windows::Foundation::Uri{ L"ms-appx:///Assets/StoreLogo.scale-400.png" } };
+        winrt::Microsoft::UI::Xaml::Media::ImageSource image_{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ winrt::Windows::Foundation::Uri{ L"ms-appx:///Assets/StoreLogo.scale-400.png" } } };
     };
 }
 

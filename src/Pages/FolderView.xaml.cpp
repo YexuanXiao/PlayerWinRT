@@ -21,7 +21,7 @@ namespace winrt::Player::implementation
         if (args.Parameter() == nullptr)
             co_return;
 
-        auto argument{ args.Parameter().try_as<winrt::Data::FolderViewParameter>() };
+        auto argument{ args.Parameter().try_as<winrt::Data::ControlPageParameter>() };
 
         auto library_info{ argument.Library() };
         if (library_ == library_info)
@@ -131,7 +131,7 @@ namespace winrt::Player::implementation
             self.music_list_.ReplaceAll(items);
             self.play_list_.MoveTo(static_cast<uint32_t>(index));
         });
-        MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) {
+        MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // make click event effective
             self.MusicViewList().IsItemClickEnabled(true);
         });
@@ -164,7 +164,9 @@ namespace winrt::Player::implementation
             {
                 co_await ui_thread;
                 // update RootPage UI
-                self.player_view_model_.Image().SetSource(co_await thumb.OpenReadAsync());
+                auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
+                co_await image.SetSourceAsync(co_await thumb.OpenReadAsync());
+                self.player_view_model_.Image(image);
                 self.player_view_model_.Album(info.Album);
                 self.player_view_model_.Artist(artist);
                 self.player_view_model_.Title(title);
@@ -173,16 +175,16 @@ namespace winrt::Player::implementation
                 else
                     self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
                 // update FolderView UI
-                for (auto item : self.music_view_)
+                for (auto element : self.music_view_)
                 {
-                    if (info.Duration == item.Duration())
+                    if (info.Duration == element.Duration())
                     {
-                        self.MusicViewList().SelectedItem(item);
-                        item.SetState(true);
+                        self.MusicViewList().SelectedItem(element);
+                        element.SetState(true);
                     }
                     else
                     {
-                        item.SetState(false);
+                        element.SetState(false);
                     }
                 }
             }

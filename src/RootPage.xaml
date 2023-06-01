@@ -286,7 +286,7 @@
                         <Image
                             Width="70"
                             Height="70"
-                            Source="{x:Bind PlayerViewModel.Image}" />
+                            Source="{x:Bind PlayerViewModel.Image, Mode=OneWay}" />
                     </Border>
                     <Grid Grid.Column="1" Height="80">
                         <Grid.RowDefinitions>

@@ -15,7 +15,7 @@ namespace Player
         String Artist;
         Double Position;
         Double Duration;
-        Microsoft.UI.Xaml.Media.Imaging.BitmapImage Image;
+        Microsoft.UI.Xaml.Media.ImageSource Image;
         static String DoubleToString(Double volume);
         static String DurationToString(Double duration);
     }

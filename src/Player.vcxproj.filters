@@ -17,7 +17,7 @@
     <Midl Include="Data\Library.idl">
       <Filter>Data</Filter>
     </Midl>
-    <Midl Include="Data\FolderViewParameter.idl">
+    <Midl Include="Data\ControlPageParameter.idl">
       <Filter>Data</Filter>
     </Midl>
     <Midl Include="Data\MusicInfoParameter.idl">
