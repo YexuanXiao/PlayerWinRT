@@ -38,6 +38,12 @@ namespace winrt::Player::implementation
         // runtime properties implement
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> folders_view_{ winrt::single_threaded_observable_vector<winrt::hstring>() };
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> music_view_{ winrt::single_threaded_observable_vector<winrt::Player::InfoViewModel>() };
+
+        // events
+        winrt::event_token sync_fvl_{};
+        winrt::event_token sync_mvl_click_{};
+        winrt::event_token sync_mvl_select_{};
+        winrt::event_token sync_pl_{};
     };
 }
 

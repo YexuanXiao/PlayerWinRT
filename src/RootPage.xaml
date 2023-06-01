@@ -509,7 +509,7 @@
                         <Setter Target="More.Visibility" Value="Collapsed" />
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
-                        <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />
+                        <Setter Target="Player.ColumnDefinitions" Value="*,Auto,Auto" />
                         <Setter Target="ButtonPlaceholder.Width" Value="96" />
                         <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
                     </VisualState.Setters>

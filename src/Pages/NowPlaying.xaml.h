@@ -8,11 +8,13 @@ namespace winrt::Player::implementation
     {
         NowPlaying();
         winrt::Player::PlayerViewModel PlayerViewModel();
+        void OnNavigatingFrom(winrt::Microsoft::UI::Xaml::Navigation::NavigatingCancelEventArgs const&);
         winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
 
     private:
+        winrt::event_token sync_pvm_{};
         // data from rootpage
-        winrt::Player::PlayerViewModel player_view_model_root_{};
+        winrt::Player::PlayerViewModel player_view_model_root_{ nullptr };
         winrt::Windows::Media::Playback::MediaPlaybackList play_list_{ nullptr };
         winrt::Windows::Foundation::Collections::IVector<winrt::Data::Music> info_list_{ nullptr };
         winrt::Windows::Foundation::Collections::IObservableVector<winrt::Windows::Media::Playback::MediaPlaybackItem> music_list_{ nullptr };

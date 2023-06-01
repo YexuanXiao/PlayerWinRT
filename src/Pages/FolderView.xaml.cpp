@@ -25,7 +25,9 @@ namespace winrt::Player::implementation
 
         auto library_info{ argument.Library() };
         if (library_ == library_info)
+        {
             co_return;
+        }
         else
             library_ = library_info;
 
@@ -41,8 +43,13 @@ namespace winrt::Player::implementation
         whole_library = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_.name)));
         BuildRoot();
 
+        // unregist event handlers
+        FolderViewList().SelectionChanged(sync_fvl_);
+        MusicViewList().ItemClick(sync_mvl_click_);
+        MusicViewList().SelectionChanged(sync_mvl_select_);
+        play_list_.CurrentItemChanged(sync_pl_);
         // init FolderList UI item events
-        FolderViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
+        sync_fvl_ = FolderViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
             auto index{ self.FolderViewList().SelectedIndex() };
             if (index == -1)
@@ -85,7 +92,7 @@ namespace winrt::Player::implementation
             (because ListView is almost always in click mode,
             so changing selected item programmatically does not trigger single selection events)
         */
-        MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_mvl_click_ = MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             // important code to make such effect
             auto view_list{ self.MusicViewList() };
             view_list.SelectionMode(winrt::Microsoft::UI::Xaml::Controls::ListViewSelectionMode::Single);
@@ -131,12 +138,12 @@ namespace winrt::Player::implementation
             self.music_list_.ReplaceAll(items);
             self.play_list_.MoveTo(static_cast<uint32_t>(index));
         });
-        MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
+        sync_mvl_select_ = MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // make click event effective
             self.MusicViewList().IsItemClickEnabled(true);
         });
         // regist play list event to update selected item
-        play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;

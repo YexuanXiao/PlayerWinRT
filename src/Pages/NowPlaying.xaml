@@ -13,7 +13,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Margin="40" VerticalAlignment="Center">
+        <Grid Margin="30,0,30,0" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -35,19 +35,25 @@
                 Source="{x:Bind PlayerViewModel.Image, Mode=OneWay}" />
             <TextBlock
                 Grid.Row="1"
+                Width="270"
                 Margin="10,0,0,0"
                 Foreground="DimGray"
-                Text="{x:Bind PlayerViewModel.Album, Mode=OneWay}" />
+                Text="{x:Bind PlayerViewModel.Album, Mode=OneWay}"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Row="2"
+                Width="270"
                 Margin="10,0,0,0"
                 FontSize="25"
-                Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}" />
+                Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Row="3"
+                Width="270"
                 Margin="10,0,0,0"
                 Foreground="DimGray"
-                Text="{x:Bind PlayerViewModel.Artist, Mode=OneWay}" />
+                Text="{x:Bind PlayerViewModel.Artist, Mode=OneWay}"
+                TextWrapping="Wrap" />
         </Grid>
     </Grid>
 </Page>
