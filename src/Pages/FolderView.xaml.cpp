@@ -34,6 +34,13 @@ namespace winrt::Player::implementation
         play_list_ = argument.List();
         music_list_ = play_list_.Items();
 
+        folders_stack_.clear();
+        path_stack_.clear();
+        folders_view_.Clear();
+        music_view_.Clear();
+        whole_library = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_.name)));
+        BuildRoot();
+
         // init FolderList UI item events
         FolderViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // don't use ItemClick event because the return type of args.SelectedItem() is unknown
@@ -85,11 +92,11 @@ namespace winrt::Player::implementation
             view_list.IsItemClickEnabled(false);
             view_list.SelectedItem(args.ClickedItem());
 
+            // find index of clicked item
+            auto view{ self.music_view_.GetView() };
             auto current{ args.ClickedItem().try_as<winrt::Player::InfoViewModel>().Get() };
             // swith to backgroud thread
             co_await winrt::resume_background();
-            // find index of clicked item
-            auto view{ self.music_view_.GetView() };
             auto index{ -1ll };
             {
                 for (auto begin{ view.begin() }, end{ view.end() }; begin != end; ++begin)
@@ -124,19 +131,19 @@ namespace winrt::Player::implementation
             self.music_list_.ReplaceAll(items);
             self.play_list_.MoveTo(static_cast<uint32_t>(index));
         });
-        MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
+        MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const& args) {
             // make click event effective
             self.MusicViewList().IsItemClickEnabled(true);
         });
-
         // regist play list event to update selected item
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;
             auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_.address + info.Path).get() };
-            auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView).get()) };
+            co_await winrt::resume_background();
+            auto file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_.address + info.Path) };
+            auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(co_await file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView, 400)) };
             auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
             auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
             {
@@ -180,13 +187,6 @@ namespace winrt::Player::implementation
                 }
             }
         });
-
-        folders_stack_.clear();
-        path_stack_.clear();
-        folders_view_.Clear();
-        music_view_.Clear();
-        whole_library = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_.name)));
-        BuildRoot();
     }
 
     winrt::hstring FolderView::CalculateTrueFolderCount(uint32_t value)

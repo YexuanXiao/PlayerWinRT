@@ -288,7 +288,7 @@
                             Height="70"
                             Source="{x:Bind PlayerViewModel.Image}" />
                     </Border>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1" Height="80">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -507,8 +507,6 @@
                         <Setter Target="PlayButton.Style" Value="{StaticResource PlayButtonSmall}" />
                         <Setter Target="PlayIcon.FontSize" Value="16" />
                         <Setter Target="More.Visibility" Value="Collapsed" />
-                        <Setter Target="Title.Visibility" Value="Collapsed" />
-                        <Setter Target="Artist.Visibility" Value="Collapsed" />
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />

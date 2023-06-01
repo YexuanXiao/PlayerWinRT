@@ -170,12 +170,12 @@
     <ClInclude Include="Data\FolderViewParameter.h">
       <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="InfoListItem.xaml.h">
-      <DependentUpon>InfoListItem.xaml</DependentUpon>
+    <ClInclude Include="Controls\InfoListItem.xaml.h">
+      <DependentUpon>Controls\InfoListItem.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="NowPlaying.xaml.h">
-      <DependentUpon>NowPlaying.xaml</DependentUpon>
+    <ClInclude Include="Pages\NowPlaying.xaml.h">
+      <DependentUpon>Pages\NowPlaying.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\InfoViewModel.h">
@@ -236,12 +236,12 @@
     <ClCompile Include="Data\FolderViewParameter.cpp">
       <DependentUpon>Data\FolderViewParameter.idl</DependentUpon>
     </ClCompile>
-    <ClCompile Include="InfoListItem.xaml.cpp">
-      <DependentUpon>InfoListItem.xaml</DependentUpon>
+    <ClCompile Include="Controls\InfoListItem.xaml.cpp">
+      <DependentUpon>Controls\InfoListItem.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="NowPlaying.xaml.cpp">
-      <DependentUpon>NowPlaying.xaml</DependentUpon>
+    <ClCompile Include="Pages\NowPlaying.xaml.cpp">
+      <DependentUpon>Pages\NowPlaying.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\InfoViewModel.cpp">
@@ -313,13 +313,13 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="Data\Library.idl" />
-    <Midl Include="InfoListItem.idl">
-      <DependentUpon>InfoListItem.xaml</DependentUpon>
+    <Midl Include="Controls\InfoListItem.idl">
+      <DependentUpon>Controls\InfoListItem.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="MusicInfoParameter.idl" />
-    <Midl Include="NowPlaying.idl">
-      <DependentUpon>NowPlaying.xaml</DependentUpon>
+    <Midl Include="Data\MusicInfoParameter.idl" />
+    <Midl Include="Pages\NowPlaying.idl">
+      <DependentUpon>Pages\NowPlaying.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ViewModels\InfoViewModel.idl">
@@ -409,10 +409,10 @@
     <Page Include="Controls\MusicInfo.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InfoListItem.xaml">
+    <Page Include="Controls\InfoListItem.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NowPlaying.xaml">
+    <Page Include="Pages\NowPlaying.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\FolderView.xaml">

@@ -61,10 +61,20 @@ namespace winrt::Player::implementation
             }
             }
         });
-        // volume change
-        player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) {
-            self.player_.Volume(self.player_view_model_.Volume() / 100.);
-            // update UI
+        // hide PlayPicture when navigate to NowPlaying
+        RootFrame().Navigated([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args) {
+            if (args.SourcePageType().Name == winrt::xaml_typename<winrt::Player::NowPlaying>().Name)
+                self.PlayerPicture().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
+            else
+                self.PlayerPicture().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
+        });
+        player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
+            // volume change
+            if (args.PropertyName() == L"Volume")
+                self.player_.Volume(self.player_view_model_.Volume() / 100.);
+            // update Now Playing UI
+            if (args.PropertyName() != L"Title")
+                return;
             auto title_ui{ self.Title() };
             if (self.player_view_model_.Artist().empty())
             {
@@ -107,6 +117,9 @@ namespace winrt::Player::implementation
         });
         // when switch to new music, make button ui on
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+            auto item{ self.play_list_.CurrentItem() };
+            if (item == nullptr)
+                co_return;
             auto index{ self.play_list_.CurrentItemIndex() };
             if (args.Reason() == decltype(args.Reason())::EndOfStream && self.repeat_one_ == true)
             {
@@ -114,10 +127,6 @@ namespace winrt::Player::implementation
                 self.play_list_.MoveTo(index > 0u ? index - 1u : 0u);
                 co_return;
             }
-            auto item{ self.play_list_.CurrentItem() };
-            if (item == nullptr)
-                co_return;
-
             co_await ui_thread;
             // update duration
             self.player_view_model_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
@@ -187,7 +196,7 @@ namespace winrt::Player::implementation
             font_icon.Glyph(L"\uF5B0");
 
         font_icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromLengths(2, 0, 0, 0));
-        player_view_model_.Title(L"PlayerWinRT");
+        player_view_model_.AppTitle(L"PlayerWinRT");
     }
 
     void RootPage::Navigation_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const&, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)

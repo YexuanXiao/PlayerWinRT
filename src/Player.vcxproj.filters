@@ -20,7 +20,7 @@
     <Midl Include="Data\FolderViewParameter.idl">
       <Filter>Data</Filter>
     </Midl>
-    <Midl Include="MusicInfoParameter.idl">
+    <Midl Include="Data\MusicInfoParameter.idl">
       <Filter>Data</Filter>
     </Midl>
   </ItemGroup>
@@ -196,10 +196,10 @@
     <Page Include="Pages\FolderView.xaml">
       <Filter>Pages</Filter>
     </Page>
-    <Page Include="NowPlaying.xaml">
+    <Page Include="Pages\NowPlaying.xaml">
       <Filter>Pages</Filter>
     </Page>
-    <Page Include="InfoListItem.xaml">
+    <Page Include="Controls\InfoListItem.xaml">
       <Filter>Controls</Filter>
     </Page>
   </ItemGroup>
