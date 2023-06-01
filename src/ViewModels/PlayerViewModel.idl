@@ -6,12 +6,16 @@ namespace Player
     runtimeclass PlayerViewModel: Microsoft.UI.Xaml.Data.INotifyPropertyChanged
     {
         PlayerViewModel();
+        String AppTitle;
         Double Volume;
+        Data.Library Library;
         UInt32 Index;
+        String Title;
+        String Album;
+        String Artist;
         Double Position;
         Double Duration;
-        Data.Library Library;
-        String Title;
+        Microsoft.UI.Xaml.Media.Imaging.BitmapImage Image;
         static String DoubleToString(Double volume);
         static String DurationToString(Double duration);
     }

@@ -102,7 +102,7 @@
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}" />
+                    Text="{x:Bind PlayerViewModel.AppTitle, Mode=OneWay}" />
             </StackPanel>
         </Grid>
         <NavigationView
@@ -278,15 +278,15 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Border
+                        Name="PlayerPicture"
                         Margin="4"
                         BorderBrush="{StaticResource SmokeFillColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="2">
                         <Image
-                            Name="PlayerPicture"
                             Width="70"
                             Height="70"
-                            Source="/Assets/StoreLogo.scale-400.png" />
+                            Source="{x:Bind PlayerViewModel.Image}" />
                     </Border>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -294,21 +294,21 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock
-                            Name="PlayerTitle"
+                            Name="Title"
                             Margin="10,12,10,17"
                             VerticalAlignment="Center"
                             FontSize="19"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="PlayerWinRT"
+                            Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}"
                             TextWrapping="NoWrap" />
                         <TextBlock
-                            Name="PlayerArtist"
+                            Name="Artist"
                             Grid.Row="1"
                             Margin="10,-12,10,0"
                             VerticalAlignment="Top"
                             FontSize="13"
                             Opacity="0.7"
-                            Text="Artist" />
+                            Text="{x:Bind PlayerViewModel.Artist, Mode=OneWay}" />
                     </Grid>
                 </Grid>
             </Button>
@@ -507,8 +507,8 @@
                         <Setter Target="PlayButton.Style" Value="{StaticResource PlayButtonSmall}" />
                         <Setter Target="PlayIcon.FontSize" Value="16" />
                         <Setter Target="More.Visibility" Value="Collapsed" />
-                        <Setter Target="PlayerTitle.Visibility" Value="Collapsed" />
-                        <Setter Target="PlayerArtist.Visibility" Value="Collapsed" />
+                        <Setter Target="Title.Visibility" Value="Collapsed" />
+                        <Setter Target="Artist.Visibility" Value="Collapsed" />
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="Auto,Auto,Auto" />

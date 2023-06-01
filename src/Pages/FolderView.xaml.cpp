@@ -131,20 +131,52 @@ namespace winrt::Player::implementation
 
         // regist play list event to update selected item
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
-            if (sender.CurrentItem() == nullptr)
+            auto item{ sender.CurrentItem() };
+            if (item == nullptr)
                 co_return;
-            co_await ui_thread;
-            auto current{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            for (auto info : self.music_view_)
+            auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
+            auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_.address + info.Path).get() };
+            auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView).get()) };
+            auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
+            auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
             {
-                if (current.Duration == info.Duration())
-                {
-                    self.MusicViewList().SelectedItem(info);
-                    info.SetState(true);
-                }
+                // update SMTC UI
+                auto prop{ item.GetDisplayProperties() };
+                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                prop.Thumbnail(thumb);
+                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                auto music_prop{ prop.MusicProperties() };
+                music_prop.Title(title);
+                music_prop.AlbumArtist(info.Albumartist);
+                music_prop.AlbumTitle(info.Album);
+                music_prop.Artist(artist);
+                music_prop.Genres().Append(info.Genre);
+                music_prop.TrackNumber(info.Track);
+                item.ApplyDisplayProperties(prop);
+            }
+            {
+                co_await ui_thread;
+                // update RootPage UI
+                self.player_view_model_.Image().SetSource(co_await thumb.OpenReadAsync());
+                self.player_view_model_.Album(info.Album);
+                self.player_view_model_.Artist(artist);
+                self.player_view_model_.Title(title);
+                if (artist.empty())
+                    self.player_view_model_.AppTitle(title);
                 else
+                    self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
+                // update FolderView UI
+                for (auto item : self.music_view_)
                 {
-                    info.SetState(false);
+                    if (info.Duration == item.Duration())
+                    {
+                        self.MusicViewList().SelectedItem(item);
+                        item.SetState(true);
+                    }
+                    else
+                    {
+                        item.SetState(false);
+                    }
                 }
             }
         });

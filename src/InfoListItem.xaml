@@ -12,7 +12,7 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="60" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -49,6 +49,7 @@
         Grid.Column="3"
         Foreground="DimGray"
         Style="{StaticResource CaptionTextBlockStyle}"
+        TextAlignment="Right"
         TextWrapping="NoWrap" />
     <TextBlock
         Name="DurationUI"

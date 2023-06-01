@@ -61,6 +61,20 @@ namespace winrt::Player::implementation
         propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Duration" });
     }
 
+    winrt::Data::Library PlayerViewModel::Library() const
+    {
+        return library_;
+    }
+
+    void PlayerViewModel::Library(winrt::Data::Library const& value)
+    {
+        if (value.name == library_.name)
+            return;
+
+        library_ = value;
+        // propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Library" });
+    }
+
     winrt::hstring PlayerViewModel::Title() const
     {
         return title_;
@@ -75,18 +89,60 @@ namespace winrt::Player::implementation
         propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Title" });
     }
 
-    winrt::Data::Library PlayerViewModel::Library() const
+    winrt::hstring PlayerViewModel::AppTitle() const
     {
-        return library_;
+        return app_title_;
     }
 
-    void PlayerViewModel::Library(winrt::Data::Library const& value)
+    void PlayerViewModel::AppTitle(winrt::hstring const& value)
     {
-        if (value.name == library_.name)
+        if (value == app_title_)
             return;
 
-        library_ = value;
-        // propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Library" });
+        app_title_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"AppTitle" });
+    }
+
+    winrt::hstring PlayerViewModel::Album() const
+    {
+        return album_;
+    }
+
+    void PlayerViewModel::Album(winrt::hstring const& value)
+    {
+        if (value == album_)
+            return;
+
+        album_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Album" });
+    }
+
+    winrt::hstring PlayerViewModel::Artist() const
+    {
+        return artist_;
+    }
+
+    void PlayerViewModel::Artist(winrt::hstring const& value)
+    {
+        if (value == artist_)
+            return;
+
+        artist_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Artist" });
+    }
+
+    winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage PlayerViewModel::Image() const
+    {
+        return image_;
+    }
+
+    void PlayerViewModel::Image(winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage const& value)
+    {
+        // DO NOT USE THIS SETTER, USE SetSource INSTEAD
+        /* if (value == image_)
+            return; */
+        image_ = value;
+        propertyChanged_(*this, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ L"Image" });
     }
 
     winrt::hstring PlayerViewModel::DoubleToString(double value)

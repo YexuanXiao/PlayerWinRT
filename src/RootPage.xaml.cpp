@@ -62,7 +62,19 @@ namespace winrt::Player::implementation
             }
         });
         // volume change
-        player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) { self.player_.Volume(self.player_view_model_.Volume() / 100.); });
+        player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, PropertyChangedEventArgs const&) {
+            self.player_.Volume(self.player_view_model_.Volume() / 100.);
+            // update UI
+            auto title_ui{ self.Title() };
+            if (self.player_view_model_.Artist().empty())
+            {
+                winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 2);
+            }
+            else
+            {
+                winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
+            }
+        });
         // slider
         session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
             // clang-format off
@@ -95,9 +107,8 @@ namespace winrt::Player::implementation
         });
         // when switch to new music, make button ui on
         play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
-            auto reason{ args.Reason() };
             auto index{ self.play_list_.CurrentItemIndex() };
-            if (reason == decltype(reason)::EndOfStream && self.repeat_one_ == true)
+            if (args.Reason() == decltype(args.Reason())::EndOfStream && self.repeat_one_ == true)
             {
                 // repeat one
                 self.play_list_.MoveTo(index > 0u ? index - 1u : 0u);
@@ -114,53 +125,7 @@ namespace winrt::Player::implementation
             auto state{ self.session_.PlaybackState() };
             if (state == decltype(state)::Opening || state == decltype(state)::Paused) [[unlikely]]
                 self.player_.Play();
-
             self.PlayButtonOn();
-
-            co_await winrt::resume_background();
-            auto library{ self.player_view_model_.Library() };
-            if (library.protocol == L"local")
-            {
-                auto info{ self.info_list_.GetAt(index) };
-                auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(library.address + info.Path).get() };
-                auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView).get()) };
-                auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
-                auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
-                {
-
-                    auto prop{ item.GetDisplayProperties() };
-                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
-                    prop.Thumbnail(thumb);
-                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
-                    auto music_prop{ prop.MusicProperties() };
-                    music_prop.Title(title);
-                    music_prop.AlbumArtist(info.Albumartist);
-                    music_prop.AlbumTitle(info.Album);
-                    music_prop.Artist(artist);
-                    music_prop.Genres().Append(info.Genre);
-                    music_prop.TrackNumber(info.Track);
-                    item.ApplyDisplayProperties(prop);
-                }
-                {
-                    co_await ui_thread;
-                    auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
-                    image.SetSource(co_await thumb.OpenReadAsync());
-                    self.PlayerPicture().Source(image);
-                    auto title_ui{ self.PlayerTitle() };
-                    title_ui.Text(title);
-                    self.PlayerArtist().Text(artist);
-                    if (artist.empty())
-                    {
-                        winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 2);
-                        self.player_view_model_.Title(title);
-                    }
-                    else
-                    {
-                        winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
-                        self.player_view_model_.Title(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
-                    }
-                }
-            }
         });
         // regist play and pause event to update button ui
         commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
