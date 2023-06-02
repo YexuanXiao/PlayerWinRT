@@ -47,6 +47,14 @@ namespace winrt::Player::implementation
             else if (args.PropertyName() == L"Artist")
                 self.player_view_model_.Artist(self.player_view_model_root_.Artist());
         });
+
+        auto container{ std::vector<winrt::Player::InfoViewModel>{} };
+        container.reserve(info_list_.Size());
+        for (auto info : info_list_)
+        {
+            container.emplace_back(info);
+        }
+        music_view_.ReplaceAll(container);
     }
 
     void NowPlaying::OnNavigatingFrom(winrt::Microsoft::UI::Xaml::Navigation::NavigatingCancelEventArgs const&)
@@ -54,4 +62,17 @@ namespace winrt::Player::implementation
         player_view_model_root_.PropertyChanged(sync_pvm_);
     }
 
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> NowPlaying::MusicList()
+    {
+        return music_view_;
+    }
+
+    void NowPlaying::ListView_ItemClick(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& e)
+    {
+    }
+
+    void NowPlaying::Remove_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    {
+        args.Handled(true);
+    }
 }

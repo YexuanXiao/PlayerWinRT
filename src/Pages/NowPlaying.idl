@@ -1,4 +1,5 @@
 import "PlayerViewModel.idl";
+import "InfoViewModel.idl";
 
 namespace Player
 {
@@ -7,5 +8,6 @@ namespace Player
     {
         NowPlaying();
         PlayerViewModel PlayerViewModel{ get; };
+        Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{ get; };
     }
 }
