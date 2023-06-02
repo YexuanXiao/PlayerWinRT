@@ -66,7 +66,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid Background="{StaticResource SolidBackgroundFillColorBaseBrush}">
+            <Grid Background="{StaticResource ControlAltFillColorTertiaryBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -100,7 +100,7 @@
                 Grid.Row="2"
                 Height="35"
                 Padding="15,0,15,0"
-                Background="{StaticResource SolidBackgroundFillColorBaseBrush}">
+                Background="{StaticResource ControlAltFillColorTertiaryBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />

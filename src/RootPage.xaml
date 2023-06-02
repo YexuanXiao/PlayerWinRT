@@ -234,7 +234,7 @@
             <Rectangle
                 Grid.ColumnSpan="3"
                 Height="1"
-                Fill="#E5E5E5" />
+                Fill="{StaticResource ControlAltFillColorQuarternaryBrush}" />
             <Grid Grid.Row="1" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
