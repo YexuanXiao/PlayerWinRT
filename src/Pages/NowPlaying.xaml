@@ -80,7 +80,10 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Margin="30,0,30,0" VerticalAlignment="Center">
+        <Grid
+            Name="ImageContainer"
+            Margin="30,0,30,0"
+            VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -101,6 +104,7 @@
                 Margin="20"
                 Source="{x:Bind PlayerViewModel.Image, Mode=OneWay}" />
             <TextBlock
+                Name="Album"
                 Grid.Row="1"
                 Width="270"
                 Margin="10,0,0,0"
@@ -108,6 +112,7 @@
                 Text="{x:Bind PlayerViewModel.Album, Mode=OneWay}"
                 TextWrapping="Wrap" />
             <TextBlock
+                Name="Title"
                 Grid.Row="2"
                 Width="270"
                 Margin="10,0,0,0"
@@ -115,6 +120,7 @@
                 Text="{x:Bind PlayerViewModel.Title, Mode=OneWay}"
                 TextWrapping="Wrap" />
             <TextBlock
+                Name="Artist"
                 Grid.Row="3"
                 Width="270"
                 Margin="10,0,0,0"
@@ -122,36 +128,82 @@
                 Text="{x:Bind PlayerViewModel.Artist, Mode=OneWay}"
                 TextWrapping="Wrap" />
         </Grid>
-        <ListView
-            Grid.Column="1"
-            AllowDrop="True"
-            CanReorderItems="True"
-            IsItemClickEnabled="True"
-            ItemClick="ListView_ItemClick"
-            ItemsSource="{x:Bind MusicList}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:InfoViewModel">
-                    <Grid Tag="{x:Bind}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <local:InfoListItem
-                            Title="{x:Bind Title}"
-                            Artist="{x:Bind Artist}"
-                            Bitrate="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
-                            State="{x:Bind State, Mode=OneWay}"
-                            Track="{x:Bind Track}"
-                            Duration="{x:Bind local:InfoViewModel.TransformDuration(Duration)}" />
-                        <Button
-                            Grid.Column="1"
-                            Style="{StaticResource RemoveButtonStyle}"
-                            Tapped="Remove_Tapped">
-                            <FontIcon Glyph="&#xE711;" />
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="1"
+                Height="35"
+                Padding="15,0,15,0"
+                Background="{StaticResource ControlAltFillColorTertiaryBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text=" Music" />
+                <TextBlock
+                    Name="DurationCount"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center" />
+            </Grid>
+            <ListView
+                AllowDrop="True"
+                CanReorderItems="True"
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick"
+                ItemsSource="{x:Bind MusicList}"
+                SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:InfoViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <local:InfoListItem
+                                Title="{x:Bind Title}"
+                                Artist="{x:Bind Artist}"
+                                Bitrate="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
+                                State="{x:Bind State, Mode=OneWay}"
+                                Track="{x:Bind Track}"
+                                Duration="{x:Bind local:InfoViewModel.TransformDuration(Duration)}" />
+                            <Button
+                                Grid.Column="1"
+                                Style="{StaticResource RemoveButtonStyle}"
+                                Tag="{x:Bind}"
+                                Tapped="Remove_Tapped">
+                                <FontIcon Glyph="&#xE711;" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="550" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters />
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ImageContainer.VerticalAlignment" Value="Top" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

@@ -7,6 +7,7 @@ namespace winrt::Player::implementation
     struct NowPlaying: NowPlayingT<NowPlaying>
     {
         NowPlaying();
+        ~NowPlaying();
         winrt::Player::PlayerViewModel PlayerViewModel();
         void OnNavigatingFrom(winrt::Microsoft::UI::Xaml::Navigation::NavigatingCancelEventArgs const&);
         winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
@@ -15,7 +16,13 @@ namespace winrt::Player::implementation
         void Remove_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
 
     private:
+        winrt::event_token sync_mv_{};
         winrt::event_token sync_pvm_{};
+        winrt::event_token sync_pl_{};
+        winrt::clock::rep count_;
+        winrt::Data::Music removed_music_;
+        winrt::Windows::Media::Playback::MediaPlaybackItem removed_item_{ nullptr };
+        uint32_t index_;
         // data from rootpage
         winrt::Player::PlayerViewModel player_view_model_root_{ nullptr };
         winrt::Windows::Media::Playback::MediaPlaybackList play_list_{ nullptr };

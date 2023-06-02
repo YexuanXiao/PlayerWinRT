@@ -61,6 +61,7 @@ namespace winrt::Player::implementation
             }
             }
         });
+        /*
         // hide PlayPicture when navigate to NowPlaying
         RootFrame().Navigated([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args) {
             if (args.SourcePageType().Name == winrt::xaml_typename<winrt::Player::NowPlaying>().Name)
@@ -68,6 +69,7 @@ namespace winrt::Player::implementation
             else
                 self.PlayerPicture().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
         });
+        */
         player_view_model_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             // volume change
             if (args.PropertyName() == L"Volume")

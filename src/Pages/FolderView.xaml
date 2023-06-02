@@ -90,7 +90,6 @@
                             Artist="{x:Bind Artist}"
                             Bitrate="{x:Bind local:InfoViewModel.TransformBitrate(Bitrate)}"
                             State="{x:Bind State, Mode=OneWay}"
-                            Tag="{x:Bind}"
                             Track="{x:Bind Track}"
                             Duration="{x:Bind local:InfoViewModel.TransformDuration(Duration)}" />
                     </DataTemplate>

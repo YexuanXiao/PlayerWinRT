@@ -229,7 +229,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="86" />
             </Grid.RowDefinitions>
             <Rectangle
                 Grid.ColumnSpan="3"
@@ -265,13 +265,15 @@
                     Text="{x:Bind local:PlayerViewModel.DurationToString(PlayerViewModel.Duration), Mode=OneWay}" />
             </Grid>
             <Button
+                Name="Playing"
                 x:Uid="Playing"
                 Grid.Row="2"
                 Width="Auto"
                 Margin="2,-7,0,-1"
                 HorizontalAlignment="Left"
                 Style="{StaticResource EllipsisButton}"
-                Tapped="Playing_Tapped">
+                Tapped="Playing_Tapped"
+                ToolTipService.ToolTip="{x:Bind PlayerViewModel.AppTitle, Mode=OneWay}">
                 <Grid Margin="-2,0,0,0" Padding="2,0,1,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -288,7 +290,7 @@
                             Height="70"
                             Source="{x:Bind PlayerViewModel.Image, Mode=OneWay}" />
                     </Border>
-                    <Grid Grid.Column="1" Height="80">
+                    <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -509,6 +511,8 @@
                         <Setter Target="More.Visibility" Value="Collapsed" />
                         <Setter Target="Repeat.Visibility" Value="Collapsed" />
                         <Setter Target="Shuffle.Visibility" Value="Collapsed" />
+                        <Setter Target="Title.Visibility" Value="Collapsed" />
+                        <Setter Target="Artist.Visibility" Value="Collapsed" />
                         <Setter Target="Player.ColumnDefinitions" Value="*,Auto,Auto" />
                         <Setter Target="ButtonPlaceholder.Width" Value="96" />
                         <Setter Target="RootFrame.Margin" Value="0,48,0,0" />
