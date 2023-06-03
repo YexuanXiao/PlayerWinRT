@@ -24,7 +24,7 @@ namespace winrt::Player::implementation
         auto argument{ args.Parameter().try_as<winrt::Data::ControlPageParameter>() };
 
         auto library_info{ argument.Library() };
-        if (library_ == library_info)
+        if (library_.address == library_info.address)
         {
             co_return;
         }
@@ -146,51 +146,18 @@ namespace winrt::Player::implementation
             if (item == nullptr)
                 co_return;
             auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            co_await winrt::resume_background();
-            auto file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_.address + info.Path) };
-            auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(co_await file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView, 400)) };
-            auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
-            auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
+            co_await ui_thread;
+            // update FolderView UI
+            for (auto element : self.music_view_)
             {
-                // update SMTC UI
-                auto prop{ item.GetDisplayProperties() };
-                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
-                prop.Thumbnail(thumb);
-                prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
-                auto music_prop{ prop.MusicProperties() };
-                music_prop.Title(title);
-                music_prop.AlbumArtist(info.Albumartist);
-                music_prop.AlbumTitle(info.Album);
-                music_prop.Artist(artist);
-                music_prop.Genres().Append(info.Genre);
-                music_prop.TrackNumber(info.Track);
-                item.ApplyDisplayProperties(prop);
-            }
-            {
-                co_await ui_thread;
-                // update RootPage UI
-                auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
-                co_await image.SetSourceAsync(co_await thumb.OpenReadAsync());
-                self.player_view_model_.Image(image);
-                self.player_view_model_.Album(info.Album);
-                self.player_view_model_.Artist(artist);
-                self.player_view_model_.Title(title);
-                if (artist.empty())
-                    self.player_view_model_.AppTitle(title);
-                else
-                    self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
-                // update FolderView UI
-                for (auto element : self.music_view_)
+                if (info.Duration == element.Duration())
                 {
-                    if (info.Duration == element.Duration())
-                    {
-                        self.MusicViewList().SelectedItem(element);
-                        element.SetState(true);
-                    }
-                    else
-                    {
-                        element.SetState(false);
-                    }
+                    self.MusicViewList().SelectedItem(element);
+                    element.SetState(true);
+                }
+                else
+                {
+                    element.SetState(false);
                 }
             }
         });

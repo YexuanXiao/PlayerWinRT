@@ -130,13 +130,52 @@ namespace winrt::Player::implementation
                 co_return;
             }
             co_await ui_thread;
+            auto info{ self.info_list_.GetAt(index) };
             // update duration
-            self.player_view_model_.Duration(static_cast<double>(self.info_list_.GetAt(index).Duration));
+            self.player_view_model_.Duration(static_cast<double>(info.Duration));
             // check if is new list
             auto state{ self.session_.PlaybackState() };
             if (state == decltype(state)::Opening || state == decltype(state)::Paused) [[unlikely]]
                 self.player_.Play();
             self.PlayButtonOn();
+            if (self.player_view_model_.Library().protocol == L"local")
+            {
+
+                auto file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.player_view_model_.Library().address + info.Path) };
+                auto thumb{ winrt::Windows::Storage::Streams::RandomAccessStreamReference::CreateFromStream(co_await file.GetThumbnailAsync(winrt::Windows::Storage::FileProperties::ThumbnailMode::MusicView, 400)) };
+                auto title{ InfoViewModel::DecisionTitle(info.Title, info.Path) };
+                auto artist{ InfoViewModel::DecisionArtist(info.Artist, info.Albumartist) };
+                {
+                    co_await ui_thread;
+                    // update RootPage UI
+                    auto image{ winrt::Microsoft::UI::Xaml::Media::Imaging::BitmapImage{} };
+                    co_await image.SetSourceAsync(co_await thumb.OpenReadAsync());
+                    self.player_view_model_.Image(image);
+                    self.player_view_model_.Album(info.Album);
+                    self.player_view_model_.Artist(artist);
+                    self.player_view_model_.Title(title);
+                    if (artist.empty())
+                        self.player_view_model_.AppTitle(title);
+                    else
+                        self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
+                }
+                {
+                    co_await winrt::resume_background();
+                    // update SMTC UI
+                    auto prop{ item.GetDisplayProperties() };
+                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                    prop.Thumbnail(thumb);
+                    prop.Type(winrt::Windows::Media::MediaPlaybackType::Music);
+                    auto music_prop{ prop.MusicProperties() };
+                    music_prop.Title(title);
+                    music_prop.AlbumArtist(info.Albumartist);
+                    music_prop.AlbumTitle(info.Album);
+                    music_prop.Artist(artist);
+                    music_prop.Genres().Append(info.Genre);
+                    music_prop.TrackNumber(info.Track);
+                    item.ApplyDisplayProperties(prop);
+                }
+            }
         });
         // regist play and pause event to update button ui
         commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
@@ -214,7 +253,7 @@ namespace winrt::Player::implementation
         if (index == std::numeric_limits<decltype(index)>::max()) [[unlikely]]
             co_return;
 
-        auto dialog{ winrt::Player::MusicInfo{ winrt::Data::MusicInfoParameter{ library_, info_list_.GetAt(index) } } };
+        auto dialog{ winrt::Player::MusicInfo{ winrt::Data::MusicInfoParameter{ player_view_model_.Library(), info_list_.GetAt(index) } } };
         dialog.XamlRoot(XamlRoot());
         dialog.RequestedTheme(ActualTheme());
 
@@ -506,7 +545,6 @@ namespace winrt::Player::implementation
     {
         if (!info_list_.Size())
             return;
-        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::NowPlaying>(), winrt::Data::ControlPageParameter{ player_view_model_, info_list_, play_list_, library_ });
+        RootFrame().Navigate(winrt::xaml_typename<winrt::Player::NowPlaying>(), winrt::Data::ControlPageParameter{ player_view_model_, info_list_, play_list_, player_view_model_.Library() });
     }
-
 }
