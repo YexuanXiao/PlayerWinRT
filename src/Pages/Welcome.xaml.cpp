@@ -13,6 +13,16 @@ namespace winrt::Player::implementation
     Welcome::Welcome()
     {
         InitializeComponent();
+
+        auto items{ Languages().Items() };
+        for (auto lang : winrt::Windows::Globalization::ApplicationLanguages::ManifestLanguages()) [[likely]]
+        {
+            auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
+            item.Text(SettingsHelper::GetLangTagName(lang));
+            item.Tag(winrt::box_value(lang));
+            item.Tapped(&Welcome::Language_Selected);
+            items.Append(item);
+        }
     }
 
     winrt::Windows::Foundation::IAsyncAction Welcome::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
@@ -43,5 +53,11 @@ namespace winrt::Player::implementation
     void Welcome::Theme_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         SettingsHelper::SetTheme(XamlRoot(), winrt::Microsoft::UI::Xaml::ElementTheme::Dark);
+    }
+
+    void Welcome::Language_Selected(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    {
+        auto lang{ winrt::unbox_value<hstring>(sender.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tag()) };
+        winrt::Windows::Globalization::ApplicationLanguages::PrimaryLanguageOverride(lang);
     }
 }

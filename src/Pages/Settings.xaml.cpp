@@ -20,7 +20,7 @@ namespace winrt::Player::implementation
             auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };
             auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
             item.Text(resource.GetString(L"Default/Content"));
-            item.Tag(winrt::box_value(hstring{ L"default" }));
+            item.Tag(winrt::box_value(winrt::hstring{ L"default" }));
             item.Tapped(&Settings::Language_Selected);
             items.Append(item);
         }
@@ -28,7 +28,7 @@ namespace winrt::Player::implementation
         for (auto lang : winrt::Windows::Globalization::ApplicationLanguages::ManifestLanguages()) [[likely]]
         {
             auto item{ winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem{} };
-            item.Text(GetLangTagName(lang));
+            item.Text(SettingsHelper::GetLangTagName(lang));
             item.Tag(winrt::box_value(lang));
             item.Tapped(&Settings::Language_Selected);
             items.Append(item);
@@ -75,22 +75,10 @@ namespace winrt::Player::implementation
     {
         auto lang{ winrt::unbox_value<hstring>(sender.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tag()) };
         if (lang == L"default") [[unlikely]]
-            winrt::Windows::Globalization::ApplicationLanguages::PrimaryLanguageOverride(hstring{});
+            winrt::Windows::Globalization::ApplicationLanguages::PrimaryLanguageOverride(winrt::hstring{});
         else
             // always persistence
             winrt::Windows::Globalization::ApplicationLanguages::PrimaryLanguageOverride(lang);
-    }
-
-    winrt::hstring Settings::GetLangTagName(hstring const& tag)
-    {
-        if (tag.starts_with(L"en"))
-            return { L"English" };
-        else if (tag.starts_with(L"zh")) [[likely]]
-            return { L"Chinese" };
-
-        // else
-        assert(false);
-        std::unreachable();
     }
 
     winrt::Windows::Foundation::IAsyncAction Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
