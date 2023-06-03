@@ -89,19 +89,17 @@ namespace winrt::Player::implementation
         });
         // slider
         session_.PlaybackStateChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(session_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
-            // clang-format off
-            do [[likely]]
+            while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing) [[likely]]
             {
                 auto position{ self.session_.Position().count() };
                 if (position > 0) [[likely]]
                 {
                     co_await ui_thread;
                     self.player_view_model_.Position(static_cast<double>(position));
+                    using namespace std::chrono_literals;
+                    co_await 1s;
                 }
-                using namespace std::chrono_literals;
-                co_await 1s;
-            } while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing);
-            // clang-format on
+            }
         });
         player_view_model_.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             // if two events occur within 50ms, discard subsequent events
