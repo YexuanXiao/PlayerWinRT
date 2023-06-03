@@ -78,13 +78,16 @@ namespace winrt::Player::implementation
             if (args.PropertyName() != L"Title")
                 return;
             auto title_ui{ self.Title() };
-            if (self.player_view_model_.Artist().empty())
+            auto artist{ self.player_view_model_.Artist() };
+            if (artist.empty())
             {
                 winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 2);
+                self.player_view_model_.AppTitle(self.player_view_model_.Title());
             }
             else
             {
                 winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
+                self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", self.player_view_model_.Title()));
             }
         });
         // slider

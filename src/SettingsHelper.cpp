@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SettingsHelper.h"
+#include <fast_io_crypto.h>
 
 namespace SettingsHelper
 {
@@ -113,7 +114,11 @@ namespace SettingsHelper
         auto settings{ impl_::GetApplicationSettings() };
         // first, insert library to local settings
         auto const name{ library.GetNamedString(L"Name") };
-        auto file{ co_await impl_::GetDataFolder().CreateFileAsync(name, winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
+        // transform filename to crc32
+        fast_io::crc32_context crc;
+        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
+        crc.do_final();
+        auto file{ co_await impl_::GetDataFolder().CreateFileAsync(fast_io::wconcat_winrt_hstring(crc.digest_value()), winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
         winrt::Windows::Storage::FileIO::WriteTextAsync(file, library.GetNamedArray(L"List").ToString());
         // second, insert library name to libraries
         auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
@@ -128,7 +133,10 @@ namespace SettingsHelper
 
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibrary(winrt::hstring const& name)
     {
-        auto file{ (co_await impl_::GetDataFolder().GetItemAsync(name)).try_as<winrt::Windows::Storage::StorageFile>() };
+        fast_io::crc32_context crc;
+        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
+        crc.do_final();
+        auto file{ (co_await impl_::GetDataFolder().GetItemAsync(fast_io::wconcat_winrt_hstring(crc.digest_value()))).try_as<winrt::Windows::Storage::StorageFile>() };
         co_return winrt::Windows::Data::Json::JsonArray::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file));
     }
 
@@ -136,7 +144,10 @@ namespace SettingsHelper
     {
         auto settings{ impl_::GetApplicationSettings() };
         // first, remove library data
-        auto file{ co_await impl_::GetDataFolder().GetItemAsync(name) };
+        fast_io::crc32_context crc;
+        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
+        crc.do_final();
+        auto file{ co_await impl_::GetDataFolder().GetItemAsync(fast_io::wconcat_winrt_hstring(crc.digest_value())) };
         co_await file.try_as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
         // second, remove library from libraries
         auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
