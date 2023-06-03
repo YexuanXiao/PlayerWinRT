@@ -30,18 +30,12 @@
     <ClCompile Include="SettingsHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="Data\FolderViewParameter.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Win32Helper.h" />
     <ClInclude Include="SettingsHelper.h" />
     <ClInclude Include="Data.h" />
-    <ClInclude Include="Data\FolderViewParameter.h">
-      <Filter>Data</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">

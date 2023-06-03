@@ -466,6 +466,10 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>音量</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="WaitAMinute.Text" xml:space="preserve">
+    <value>请稍等...</value>
+    <comment>LibraryEditor</comment>
+  </data>
   <data name="WelcomeTitle.Text" xml:space="preserve">
     <value>欢迎</value>
     <comment>Welcome Page</comment>

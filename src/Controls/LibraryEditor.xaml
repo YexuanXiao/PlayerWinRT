@@ -21,9 +21,9 @@
                 Height="50"
                 Margin="30" />
             <TextBlock
+                x:Uid="WaitAMinute"
                 Grid.Row="1"
-                HorizontalAlignment="Center"
-                Text="Please wait a minute..." />
+                HorizontalAlignment="Center" />
         </Grid>
         <Grid Name="Editor">
             <Grid.ColumnDefinitions>

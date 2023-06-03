@@ -18,7 +18,7 @@ namespace winrt::Player::implementation
     {
         InitializeComponent();
 
-        Title(winrt::box_value(resource_.GetString(L"AddLibrary/Content")));
+        Title(winrt::box_value(resource_.GetString(L"AddLibrary/Text")));
         PrimaryButtonText(resource_.GetString(L"Add"));
         CloseButtonText(resource_.GetString(L"Cancel"));
 

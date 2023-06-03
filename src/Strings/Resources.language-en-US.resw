@@ -466,6 +466,10 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Volume</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="WaitAMinute.Text" xml:space="preserve">
+    <value>Please wait a minute...</value>
+    <comment>LibraryEditor</comment>
+  </data>
   <data name="WelcomeTitle.Text" xml:space="preserve">
     <value>Welcome</value>
     <comment>Welcome Page</comment>

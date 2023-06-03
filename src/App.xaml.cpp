@@ -127,21 +127,21 @@ namespace winrt::Player::implementation
     void App::SetDragRegionForCustomTitleBar()
     {
         assert(winrt::Microsoft::UI::Windowing::AppWindowTitleBar::IsCustomizationSupported());
-        auto titleBar{ window_.AppWindow().TitleBar() };
-        assert(titleBar.ExtendsContentIntoTitleBar());
+        auto title_bar{ window_.AppWindow().TitleBar() };
+        assert(title_bar.ExtendsContentIntoTitleBar());
         auto scale_adjustment{ Win32Helper::GetScaleAdjustment(window_) };
-        auto appTitleBar{ window_.Content().try_as<Player::RootPage>().AppTitleBar() };
+        auto app_titlebar{ window_.Content().try_as<Player::RootPage>().AppTitleBar() };
         auto rect{ winrt::Windows::Graphics::RectInt32{} };
-        rect.X = static_cast<int32_t>((titleBar.LeftInset() + 48) * scale_adjustment);
+        rect.X = static_cast<int32_t>((title_bar.LeftInset() + 48) * scale_adjustment);
         rect.Y = 0;
         rect.Height = static_cast<int32_t>(48 * scale_adjustment);
 #ifdef _DEBUG
         // make application tool bar clickable
-        rect.Width = static_cast<int32_t>(appTitleBar.ActualWidth() * scale_adjustment / 3);
+        rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment / 3);
 #else
-        rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment - rect.X - titlebar.RightInset());
+        rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment - rect.X - title_bar.RightInset());
 #endif
-        titleBar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
+        title_bar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
     }
 
     void App::SetTitleBarTheme(winrt::Microsoft::UI::Windowing::AppWindowTitleBar& titlebar, winrt::Microsoft::UI::Xaml::ElementTheme theme)
