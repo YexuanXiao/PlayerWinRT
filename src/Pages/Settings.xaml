@@ -64,26 +64,25 @@
                                 FontFamily="{StaticResource IconFontFamily}"
                                 Glyph="&#xF2B7;" />
                             <TextBlock
+                                x:Uid="Language"
                                 Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Text="Language" />
+                                VerticalAlignment="Center" />
                             <DropDownButton Grid.Column="2" HorizontalAlignment="Right">
-                                <TextBlock Text="Choose a language" />
+                                <TextBlock x:Uid="ChooseLanguage" />
                                 <DropDownButton.Flyout>
                                     <MenuFlyout x:Name="Languages" Placement="BottomEdgeAlignedLeft" />
                                 </DropDownButton.Flyout>
                             </DropDownButton>
                         </Grid>
                     </Expander.Header>
-                    <Grid Margin="40,0,40,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">
-                            <Span>Change the language of the app, need to restart to take effect. If you want to contribute on translating this app, go to</Span>
-                            <Hyperlink NavigateUri="https://github.com/YexuanXiao/PlayerWinRT" UnderlineStyle="None">Github.</Hyperlink>
-                        </TextBlock>
-                    </Grid>
+                    <TextBlock
+                        Margin="40,0,40,0"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap">
+                        <Run x:Uid="LanguageDescription" />
+                        <Hyperlink NavigateUri="https://github.com/YexuanXiao/PlayerWinRT" UnderlineStyle="None">Github.</Hyperlink>
+                    </TextBlock>
+
                 </Expander>
                 <Expander Grid.Row="2" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
@@ -117,16 +116,19 @@
                     </Expander.Header>
                     <RadioButtons
                         Margin="40,0,40,0"
-                        IsEnabled="False"
-                        MaxColumns="1">
-                        <RadioButton x:Uid="Hot" Tag="hot" />
+                        MaxColumns="1"
+                        SelectedIndex="1">
+                        <RadioButton
+                            x:Uid="Hot"
+                            IsEnabled="False"
+                            Tag="hot" />
                         <RadioButton x:Uid="Default" Tag="default" />
                     </RadioButtons>
                 </Expander>
                 <TextBlock
+                    x:Uid="Behavior"
                     Grid.Row="4"
-                    Style="{StaticResource SubtitleText}"
-                    Text="Behavior" />
+                    Style="{StaticResource SubtitleText}" />
                 <Expander Grid.Row="5" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <Grid>
@@ -140,37 +142,33 @@
                                 FontFamily="{StaticResource IconFontFamily}"
                                 Glyph="&#xF2B7;" />
                             <TextBlock
+                                x:Uid="DefaultPage"
                                 Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Text="Default Page" />
+                                VerticalAlignment="Center" />
                             <DropDownButton Grid.Column="2" HorizontalAlignment="Right">
-                                <TextBlock Text="Choose default page" />
+                                <TextBlock x:Uid="ChoosePage" />
                                 <DropDownButton.Flyout>
                                     <MenuFlyout x:Name="DefaultPage" Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem IsEnabled="False" Text="Songs" />
-                                        <MenuFlyoutItem Text="Folder" />
-                                        <MenuFlyoutItem IsEnabled="False" Text="Album" />
-                                        <MenuFlyoutItem IsEnabled="False" Text="Artist" />
-                                        <MenuFlyoutItem IsEnabled="False" Text="Genre" />
+                                        <MenuFlyoutItem x:Uid="Songs" IsEnabled="False" />
+                                        <MenuFlyoutItem x:Uid="Folders" />
+                                        <MenuFlyoutItem x:Uid="Album" IsEnabled="False" />
+                                        <MenuFlyoutItem x:Uid="Artist" IsEnabled="False" />
+                                        <MenuFlyoutItem x:Uid="Genre" IsEnabled="False" />
                                     </MenuFlyout>
                                 </DropDownButton.Flyout>
                             </DropDownButton>
                         </Grid>
                     </Expander.Header>
-                    <Grid Margin="40,0,40,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Text="Choose the page to enter when change the library."
-                            TextWrapping="Wrap" />
-                    </Grid>
+                    <TextBlock
+                        x:Uid="DefaultPageDescription"
+                        Margin="40,0,40,0"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap" />
                 </Expander>
                 <TextBlock
+                    x:Uid="Application"
                     Grid.Row="8"
-                    Style="{StaticResource SubtitleText}"
-                    Text="Application" />
+                    Style="{StaticResource SubtitleText}" />
                 <Expander Grid.Row="9" Style="{StaticResource ItemExpander}">
                     <Expander.Header>
                         <Grid>
@@ -184,25 +182,24 @@
                                 FontFamily="{StaticResource IconFontFamily}"
                                 Glyph="&#xEBE8;" />
                             <TextBlock
+                                x:Uid="ApplicationData"
                                 Grid.Column="1"
-                                VerticalAlignment="Center"
-                                Text="Application Data" />
+                                VerticalAlignment="Center" />
                             <Button
                                 Grid.Column="2"
                                 HorizontalAlignment="Right"
-                                Content="Reset"
-                                Tapped="Reset_Tapped" />
+                                Tapped="Reset_Tapped">
+                                <TextBlock x:Uid="Reset" />
+                            </Button>
                         </Grid>
                     </Expander.Header>
-                    <Grid Margin="40,0,40,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap">
-                            <Span>Clear the app data, this operation is irreversible and will close the app immediately. If you found a bug, please give feedbacks on</Span>
-                            <Hyperlink NavigateUri="https://github.com/YexuanXiao/PlayerWinRT" UnderlineStyle="None">Github.</Hyperlink>
-                        </TextBlock>
-                    </Grid>
+                    <TextBlock
+                        Margin="40,0,40,0"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap">
+                        <Run x:Uid="ApplicationDataDescription" />
+                        <Hyperlink NavigateUri="https://github.com/YexuanXiao/PlayerWinRT" UnderlineStyle="None">Github.</Hyperlink>
+                    </TextBlock>
                 </Expander>
             </Grid>
         </ScrollViewer>

@@ -30,7 +30,10 @@
                             Name="FoldersCount"
                             VerticalAlignment="Center"
                             Text="0" />
-                        <TextBlock VerticalAlignment="Center" Text=" Folders" />
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text=" " />
+                            <Run x:Uid="Folders" />
+                        </TextBlock>
                     </StackPanel>
                     <DropDownButton
                         Name="FolderLevel"
@@ -110,10 +113,10 @@
                     Name="MusicCount"
                     VerticalAlignment="Center"
                     Text="0" />
-                <TextBlock
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Text=" Music" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                    <Run Text=" " />
+                    <Run x:Uid="Songs" />
+                </TextBlock>
                 <TextBlock
                     Name="DurationCount"
                     Grid.Column="2"

@@ -144,15 +144,14 @@
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    Name="MainLibraryList"
-                    x:Uid="Libraries"
-                    IsExpanded="{x:Bind MainNavigation.IsPaneOpen, Mode=OneWay}">
+                <NavigationViewItem Name="MainLibraryList" IsExpanded="{x:Bind MainNavigation.IsPaneOpen, Mode=OneWay}">
+                    <TextBlock x:Uid="Libraries" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8F1;" />
                     </NavigationViewItem.Icon>
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem x:Uid="AddLibrary" Tapped="Add_Tapped">
+                        <NavigationViewItem Tapped="Add_Tapped">
+                            <TextBlock x:Uid="AddLibrary" />
                             <NavigationViewItem.Icon>
                                 <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE710;" />
                             </NavigationViewItem.Icon>
@@ -160,39 +159,38 @@
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator />
-                <NavigationViewItem
-                    Name="NainPlayList"
-                    x:Uid="PlayList"
-                    IsEnabled="False">
+                <NavigationViewItem Name="NainPlayList" IsEnabled="False">
+                    <TextBlock x:Uid="PlayList" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE90B;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Songs" IsEnabled="False">
+                <NavigationViewItem IsEnabled="False">
+                    <TextBlock x:Uid="Songs" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8D6;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    Name="Folders"
-                    x:Uid="Folders"
-                    Tapped="Folders_Tapped">
-                    >
+                <NavigationViewItem Name="Folders" Tapped="Folders_Tapped">
+                    <TextBlock x:Uid="Folders" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Albums" IsEnabled="False">
+                <NavigationViewItem IsEnabled="False">
+                    <TextBlock x:Uid="Albums" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE93C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Artists" IsEnabled="False">
+                <NavigationViewItem IsEnabled="False">
+                    <TextBlock x:Uid="Artists" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xF12E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Genres" IsEnabled="False">
+                <NavigationViewItem IsEnabled="False">
+                    <TextBlock x:Uid="Genres" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE909;" />
                     </NavigationViewItem.Icon>
@@ -200,15 +198,14 @@
                 <NavigationViewItemSeparator />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem x:Uid="About" Tapped="About_Tapped">
+                <NavigationViewItem Tapped="About_Tapped">
+                    <TextBlock x:Uid="About" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Equalizer"
-                    IsEnabled="False"
-                    Tapped="Equalizer_Tapped">
+                <NavigationViewItem IsEnabled="False" Tapped="Equalizer_Tapped">
+                    <TextBlock x:Uid="Equalizer" />
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource IconFontFamily}" Glyph="&#xE9E9;" />
                     </NavigationViewItem.Icon>

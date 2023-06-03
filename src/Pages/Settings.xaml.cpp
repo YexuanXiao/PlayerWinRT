@@ -100,10 +100,10 @@ namespace winrt::Player::implementation
         auto theme{ ActualTheme() };
         auto dialog{ winrt::Microsoft::UI::Xaml::Controls::ContentDialog{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(L"Reset Application"));
+        dialog.Title(winrt::box_value(fast_io::wconcat_winrt_hstring(resource.GetString(L"Reset/Text"), fast_io::manipulators::chvw(L' '), resource.GetString(L"ApplicationData/Text"))));
         dialog.CloseButtonText(resource.GetString(L"Cancel"));
         dialog.DefaultButton(winrt::Microsoft::UI::Xaml::Controls::ContentDialogButton::Close);
-        dialog.PrimaryButtonText(L"Reset");
+        dialog.PrimaryButtonText(resource.GetString(L"Reset/Text"));
         auto content{ winrt::Microsoft::UI::Xaml::Controls::Grid{} };
         auto rows{ content.RowDefinitions() };
         auto def1{ winrt::Microsoft::UI::Xaml::Controls::RowDefinition{} };
@@ -120,7 +120,7 @@ namespace winrt::Player::implementation
         icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(30.));
         icon.MaxWidth(300.);
         auto text{ winrt::Microsoft::UI::Xaml::Controls::TextBlock{} };
-        text.Text(L"Are you sure you want to delete all data of this app? This operation is irreversible!");
+        text.Text(resource.GetString(L"ResetWarning/Text"));
         text.TextAlignment(winrt::Microsoft::UI::Xaml::TextAlignment::Center);
         text.TextWrapping(winrt::Microsoft::UI::Xaml::TextWrapping::Wrap);
         text.HorizontalAlignment(winrt::Microsoft::UI::Xaml::HorizontalAlignment::Center);

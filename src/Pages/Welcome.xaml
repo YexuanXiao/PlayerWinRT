@@ -27,9 +27,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
+            x:Uid="WelcomeTitle"
             VerticalAlignment="Center"
-            Style="{StaticResource TitleTextBlockStyle}"
-            Text="Welcome" />
+            Style="{StaticResource TitleTextBlockStyle}" />
         <ScrollViewer
             Grid.Row="1"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -51,7 +51,10 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock x:Uid="CopyNote" TextWrapping="Wrap" />
-                <HyperlinkButton Grid.Row="1" NavigateUri="https://github.com/YexuanXiao">
+                <HyperlinkButton
+                    Grid.Row="1"
+                    Margin="0,5,0,-5"
+                    NavigateUri="https://github.com/YexuanXiao">
                     <StackPanel Orientation="Horizontal">
                         <PathIcon
                             Margin="-3,-3,-16,-3"
@@ -69,60 +72,61 @@
                     </StackPanel>
                 </HyperlinkButton>
                 <TextBlock
+                    x:Uid="SteerAddLibrary"
                     Grid.Row="2"
-                    VerticalAlignment="Center"
-                    Text="Do you want to add Window Music Library to the app's Library?" />
+                    VerticalAlignment="Center" />
                 <StackPanel Grid.Row="3" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Yes:" />
+                    <TextBlock x:Uid="YesText" VerticalAlignment="Center" />
                     <Button
+                        x:Uid="SteerAddLibraryButton"
                         Margin="10,0,10,0"
-                        Content="Add it!"
                         Tag="music"
                         Tapped="AddLibrary_Tapped" />
-                    <TextBlock VerticalAlignment="Center" Text="or No:" />
+                    <TextBlock x:Uid="OrText" VerticalAlignment="Center" />
                     <Button
+                        x:Uid="SteerAddLibraryOther"
                         Margin="10,0,10,0"
-                        Content="Add other Library"
                         Tag="other"
                         Tapped="AddLibrary_Tapped" />
                 </StackPanel>
                 <TextBlock
+                    x:Uid="SteerChangeTheme"
                     Grid.Row="4"
-                    VerticalAlignment="Center"
-                    Text="Do you want to use Dark Theme?" />
+                    VerticalAlignment="Center" />
                 <StackPanel Grid.Row="5" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Yes:" />
+                    <TextBlock x:Uid="YesText" VerticalAlignment="Center" />
                     <Button
+                        x:Uid="SteerChangeThemeButton"
                         Margin="10,0,10,0"
-                        Content="Change to Dark Theme"
                         Tag="dark"
                         Tapped="Theme_Tapped" />
-                    <TextBlock VerticalAlignment="Center" Text="or No." />
+                    <TextBlock x:Uid="NoText" VerticalAlignment="Center" />
                 </StackPanel>
                 <TextBlock
+                    x:Uid="SteerChangeColor"
                     Grid.Row="6"
-                    VerticalAlignment="Center"
-                    Text="Do you want to Change Theme Color?" />
+                    VerticalAlignment="Center" />
                 <StackPanel Grid.Row="7" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Yes:" />
-                    <Button Margin="10,0,10,0" Content="Try Hot" />
-                    <TextBlock VerticalAlignment="Center" Text="or No." />
+                    <TextBlock x:Uid="YesText" VerticalAlignment="Center" />
+                    <Button
+                        x:Uid="SteerChangeColorButton"
+                        Margin="10,0,10,0"
+                        IsEnabled="False" />
+                    <TextBlock x:Uid="NoText" VerticalAlignment="Center" />
                 </StackPanel>
                 <TextBlock
+                    x:Uid="SteerChangeLanguage"
                     Grid.Row="8"
-                    VerticalAlignment="Center"
-                    Text="Not your favor language, or you're working on localization?" />
+                    VerticalAlignment="Center" />
                 <StackPanel Grid.Row="9" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Yes:" />
-                    <SplitButton Margin="10,0,10,0" Content="Choose a language">
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="中文" />
-                                <MenuFlyoutItem Text="English" />
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
-                    <TextBlock VerticalAlignment="Center" Text="or No." />
+                    <TextBlock x:Uid="YesText" VerticalAlignment="Center" />
+                    <DropDownButton Margin="10,0,10,0">
+                        <TextBlock x:Uid="ChooseLanguage" />
+                        <DropDownButton.Flyout>
+                            <MenuFlyout x:Name="Languages" Placement="BottomEdgeAlignedLeft" />
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                    <TextBlock x:Uid="NoText" VerticalAlignment="Center" />
                 </StackPanel>
             </Grid>
         </ScrollViewer>

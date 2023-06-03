@@ -147,10 +147,10 @@
                     Name="MusicCount"
                     VerticalAlignment="Center"
                     Text="0" />
-                <TextBlock
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Text=" Music" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                    <Run Text=" " />
+                    <Run x:Uid="Songs" />
+                </TextBlock>
                 <TextBlock
                     Name="DurationCount"
                     Grid.Column="2"

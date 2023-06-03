@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About.Content" xml:space="preserve">
+  <data name="About.Text" xml:space="preserve">
     <value>About</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -125,7 +125,7 @@
     <value>Add</value>
     <comment>Dialog Button</comment>
   </data>
-  <data name="AddLibrary.Content" xml:space="preserve">
+  <data name="AddLibrary.Text" xml:space="preserve">
     <value>Add Library</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -141,21 +141,37 @@
     <value>Album Artist</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Albums.Content" xml:space="preserve">
+  <data name="Albums.Text" xml:space="preserve">
     <value>Albums</value>
     <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Application.Text" xml:space="preserve">
+    <value>Application</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ApplicationData.Text" xml:space="preserve">
+    <value>Application Data</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ApplicationDataDescription.Text" xml:space="preserve">
+    <value>Clear the app data, this operation is irreversible and will close the app immediately. If you found a bug, please give feedbacks on</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Artist.Text" xml:space="preserve">
     <value>Artist</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Artists.Content" xml:space="preserve">
+  <data name="Artists.Text" xml:space="preserve">
     <value>Artists</value>
     <comment>RootPage Navigation</comment>
   </data>
   <data name="Author.Text" xml:space="preserve">
     <value>Author</value>
     <comment>About Page</comment>
+  </data>
+  <data name="Behavior.Text" xml:space="preserve">
+    <value>Behavior</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="BitDepth.Text" xml:space="preserve">
     <value>Bit Depth</value>
@@ -168,6 +184,14 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Dialog Button</comment>
+  </data>
+  <data name="ChooseLanguage.Text" xml:space="preserve">
+    <value>Choose a language</value>
+    <comment>Settings Page, Welcome Page</comment>
+  </data>
+  <data name="ChoosePage.Text" xml:space="preserve">
+    <value>Choose default page</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
@@ -194,6 +218,14 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Use System Default</value>
     <comment>Settings Page</comment>
   </data>
+  <data name="DefaultPage.Text" xml:space="preserve">
+    <value>Default Page</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="DefaultPageDescription.Text" xml:space="preserve">
+    <value>Choose the page to enter when change the library.</value>
+    <comment>Settings Page</comment>
+  </data>
   <data name="Delete.Text" xml:space="preserve">
     <value>Delete</value>
     <comment>RootPage List Button</comment>
@@ -210,7 +242,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Edit</value>
     <comment>RootPage List Button</comment>
   </data>
-  <data name="EditLibrary.Content" xml:space="preserve">
+  <data name="EditLibrary.Text" xml:space="preserve">
     <value>Edit Library</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -218,7 +250,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Elapsed Time</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Equalizer.Content" xml:space="preserve">
+  <data name="Equalizer.Text" xml:space="preserve">
     <value>Equalizer</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -226,7 +258,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Expand</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Folders.Content" xml:space="preserve">
+  <data name="Folders.Text" xml:space="preserve">
     <value>Folders</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -242,7 +274,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Genre</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Genres.Content" xml:space="preserve">
+  <data name="Genres.Text" xml:space="preserve">
     <value>Genres</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -254,7 +286,15 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Icon</value>
     <comment>Edit Library Page</comment>
   </data>
-  <data name="Libraries.Content" xml:space="preserve">
+  <data name="Language.Text" xml:space="preserve">
+    <value>Language</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="LanguageDescription.Text" xml:space="preserve">
+    <value>Change the language of the app, need to restart to take effect. If you want to contribute on translating this app, go to</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Libraries.Text" xml:space="preserve">
     <value>Librarys</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -270,10 +310,6 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>More</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="MusicFolder.Content" xml:space="preserve">
-    <value>Music Folder</value>
-    <comment>RootPage Navigation</comment>
-  </data>
   <data name="MusicInfo.Text" xml:space="preserve">
     <value>Music Info</value>
     <comment>RootPage Player</comment>
@@ -286,9 +322,17 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Next</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="NoText.Text" xml:space="preserve">
+    <value>or No.</value>
+    <comment>Welcome Page</comment>
+  </data>
   <data name="OpenInExplorer.Text" xml:space="preserve">
-    <value>Open Fine In Explorer</value>
+    <value>Open File In Explorer</value>
     <comment>Music Info Page</comment>
+  </data>
+  <data name="OrText.Text" xml:space="preserve">
+    <value>or</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="Path.Text" xml:space="preserve">
     <value>File Path</value>
@@ -302,7 +346,7 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Now Playing</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="PlayList.Content" xml:space="preserve">
+  <data name="PlayList.Text" xml:space="preserve">
     <value>PlayList</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -321,6 +365,14 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
   <data name="Repeat.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Repeat</value>
     <comment>RootPage Player</comment>
+  </data>
+  <data name="Reset.Text" xml:space="preserve">
+    <value>Reset</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ResetWarning.Text" xml:space="preserve">
+    <value>Are you sure you want to delete all data of this app? This operation is irreversible!</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="SampleRate.Text" xml:space="preserve">
     <value>Sample Rate</value>
@@ -350,9 +402,41 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Shuffle</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Songs.Content" xml:space="preserve">
+  <data name="Songs.Text" xml:space="preserve">
     <value>Songs</value>
     <comment>RootPage Navigation</comment>
+  </data>
+  <data name="SteerAddLibrary.Text" xml:space="preserve">
+    <value>Do you want to add Windows music library to the app's library?</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerAddLibraryButton.Content" xml:space="preserve">
+    <value>Add it!</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerAddLibraryOther.Content" xml:space="preserve">
+    <value>Add other library.</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeColor.Text" xml:space="preserve">
+    <value>Do you want to change theme color?</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeColorButton.Content" xml:space="preserve">
+    <value>Try Hot.</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeLanguage.Text" xml:space="preserve">
+    <value>Not your favor language, or you're working on localization?</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeTheme.Text" xml:space="preserve">
+    <value>Do you want to use Dark Theme?</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeThemeButton.Content" xml:space="preserve">
+    <value>Switch to Dark Theme.</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
     <value>Application Theme</value>
@@ -382,9 +466,17 @@ PlayerWinRT is open source under the MIT license and free for distribution.</val
     <value>Volume</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>Welcome</value>
+    <comment>Welcome Page</comment>
+  </data>
   <data name="Year.Text" xml:space="preserve">
     <value>Year</value>
     <comment>Music Info Page</comment>
+  </data>
+  <data name="YesText.Text" xml:space="preserve">
+    <value>Yes!</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="YexuanXiao.Text" xml:space="preserve">
     <value>YexuanXiao</value>

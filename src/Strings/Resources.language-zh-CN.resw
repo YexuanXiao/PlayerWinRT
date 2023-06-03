@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About.Content" xml:space="preserve">
+  <data name="About.Text" xml:space="preserve">
     <value>关于</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -125,7 +125,7 @@
     <value>添加</value>
     <comment>Dialog Button</comment>
   </data>
-  <data name="AddLibrary.Content" xml:space="preserve">
+  <data name="AddLibrary.Text" xml:space="preserve">
     <value>添加库</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -141,21 +141,37 @@
     <value>专辑艺术家</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Albums.Content" xml:space="preserve">
+  <data name="Albums.Text" xml:space="preserve">
     <value>专辑</value>
     <comment>RootPage Navigation</comment>
+  </data>
+  <data name="Application.Text" xml:space="preserve">
+    <value>应用</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ApplicationData.Text" xml:space="preserve">
+    <value>应用数据</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ApplicationDataDescription.Text" xml:space="preserve">
+    <value>清除应用数据，该操作不可逆并且会立即结束程序。如果你发现了错误，请去往</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Artist.Text" xml:space="preserve">
     <value>艺术家</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Artists.Content" xml:space="preserve">
+  <data name="Artists.Text" xml:space="preserve">
     <value>艺术家</value>
     <comment>RootPage Navigation</comment>
   </data>
   <data name="Author.Text" xml:space="preserve">
     <value>作者</value>
     <comment>About Page</comment>
+  </data>
+  <data name="Behavior.Text" xml:space="preserve">
+    <value>行为</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="BitDepth.Text" xml:space="preserve">
     <value>位深度</value>
@@ -168,6 +184,14 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
     <comment>Dialog Button</comment>
+  </data>
+  <data name="ChooseLanguage.Text" xml:space="preserve">
+    <value>选择一个语言</value>
+    <comment>Settings Page, Welcome Page</comment>
+  </data>
+  <data name="ChoosePage.Text" xml:space="preserve">
+    <value>选择默认页面</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
@@ -194,6 +218,14 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>使用系统设置</value>
     <comment>Settings Page</comment>
   </data>
+  <data name="DefaultPage.Text" xml:space="preserve">
+    <value>默认页面</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="DefaultPageDescription.Text" xml:space="preserve">
+    <value>选择更改库后默认进入的页面。</value>
+    <comment>Settings Page</comment>
+  </data>
   <data name="Delete.Text" xml:space="preserve">
     <value>删除</value>
     <comment>RootPage List Button</comment>
@@ -210,7 +242,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>编辑</value>
     <comment>RootPage List Button</comment>
   </data>
-  <data name="EditLibrary.Content" xml:space="preserve">
+  <data name="EditLibrary.Text" xml:space="preserve">
     <value>编辑库</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -218,7 +250,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>已用时间</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Equalizer.Content" xml:space="preserve">
+  <data name="Equalizer.Text" xml:space="preserve">
     <value>均衡器</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -226,7 +258,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>展开</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Folders.Content" xml:space="preserve">
+  <data name="Folders.Text" xml:space="preserve">
     <value>文件夹</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -242,7 +274,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>流派</value>
     <comment>Music Info Page</comment>
   </data>
-  <data name="Genres.Content" xml:space="preserve">
+  <data name="Genres.Text" xml:space="preserve">
     <value>流派</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -254,7 +286,15 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>图标</value>
     <comment>Edit Library Page</comment>
   </data>
-  <data name="Libraries.Content" xml:space="preserve">
+  <data name="Language.Text" xml:space="preserve">
+    <value>语言</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="LanguageDescription.Text" xml:space="preserve">
+    <value>更改应用使用的语言，需要重新启动。如果你想要贡献翻译，到</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="Libraries.Text" xml:space="preserve">
     <value>音乐库</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -270,10 +310,6 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>更多</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="MusicFolder.Content" xml:space="preserve">
-    <value>音乐文件夹</value>
-    <comment>RootPage Navigation</comment>
-  </data>
   <data name="MusicInfo.Text" xml:space="preserve">
     <value>音乐信息</value>
     <comment>RootPage Player</comment>
@@ -286,9 +322,17 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>下一首</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="NoText.Text" xml:space="preserve">
+    <value>或者否。</value>
+    <comment>Welcome Page</comment>
+  </data>
   <data name="OpenInExplorer.Text" xml:space="preserve">
     <value>打开文件位置</value>
     <comment>Music Info Page</comment>
+  </data>
+  <data name="OrText.Text" xml:space="preserve">
+    <value>或者</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="Path.Text" xml:space="preserve">
     <value>文件路径</value>
@@ -302,7 +346,7 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>正在播放</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="PlayList.Content" xml:space="preserve">
+  <data name="PlayList.Text" xml:space="preserve">
     <value>播放列表</value>
     <comment>RootPage Navigation</comment>
   </data>
@@ -321,6 +365,14 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
   <data name="Repeat.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>重复</value>
     <comment>RootPage Player</comment>
+  </data>
+  <data name="Reset.Text" xml:space="preserve">
+    <value>清除</value>
+    <comment>Settings Page</comment>
+  </data>
+  <data name="ResetWarning.Text" xml:space="preserve">
+    <value>你确定要删除应用的所有数据吗？此操作不可逆！</value>
+    <comment>Settings Page</comment>
   </data>
   <data name="SampleRate.Text" xml:space="preserve">
     <value>采样率</value>
@@ -350,9 +402,41 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>随机</value>
     <comment>RootPage Player</comment>
   </data>
-  <data name="Songs.Content" xml:space="preserve">
+  <data name="Songs.Text" xml:space="preserve">
     <value>歌曲</value>
     <comment>RootPage Navigation</comment>
+  </data>
+  <data name="SteerAddLibrary.Text" xml:space="preserve">
+    <value>想要将 Windows 音乐库添加到程序音乐库吗？</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerAddLibraryButton.Content" xml:space="preserve">
+    <value>添加它！</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerAddLibraryOther.Content" xml:space="preserve">
+    <value>添加其他库</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeColor.Text" xml:space="preserve">
+    <value>想使用其他主题颜色吗？</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeColorButton.Content" xml:space="preserve">
+    <value>尝试“热情”</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeLanguage.Text" xml:space="preserve">
+    <value>不是你想要的语言，或者你正在进行本地化？</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeTheme.Text" xml:space="preserve">
+    <value>想使用深色主题吗？</value>
+    <comment>Welcome Page</comment>
+  </data>
+  <data name="SteerChangeThemeButton.Content" xml:space="preserve">
+    <value>切换为深色主题</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
     <value>应用主题</value>
@@ -382,9 +466,17 @@ PlayerWinRT 使用 MIT 协议开源，并且自由分发。</value>
     <value>音量</value>
     <comment>RootPage Player</comment>
   </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>欢迎</value>
+    <comment>Welcome Page</comment>
+  </data>
   <data name="Year.Text" xml:space="preserve">
     <value>年份</value>
     <comment>Music Info Page</comment>
+  </data>
+  <data name="YesText.Text" xml:space="preserve">
+    <value>是！</value>
+    <comment>Welcome Page</comment>
   </data>
   <data name="YexuanXiao.Text" xml:space="preserve">
     <value>萧叶轩</value>
