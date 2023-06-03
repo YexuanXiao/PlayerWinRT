@@ -4,17 +4,18 @@
 
 namespace winrt::Player::implementation
 {
-    struct App : AppT<App>
+    struct App: AppT<App>
     {
         App();
         void OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
 
-      private:
+    private:
         // use for disable multi-instance, keep A-Za-z, and no '\'
         std::wstring_view appname_{ L"PlayerWinRT" };
         // lazy initialization, use nullptr constructor
         // and initialize at other time
         // or use default constructor or other constructor
+        winrt::Player::RootPage root_page_{ nullptr };
         winrt::Microsoft::UI::Xaml::Window window_{ nullptr };
 
         void SetDragRegionForCustomTitleBar();

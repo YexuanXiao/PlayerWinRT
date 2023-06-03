@@ -47,9 +47,9 @@ namespace winrt::Player::implementation
         // lazy initialize window
         window_ = winrt::Microsoft::UI::Xaml::Window{};
         // make root_page
-        auto root_page{ winrt::Player::RootPage{} };
-        window_.Content(root_page);
-        auto player_view_model{ root_page.PlayerViewModel() };
+        root_page_ = winrt::Player::RootPage{};
+        window_.Content(root_page_);
+        auto player_view_model{ root_page_.PlayerViewModel() };
         window_.Title(player_view_model.Title());
         player_view_model.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             if (args.PropertyName() != L"AppTitle")
@@ -57,7 +57,7 @@ namespace winrt::Player::implementation
             self.window_.Title(sender.try_as<winrt::Player::PlayerViewModel>().AppTitle());
         });
 
-        auto app_titlebar{ root_page.AppTitleBar() };
+        auto app_titlebar{ root_page_.AppTitleBar() };
 
         // initialize AppWindow
         auto app_window{ window_.AppWindow() };
@@ -81,7 +81,7 @@ namespace winrt::Player::implementation
             auto theme{ SettingsHelper::LoadTheme() };
             SetTitleBarTheme(titlebar, theme);
 
-            root_page.ActualThemeChanged([app_window](winrt::Microsoft::UI::Xaml::FrameworkElement const& sender, winrt::Windows::Foundation::IInspectable const&) {
+            root_page_.ActualThemeChanged([app_window](winrt::Microsoft::UI::Xaml::FrameworkElement const& sender, winrt::Windows::Foundation::IInspectable const&) {
                 auto titleBar{ app_window.TitleBar() };
                 assert(titleBar.ExtendsContentIntoTitleBar());
                 SetTitleBarTheme(titleBar, sender.ActualTheme());
@@ -91,7 +91,7 @@ namespace winrt::Player::implementation
         {
             // In the case that title bar customization is not supported, fallback to WindowChrome
             window_.ExtendsContentIntoTitleBar(true);
-            window_.SetTitleBar(root_page.AppTitleBar());
+            window_.SetTitleBar(root_page_.AppTitleBar());
         }
 
         // make app only have one instance
