@@ -105,9 +105,9 @@ namespace winrt::Player::implementation
             }
             case decltype(operate)::ItemInserted: {
                 self.info_list_.RemoveAt(self.index_);
-                self.info_list_.InsertAt(self.index_, self.removed_music_);
+                self.info_list_.InsertAt(index, self.removed_music_);
                 self.play_list_.Items().RemoveAt(self.index_);
-                self.play_list_.Items().InsertAt(self.index_, self.removed_item_);
+                self.play_list_.Items().InsertAt(index, self.removed_item_);
                 break;
             }
             case decltype(operate)::Reset:
