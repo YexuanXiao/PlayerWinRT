@@ -26,7 +26,10 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="{x:Bind CalculateTrueFolderCount(FolderList.Size), Mode=OneWay}" />
+                        <TextBlock
+                            Name="FoldersCount"
+                            VerticalAlignment="Center"
+                            Text="0" />
                         <TextBlock VerticalAlignment="Center" Text=" Folders" />
                     </StackPanel>
                     <DropDownButton
@@ -46,7 +49,6 @@
                     Name="FolderViewList"
                     Grid.Row="1"
                     IsItemClickEnabled="False"
-                    ItemsSource="{x:Bind FolderList}"
                     SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
@@ -81,8 +83,7 @@
             <ListView
                 Name="MusicViewList"
                 Grid.Row="1"
-                IsItemClickEnabled="True"
-                ItemsSource="{x:Bind MusicList}">
+                IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:InfoViewModel">
                         <local:InfoListItem
@@ -105,7 +106,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
+                <TextBlock
+                    Name="MusicCount"
+                    VerticalAlignment="Center"
+                    Text="0" />
                 <TextBlock
                     Grid.Column="1"
                     VerticalAlignment="Center"

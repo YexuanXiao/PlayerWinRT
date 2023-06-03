@@ -143,7 +143,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind MusicList.Size, Mode=OneWay}" />
+                <TextBlock
+                    Name="MusicCount"
+                    VerticalAlignment="Center"
+                    Text="0" />
                 <TextBlock
                     Grid.Column="1"
                     VerticalAlignment="Center"
@@ -155,11 +158,11 @@
                     VerticalAlignment="Center" />
             </Grid>
             <ListView
+                Name="MusicViewList"
                 AllowDrop="True"
                 CanReorderItems="True"
                 IsItemClickEnabled="True"
                 ItemClick="ListView_ItemClick"
-                ItemsSource="{x:Bind MusicList}"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:InfoViewModel">

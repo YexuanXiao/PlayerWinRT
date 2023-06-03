@@ -9,10 +9,7 @@ namespace winrt::Player::implementation
         FolderView();
 
         // binding helper
-        winrt::hstring CalculateTrueFolderCount(uint32_t);
-        // runtime properties
-        winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderList();
-        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> MusicList();
+        winrt::hstring CalculateTrueFolderCount(std::size_t);
         // event handlers
         winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
 
@@ -33,11 +30,11 @@ namespace winrt::Player::implementation
         void Build();
         void Rebuild();
         void BuildRoot();
-        void UpdateUI(std::vector<winrt::hstring> const&, std::vector<winrt::Player::InfoViewModel> const&);
+        void UpdateUI(std::vector<winrt::hstring>&&, std::vector<winrt::Player::InfoViewModel>&&);
 
         // runtime properties implement
-        winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> folders_view_{ winrt::single_threaded_observable_vector<winrt::hstring>() };
-        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> music_view_{ winrt::single_threaded_observable_vector<winrt::Player::InfoViewModel>() };
+        winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> folders_view_{ nullptr };
+        winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> music_view_{ nullptr };
 
         // events
         winrt::event_token sync_fvl_{};

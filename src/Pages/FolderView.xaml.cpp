@@ -38,8 +38,6 @@ namespace winrt::Player::implementation
 
         folders_stack_.clear();
         path_stack_.clear();
-        folders_view_.Clear();
-        music_view_.Clear();
         whole_library = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_.name)));
         BuildRoot();
 
@@ -198,27 +196,23 @@ namespace winrt::Player::implementation
         });
     }
 
-    winrt::hstring FolderView::CalculateTrueFolderCount(uint32_t value)
+    winrt::hstring FolderView::CalculateTrueFolderCount(std::size_t value)
     {
         auto adjust{ path_stack_.empty() ? 0 : 1 };
         return fast_io::wconcat_winrt_hstring(value - adjust);
     }
 
-    void FolderView::UpdateUI(std::vector<winrt::hstring> const& folders, std::vector<winrt::Player::InfoViewModel> const& music)
+    void FolderView::UpdateUI(std::vector<winrt::hstring>&& folders, std::vector<winrt::Player::InfoViewModel>&& music)
     {
 
-        // set info
-        {
-            folders_view_.ReplaceAll(folders);
-            music_view_.ReplaceAll(music);
-        }
-        // set full_path
+        // set full_path and count
         {
             auto full_path{ path_stack_ | std::views::join_with(L'\\') | std::ranges::to<std::basic_string>() };
             full_path.resize(full_path.size() + 1uz);
             std::memmove(full_path.data() + 1uz, full_path.data(), (full_path.size() - 1uz) * sizeof(decltype(full_path)::value_type));
             full_path[0] = L'\\';
             FullPath().Text(full_path);
+            FoldersCount().Text(fast_io::wconcat_winrt_hstring(CalculateTrueFolderCount(folders.size())));
         }
         // set music duration count
         {
@@ -235,6 +229,15 @@ namespace winrt::Player::implementation
                 text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
 
             DurationCount().Text(text);
+        }
+        // set music count
+        MusicCount().Text(fast_io::wconcat_winrt_hstring(music.size()));
+        // set info
+        {
+            folders_view_ = winrt::single_threaded_observable_vector(std::move(folders));
+            FolderViewList().ItemsSource(folders_view_);
+            music_view_ = winrt::single_threaded_observable_vector(std::move(music));
+            MusicViewList().ItemsSource(music_view_);
         }
         // set level change button
         {
@@ -327,7 +330,7 @@ namespace winrt::Player::implementation
                 folders.emplace_back(i);
         }
 
-        UpdateUI(folders, music);
+        UpdateUI(std::move(folders), std::move(music));
     }
 
     void FolderView::Build()
@@ -388,7 +391,7 @@ namespace winrt::Player::implementation
             folders_stack_.push_back(std::move(frame));
         }
 
-        UpdateUI(folders, music);
+        UpdateUI(std::move(folders), std::move(music));
     }
 
     void FolderView::Rebuild()
@@ -427,16 +430,6 @@ namespace winrt::Player::implementation
                 folders.emplace_back(info);
         }
 
-        UpdateUI(folders, music);
-    }
-
-    winrt::Windows::Foundation::Collections::IObservableVector<winrt::hstring> FolderView::FolderList()
-    {
-        return folders_view_;
-    }
-
-    winrt::Windows::Foundation::Collections::IObservableVector<winrt::Player::InfoViewModel> FolderView::MusicList()
-    {
-        return music_view_;
+        UpdateUI(std::move(folders), std::move(music));
     }
 }

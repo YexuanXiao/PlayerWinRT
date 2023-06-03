@@ -6,8 +6,5 @@ namespace Player
     runtimeclass FolderView : Microsoft.UI.Xaml.Controls.Page
     {
         FolderView();
-        Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{get; };
-        Windows.Foundation.Collections.IObservableVector<String> FolderList{get; };
-        String CalculateTrueFolderCount(UInt32 value);
     }
 }

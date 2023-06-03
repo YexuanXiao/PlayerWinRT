@@ -8,6 +8,5 @@ namespace Player
     {
         NowPlaying();
         PlayerViewModel PlayerViewModel{ get; };
-        Windows.Foundation.Collections.IObservableVector<InfoViewModel> MusicList{ get; };
     }
 }
