@@ -304,6 +304,7 @@ namespace winrt::Player::implementation
     {
 
         auto full_path{ path_stack_ | std::views::join_with(L'\\') | std::ranges::to<std::basic_string>() };
+        full_path.push_back(L'\\');
         // for music_view_
         auto music{ std::vector<winrt::Player::InfoViewModel>{} };
         // for current stack frame
@@ -345,7 +346,7 @@ namespace winrt::Player::implementation
                 music.emplace_back(info);
             // if is folder
             else
-                set.emplace(path.begin() + 1uz, path.begin() + end);
+                set.emplace(path.begin(), path.begin() + end);
         }
         // for folders_view_
         auto folders{ std::vector<winrt::hstring>{} };
@@ -372,7 +373,7 @@ namespace winrt::Player::implementation
 
             auto const& frame{ folders_stack_.back() };
             auto full_path{ path_stack_ | std::views::join_with(L'\\') | std::ranges::to<std::basic_string>() };
-
+            full_path.push_back(L'\\');
             for (auto const& i : frame) [[likely]]
             {
                 auto const& info{ i.get() };
@@ -384,7 +385,7 @@ namespace winrt::Player::implementation
                     music.emplace_back(info);
                 // if is folder
                 else
-                    set.emplace(path.begin() + 1uz, path.begin() + end);
+                    set.emplace(path.begin(), path.begin() + end);
             }
         }
 
