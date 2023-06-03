@@ -132,12 +132,16 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid
+            <Rectangle
                 Grid.Row="1"
+                Height="1"
+                Fill="{StaticResource ControlAltFillColorQuarternaryBrush}" />
+            <Grid
+                Grid.Row="2"
                 Height="35"
-                Padding="15,0,15,0"
-                Background="{StaticResource ControlAltFillColorTertiaryBrush}">
+                Padding="15,0,15,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />

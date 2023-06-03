@@ -40,6 +40,18 @@ namespace winrt::Player::implementation
         {
             container.emplace_back(info);
         }
+        auto count{ winrt::clock::duration{} };
+        for (auto const& info : info_list_) [[likely]]
+            count += winrt::clock::duration{ info.Duration };
+        count_ = count.count();
+
+        auto text{ winrt::hstring{} };
+        auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ count_ } } };
+        if (hms.hours().count()) [[likely]]
+            text = fast_io::wconcat_winrt_hstring(hms.hours(), fast_io::manipulators::chvw(L'\u2005'), hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+        else if (hms.minutes().count())
+            text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+        DurationCount().Text(text);
         MusicCount().Text(fast_io::wconcat_winrt_hstring(container.size()));
         music_view_ = winrt::single_threaded_observable_vector(std::move(container));
         // sync player_view_model_root_ to player_view_model_

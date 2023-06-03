@@ -152,10 +152,6 @@ namespace winrt::Player::implementation
                     self.player_view_model_.Album(info.Album);
                     self.player_view_model_.Artist(artist);
                     self.player_view_model_.Title(title);
-                    if (artist.empty())
-                        self.player_view_model_.AppTitle(title);
-                    else
-                        self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", title));
                 }
                 {
                     co_await winrt::resume_background();
@@ -222,6 +218,11 @@ namespace winrt::Player::implementation
             font_icon.Glyph(L"\uF8AE");
 
         font_icon.Margin(winrt::Microsoft::UI::Xaml::ThicknessHelper::FromUniformLength(0));
+        auto artist{ player_view_model_.Artist() };
+        if (artist.empty())
+            player_view_model_.AppTitle(player_view_model_.Title());
+        else
+            player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", player_view_model_.Title()));
     }
 
     void RootPage::PlayButtonOff()
