@@ -79,6 +79,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid
+            Name="AppTitleBar"
             Grid.Column="1"
             Height="48"
             VerticalAlignment="Top"
@@ -87,10 +88,7 @@
                 <ColumnDefinition x:Name="ButtonPlaceholder" Width="48" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel
-                Name="AppTitleBar"
-                Grid.Column="1"
-                Orientation="Horizontal">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Image
                     Width="24"
                     Height="24"

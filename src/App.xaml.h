@@ -8,6 +8,7 @@ namespace winrt::Player::implementation
     {
         App();
         void OnLaunched(winrt::Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
+        ~App();
 
     private:
         // use for disable multi-instance, keep A-Za-z, and no '\'

@@ -12,6 +12,7 @@ namespace SettingsHelper
     // for init
     void SetTheme(winrt::Microsoft::UI::Xaml::FrameworkElement&, winrt::Microsoft::UI::Xaml::ElementTheme);
     bool CheckFirstUse();
+    void SetFirstUse();
     double GetVolume();
     void SetVolume(double);
     enum class Repeat : int32_t

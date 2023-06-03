@@ -74,7 +74,7 @@ namespace winrt::Player::implementation
             titlebar.ExtendsContentIntoTitleBar(true);
             titlebar.PreferredHeightOption(winrt::Microsoft::UI::Windowing::TitleBarHeightOption::Tall);
             app_window.Changed({ this, &App::AppWindow_Changed });
-            app_titlebar.Loaded({ this, &App::AppTitleBar_Loaded });
+            root_page_.Loaded({ this, &App::AppTitleBar_Loaded });
             app_titlebar.SizeChanged({ this, &App::AppTitleBar_SizeChanged });
 
             // set titlebar theme
@@ -182,5 +182,10 @@ namespace winrt::Player::implementation
             titlebar.ButtonPressedBackgroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 194, 194, 194));
             titlebar.ButtonPressedForegroundColor(winrt::Microsoft::UI::ColorHelper::FromArgb(255, 95, 95, 95));
         }
+    }
+
+    App::~App()
+    {
+        SettingsHelper::SetFirstUse();
     }
 }

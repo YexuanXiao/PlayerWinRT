@@ -54,10 +54,16 @@ namespace SettingsHelper
     {
         auto settings{ impl_::GetApplicationSettings() };
 #ifndef _DEBUG
-        return !settings.Insert(impl_::First_Key.data(), winrt::box_value(true));
+        return !settings.HasKey(impl_::First_Key.data());
 #else
         return true;
 #endif
+    }
+
+    void SetFirstUse()
+    {
+        auto settings{ impl_::GetApplicationSettings() };
+        settings.Insert(impl_::First_Key.data(), winrt::box_value(true));
     }
 
     double GetVolume()
