@@ -135,12 +135,7 @@ namespace winrt::Player::implementation
         rect.X = static_cast<int32_t>((title_bar.LeftInset() + 48) * scale_adjustment);
         rect.Y = 0;
         rect.Height = static_cast<int32_t>(48 * scale_adjustment);
-#ifdef _DEBUG
-        // make application tool bar clickable
-        rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment / 3);
-#else
         rect.Width = static_cast<int32_t>(app_titlebar.ActualWidth() * scale_adjustment - rect.X - title_bar.RightInset());
-#endif
         title_bar.SetDragRectangles(winrt::array_view(&rect, &rect + 1));
     }
 
