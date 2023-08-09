@@ -45,6 +45,7 @@ Only guaranteed to compile on the latest VS2022, but welcome to provide forward 
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/dfda3582-fdcb-4b65-b4df-56a02327ba8b)
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/f07aed58-6d8e-464a-85d2-f4fc16cc7884)
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/f02a86ba-afc3-4b64-8b49-da281f2a67c6)
+![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/b086d54c-fdb2-420a-bf3e-fba4913159ea)
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/dd624693-4bc8-4bc2-81ac-33fe2b91f3d4)
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/63f4d109-0645-4268-a76d-dd082b2f560d)
 ![image](https://github.com/YexuanXiao/PlayerWinRT/assets/20025591/2d46d20e-c36a-4cff-9204-a9dfb462259e)
