@@ -50,23 +50,19 @@
 
 namespace winrt::Player {}
 
-inline winrt::hstring operator""_hs(const wchar_t* begin, std::size_t size) {
+inline winrt::hstring operator""_hs(wchar_t const * begin, std::size_t const size) {
 	return winrt::hstring{ begin, static_cast<winrt::hstring::size_type>(size) };
 }
 
-#ifdef _MSC_VER
-#if _MSC_VER <= 1937
-
+#if !defined(__cpp_size_t_suffix) || __cpp_size_t_suffix <= 202006L
 // for C++ 23 std::size_t literal workaround
-inline constexpr std::size_t operator""uz(unsigned long long value) {
-	if constexpr (sizeof(unsigned long long) <= sizeof(std::size_t)) {
-		return std::size_t{ value };
+inline constexpr std::size_t operator""uz(unsigned long long const value) {
+	if constexpr (sizeof(value) <= sizeof(std::size_t)) {
+		return { value };
 	}
 	else {
 		assert(value < SIZE_MAX);
-		return std::size_t{ value };
+		return { value };
 	}
 }
-
-#endif
 #endif

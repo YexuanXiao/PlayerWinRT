@@ -13,7 +13,7 @@ namespace winrt::Player::implementation
     {
         InitializeComponent();
 
-        play_list_.MaxPlayedItemsToKeepOpen(3);
+        play_list_.MaxPlayedItemsToKeepOpen(3u);
         player_.AudioCategory(winrt::Windows::Media::Playback::MediaPlayerAudioCategory::Media);
         player_.Source(play_list_);
         {
@@ -124,7 +124,7 @@ namespace winrt::Player::implementation
             if (item == nullptr)
                 co_return;
             auto index{ self.play_list_.CurrentItemIndex() };
-            if (args.Reason() == decltype(args.Reason())::EndOfStream && self.repeat_one_ == true)
+            if (args.Reason() == decltype(args.Reason())::EndOfStream && self.repeat_one_)
             {
                 // repeat one
                 self.play_list_.MoveTo(index > 0u ? index - 1u : 0u);
