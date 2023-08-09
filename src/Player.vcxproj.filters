@@ -200,8 +200,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Player_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\Resources.language-en-US.resw">
