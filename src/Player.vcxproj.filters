@@ -167,9 +167,6 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="RootPage.xaml" />
     <Page Include="Controls\LibraryEditor.xaml">
       <Filter>Controls</Filter>
@@ -215,5 +212,8 @@
     <Font Include="Assets\MediaPlayerIcons.ttf">
       <Filter>Assets</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>

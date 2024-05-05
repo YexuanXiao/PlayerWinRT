@@ -26,7 +26,7 @@ namespace winrt::Player::implementation
         for (auto icon : Icons().Items())
             icon.try_as<winrt::Microsoft::UI::Xaml::Controls::MenuFlyoutItem>().Tapped({ this, &LibraryEditor::Icon_Select });
 
-        // regist add branch
+        // register add branch
         PrimaryButtonClick({ this, &LibraryEditor::PrimaryButton_Click });
     }
 
@@ -50,7 +50,7 @@ namespace winrt::Player::implementation
             Icon().Glyph(icon);
         else
             // welcome branch
-            // regist add event
+            // register add event
             PrimaryButtonClick({ this, &LibraryEditor::PrimaryButton_Click });
         ;
     }
@@ -114,7 +114,7 @@ namespace winrt::Player::implementation
         if (info.protocol == L"local") [[likely]]
         {
             auto task{ ::Data::GetLibraryFromFolderPath(info.name, info.protocol, info.address, info.icon) };
-            // regist cancel event, must capture by value, otherwise hold a dangling reference
+            // register cancel event, must capture by value, otherwise hold a dangling reference
             CloseButtonClick([task](winrt::Microsoft::UI::Xaml::Controls::ContentDialog const&, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const&) { task.Cancel(); });
             // switch to other thread
             co_await winrt::resume_background();
@@ -139,7 +139,7 @@ namespace winrt::Player::implementation
         auto picker{ winrt::Windows::Storage::Pickers::FolderPicker{} };
         picker.ViewMode(winrt::Windows::Storage::Pickers::PickerViewMode::List);
         picker.SuggestedStartLocation(winrt::Windows::Storage::Pickers::PickerLocationId::ComputerFolder);
-        Win32Helper::RegistCoreWindow(picker);
+        Win32Helper::InitializeCoreWindow(picker);
         auto const& folder{ co_await picker.PickSingleFolderAsync() };
         if (folder != nullptr) [[likely]]
         {

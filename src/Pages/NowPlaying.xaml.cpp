@@ -87,7 +87,7 @@ namespace winrt::Player::implementation
                 }
             }
         });
-        // regist events
+        // register events
         sync_mv_ = music_view_.VectorChanged([&self = *this, strong = this->get_strong(), ui_thread = winrt::apartment_context{}](decltype(music_view_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
             auto operate{ args.CollectionChange() };
             auto index{ args.Index() };

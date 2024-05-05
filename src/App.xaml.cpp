@@ -100,7 +100,7 @@ namespace winrt::Player::implementation
             Win32Helper::DisableMultiInstanceWindow(sender.try_as<Microsoft::UI::Xaml::Window>(), self.appname_);
         });
 
-        Win32Helper::RegisterWindowMinSize(window_);
+        Win32Helper::InitializeWindowMinSize(window_);
 
         // active
         window_.Activate();

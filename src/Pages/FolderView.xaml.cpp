@@ -41,7 +41,7 @@ namespace winrt::Player::implementation
         whole_library = ::Data::TramsformJsonArrayToVector((co_await SettingsHelper::GetLibrary(library_.name)));
         BuildRoot();
 
-        // unregist event handlers
+        // unregister event handlers
         FolderViewList().SelectionChanged(sync_fvl_);
         MusicViewList().ItemClick(sync_mvl_click_);
         MusicViewList().SelectionChanged(sync_mvl_select_);
@@ -140,7 +140,7 @@ namespace winrt::Player::implementation
             // make click event effective
             self.MusicViewList().IsItemClickEnabled(true);
         });
-        // regist play list event to update selected item
+        // register play list event to update selected item
         sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)

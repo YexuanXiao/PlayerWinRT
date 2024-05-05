@@ -21,8 +21,8 @@ namespace Win32Helper {
     void DisableMultiInstanceWindow(winrt::Microsoft::UI::Xaml::Window const&, std::wstring_view const);
     double GetScaleAdjustment(winrt::Microsoft::UI::Xaml::Window const&);
     LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
-    void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const&);
-    void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const&);
+    void InitializeWindowMinSize(winrt::Microsoft::UI::Xaml::Window const&);
+    void InitializeCoreWindow(winrt::Windows::Foundation::IInspectable const&);
     winrt::hstring GetMusicFolderPath();
     void OpenExplorer(std::wstring const&);
 }

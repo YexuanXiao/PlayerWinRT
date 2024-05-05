@@ -26,7 +26,7 @@ namespace winrt::Player::implementation
             menu_list.Append(item_add);
         }
 
-        InitializeRegistEvents();
+        InitializeEvents();
 
         // init state
         if (SettingsHelper::CheckFirstUse()) [[unlikely]]
@@ -36,7 +36,7 @@ namespace winrt::Player::implementation
         }
     }
 
-    void RootPage::InitializeRegistEvents()
+    void RootPage::InitializeEvents()
     {
         // this function can be called once at any position in the constructor
         // update libraries ui
@@ -174,7 +174,7 @@ namespace winrt::Player::implementation
                 }
             }
         });
-        // regist play and pause event to update button ui
+        // register play and pause event to update button ui
         commander_.PlayReceived([&self = *this, ui_thread = winrt::apartment_context{}](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             co_await ui_thread;
             self.PlayButtonOn();

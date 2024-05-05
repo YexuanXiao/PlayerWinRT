@@ -88,7 +88,7 @@ namespace Win32Helper
         return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), window_handle, unsigned_message, wide_parameter, long_parameter);
     }
 
-    void RegisterWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window)
+    void InitializeWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window)
     {
         old_proc.store(::SetWindowLongPtrW(GetHandleFromWindow(window), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowProc)), std::memory_order_release);
     }
@@ -106,7 +106,7 @@ namespace Win32Helper
         return {};
     }
 
-    void RegistCoreWindow(winrt::Windows::Foundation::IInspectable const& object)
+    void InitializeCoreWindow(winrt::Windows::Foundation::IInspectable const& object)
     {
         object.try_as<IInitializeWithWindow>()->Initialize(GetActiveWindow());
     }

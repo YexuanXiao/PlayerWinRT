@@ -41,7 +41,7 @@ namespace winrt::Player::implementation
         void PlayButtonOn();
         void PlayButtonOff();
         void NavigateToDefaultPage();
-        void InitializeRegistEvents();
+        void InitializeEvents();
 
         bool repeat_one_{ false };
         winrt::Data::Library library_{};
