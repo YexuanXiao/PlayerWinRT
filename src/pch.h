@@ -54,7 +54,7 @@ inline winrt::hstring operator""_hs(wchar_t const * begin, std::size_t const siz
 	return winrt::hstring{ begin, static_cast<winrt::hstring::size_type>(size) };
 }
 
-#if !defined(__cpp_size_t_suffix) || __cpp_size_t_suffix <= 202006L
+#if !defined(__cpp_size_t_suffix) || __cpp_size_t_suffix < 202011L
 // for C++ 23 std::size_t literal workaround
 inline constexpr std::size_t operator""uz(unsigned long long const value) {
 	if constexpr (sizeof(value) <= sizeof(std::size_t)) {
