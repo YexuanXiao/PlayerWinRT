@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="src/Player.vcxproj" Id="207fc791-460c-4020-84cb-cc2ada9c56a1">
+    <Deploy />
+  </Project>
+</Solution>
