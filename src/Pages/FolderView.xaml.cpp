@@ -166,7 +166,7 @@ namespace winrt::Player::implementation
     winrt::hstring FolderView::CalculateTrueFolderCount(std::size_t value)
     {
         auto adjust{ path_stack_.empty() ? 0 : 1 };
-        return fast_io::wconcat_winrt_hstring(value - adjust);
+        return util::hformat(L"{}", value - adjust);
     }
 
     void FolderView::UpdateUI(std::vector<winrt::hstring>&& folders, std::vector<winrt::Player::InfoViewModel>&& music)
@@ -179,7 +179,7 @@ namespace winrt::Player::implementation
             std::memmove(full_path.data() + 1uz, full_path.data(), (full_path.size() - 1uz) * sizeof(decltype(full_path)::value_type));
             full_path[0] = L'\\';
             FullPath().Text(full_path);
-            FoldersCount().Text(fast_io::wconcat_winrt_hstring(CalculateTrueFolderCount(folders.size())));
+            FoldersCount().Text(CalculateTrueFolderCount(folders.size()));
         }
         // set music duration count
         {
@@ -188,17 +188,13 @@ namespace winrt::Player::implementation
                 count += winrt::clock::duration{ info.Duration() };
             auto const hms{ std::chrono::hh_mm_ss{ count } };
 
-            auto text{ winrt::hstring{} };
-
             if (hms.hours().count()) [[likely]]
-                text = fast_io::wconcat_winrt_hstring(hms.hours(), fast_io::manipulators::chvw(L'\u2005'), hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+                DurationCount().Text(util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count()));
             else if (hms.minutes().count())
-                text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
-
-            DurationCount().Text(text);
+                DurationCount().Text(util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count()));
         }
         // set music count
-        MusicCount().Text(fast_io::wconcat_winrt_hstring(music.size()));
+        MusicCount().Text(util::hformat(L"{}", music.size()));
         // set info
         {
             folders_view_ = winrt::single_threaded_observable_vector(std::move(folders));

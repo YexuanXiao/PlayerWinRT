@@ -48,11 +48,10 @@ namespace winrt::Player::implementation
         auto text{ winrt::hstring{} };
         auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ count_ } } };
         if (hms.hours().count()) [[likely]]
-            text = fast_io::wconcat_winrt_hstring(hms.hours(), fast_io::manipulators::chvw(L'\u2005'), hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+            DurationCount().Text(util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count()));
         else if (hms.minutes().count())
-            text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
-        DurationCount().Text(text);
-        MusicCount().Text(fast_io::wconcat_winrt_hstring(container.size()));
+            DurationCount().Text(util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count()));
+        MusicCount().Text(util::hformat(L"{}", container.size()));
         music_view_ = winrt::single_threaded_observable_vector(std::move(container));
         // sync player_view_model_root_ to player_view_model_
         sync_pvm_ = player_view_model_root_.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
@@ -100,7 +99,7 @@ namespace winrt::Player::implementation
                     self.count_ -= self.info_list_.GetAt(index).Duration;
                     self.info_list_.RemoveAt(index);
                     self.play_list_.Items().RemoveAt(index);
-                    self.MusicCount().Text(fast_io::wconcat_winrt_hstring(self.info_list_.Size()));
+                    self.MusicCount().Text(util::hformat(L"{}", self.info_list_.Size()));
                     self.index_ = 0u;
                 }
                 else
@@ -132,9 +131,9 @@ namespace winrt::Player::implementation
             auto text{ winrt::hstring{} };
             auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ self.count_ } } };
             if (hms.hours().count()) [[likely]]
-                text = fast_io::wconcat_winrt_hstring(hms.hours(), fast_io::manipulators::chvw(L'\u2005'), hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+                text = util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count());
             else if (hms.minutes().count())
-                text = fast_io::wconcat_winrt_hstring(hms.minutes(), fast_io::manipulators::chvw(L'\u2005'), hms.seconds());
+                text = util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count());
             co_await ui_thread;
             self.DurationCount().Text(text);
         });

@@ -32,8 +32,8 @@ namespace winrt::Player::implementation
                 auto result{ graph.Graph().CreateFileInputNodeAsync(file).get() };
                 auto properties{ result.FileInputNode().EncodingProperties() };
                 co_await ui_thread;
-                self.SampleRate().Text(fast_io::wconcat_winrt_hstring(properties.SampleRate(), L"Hz"));
-                self.BitDepth().Text(fast_io::wconcat_winrt_hstring(properties.BitsPerSample()));
+                self.SampleRate().Text(util::hformat(L"{}Hz", properties.SampleRate()));
+                self.BitDepth().Text(util::hformat(L"{}", properties.BitsPerSample()));
             });
         }
     }
@@ -60,7 +60,7 @@ namespace winrt::Player::implementation
 
     winrt::hstring MusicInfo::Track()
     {
-        return fast_io::wconcat_winrt_hstring(music_.Track);
+        return util::hformat(L"{}", music_.Track);
     }
 
     winrt::hstring MusicInfo::Duration()
@@ -68,9 +68,9 @@ namespace winrt::Player::implementation
         auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ static_cast<int64_t>(music_.Duration) } } };
         auto hours{ hms.hours().count() };
         if (hours)
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hours, 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
+            return util::hformat(L"{:02}:{:02}:{:02}", hours, hms.minutes().count(), hms.seconds().count());
         else
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
+            return util::hformat(L"{:02}:{:02}", hms.minutes().count(), hms.seconds().count());
     }
 
     winrt::hstring MusicInfo::Genre()
@@ -80,12 +80,12 @@ namespace winrt::Player::implementation
 
     winrt::hstring MusicInfo::Year()
     {
-        return fast_io::wconcat_winrt_hstring(music_.Year);
+        return util::hformat(L"{}", music_.Year);
     }
 
     winrt::hstring MusicInfo::Bitrate()
     {
-        return fast_io::wconcat_winrt_hstring(music_.Bitrate / 1000, L"kbps");
+        return util::hformat(L"{}Kbps", music_.Bitrate / 1000);
     }
 
     winrt::hstring MusicInfo::Format()
@@ -103,6 +103,6 @@ namespace winrt::Player::implementation
     void MusicInfo::Folder_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         auto path{ std::wstring_view{ music_.Path } };
-        Win32Helper::OpenExplorer(fast_io::wconcat(library_.address, path.substr(0, path.find_last_of(L'\\'))));
+        Win32Helper::OpenExplorer(std::format(L"{}{}", library_.address, path.substr(0, path.find_last_of(L'\\'))));
     }
 }

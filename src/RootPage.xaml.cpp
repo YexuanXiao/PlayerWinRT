@@ -87,7 +87,7 @@ namespace winrt::Player::implementation
             else
             {
                 winrt::Microsoft::UI::Xaml::Controls::Grid::SetRowSpan(title_ui, 1);
-                self.player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", self.player_view_model_.Title()));
+                self.player_view_model_.AppTitle(util::hformat(L"{} - {}", artist, self.player_view_model_.Title()));
             }
         });
         // slider
@@ -225,7 +225,7 @@ namespace winrt::Player::implementation
         if (artist.empty())
             player_view_model_.AppTitle(player_view_model_.Title());
         else
-            player_view_model_.AppTitle(fast_io::wconcat_winrt_hstring(artist, L" - ", player_view_model_.Title()));
+            player_view_model_.AppTitle(util::hformat(L"{} - {}", artist, player_view_model_.Title()));
     }
 
     void RootPage::PlayButtonOff()

@@ -1,4 +1,7 @@
 #pragma once
+
+#define NOMINMAX
+
 #include <windows.h>
 #include <unknwn.h>
 #include <restrictederrorinfo.h>
@@ -45,24 +48,22 @@
 #include <pplawait.h>
 
 #include <regex>
+#include <format>
+#include <ranges>
 
-#include <fast_io.h>
-
-namespace winrt::Player {}
-
-inline winrt::hstring operator""_hs(wchar_t const * begin, std::size_t const size) {
-	return winrt::hstring{ begin, static_cast<winrt::hstring::size_type>(size) };
+namespace winrt::Player
+{
 }
 
-#if !defined(__cpp_size_t_suffix) || __cpp_size_t_suffix < 202011L
-// for C++ 23 std::size_t literal workaround
-inline constexpr std::size_t operator""uz(unsigned long long const value) {
-	if constexpr (sizeof(value) <= sizeof(std::size_t)) {
-		return { value };
-	}
-	else {
-		assert(value < SIZE_MAX);
-		return { value };
-	}
+inline winrt::hstring operator""_hs(wchar_t const* begin, std::size_t const size)
+{
+    return winrt::hstring{ begin, static_cast<winrt::hstring::size_type>(size) };
 }
-#endif
+
+namespace util
+{
+    template <class... Args> inline winrt::hstring hformat(std::wstring_view fmt, Args&&... args)
+    {
+        return winrt::hstring{ std::vformat(fmt, std::make_wformat_args(args...)) };
+    }
+}

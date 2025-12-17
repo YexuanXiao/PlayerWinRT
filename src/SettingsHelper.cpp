@@ -1,9 +1,18 @@
 #include "pch.h"
 #include "SettingsHelper.h"
-#include <fast_io_crypto.h>
+
+#pragma comment(lib, "ntdll.lib")
 
 namespace SettingsHelper
 {
+    extern "C" NTSYSAPI ULONG32 NTAPI RtlComputeCrc32(_In_ ULONG32 PartialCrc, _In_ PVOID Buffer, _In_ ULONG Length);
+
+    winrt::hstring Crc32String(winrt::hstring const& input)
+    {
+        ULONG32 crc = RtlComputeCrc32(0, const_cast<void*>(reinterpret_cast<const void*>(input.data())), static_cast<ULONG>(input.size() * sizeof(wchar_t)));
+        return util::hformat(L"{}", crc);
+    }
+
     namespace impl_
     {
         constexpr std::wstring_view Theme_Key = L"Theme";
@@ -115,10 +124,7 @@ namespace SettingsHelper
         // first, insert library to local settings
         auto const name{ library.GetNamedString(L"Name") };
         // transform filename to crc32
-        fast_io::crc32_context crc;
-        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
-        crc.do_final();
-        auto file{ co_await impl_::GetDataFolder().CreateFileAsync(fast_io::wconcat_winrt_hstring(crc.digest_value()), winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
+        auto file{ co_await impl_::GetDataFolder().CreateFileAsync(Crc32String(name), winrt::Windows::Storage::CreationCollisionOption::OpenIfExists) };
         winrt::Windows::Storage::FileIO::WriteTextAsync(file, library.GetNamedArray(L"List").ToString());
         // second, insert library name to libraries
         auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };
@@ -133,10 +139,7 @@ namespace SettingsHelper
 
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Data::Json::JsonArray> GetLibrary(winrt::hstring const& name)
     {
-        fast_io::crc32_context crc;
-        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
-        crc.do_final();
-        auto file{ (co_await impl_::GetDataFolder().GetItemAsync(fast_io::wconcat_winrt_hstring(crc.digest_value()))).try_as<winrt::Windows::Storage::StorageFile>() };
+        auto file{ (co_await impl_::GetDataFolder().GetItemAsync(Crc32String(name))).try_as<winrt::Windows::Storage::StorageFile>() };
         co_return winrt::Windows::Data::Json::JsonArray::Parse(co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file));
     }
 
@@ -144,10 +147,7 @@ namespace SettingsHelper
     {
         auto settings{ impl_::GetApplicationSettings() };
         // first, remove library data
-        fast_io::crc32_context crc;
-        fast_io::io::print(fast_io::manipulators::as_file(crc), name);
-        crc.do_final();
-        auto file{ co_await impl_::GetDataFolder().GetItemAsync(fast_io::wconcat_winrt_hstring(crc.digest_value())) };
+        auto file{ co_await impl_::GetDataFolder().GetItemAsync(Crc32String(name)) };
         co_await file.try_as<winrt::Windows::Storage::StorageFile>().DeleteAsync();
         // second, remove library from libraries
         auto libraries{ winrt::Windows::Data::Json::JsonArray::Parse(winrt::unbox_value_or<winrt::hstring>(settings.Lookup(impl_::Libraries_Key.data()), winrt::hstring{ L"[]" })) };

@@ -82,7 +82,7 @@ namespace winrt::Player::implementation
 
     winrt::hstring InfoViewModel::TransformBitrate(uint32_t value)
     {
-        return fast_io::wconcat_winrt_hstring(value / 1000, L"kbps");
+        return util::hformat(L"{}Kbps", value / 1000);
     }
 
     winrt::hstring InfoViewModel::TransformDuration(int64_t value)
@@ -90,9 +90,9 @@ namespace winrt::Player::implementation
         auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ static_cast<int64_t>(value) } } };
         auto hours{ hms.hours().count() };
         if (hours)
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hours, 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
+            return util::hformat(L"{:02}:{:02}:{:02}", hours, hms.minutes().count(), hms.seconds().count());
         else
-            return fast_io::wconcat_winrt_hstring(fast_io::mnp::right(hms.minutes().count(), 2, L'0'), fast_io::mnp::chvw(L':'), fast_io::mnp::right(hms.seconds().count(), 2, L'0'));
+            return util::hformat(L"{:02}:{:02}", hms.minutes().count(), hms.seconds().count());
     }
 
     winrt::hstring InfoViewModel::DecisionTitle(winrt::hstring const& title, winrt::hstring const& path)

@@ -88,7 +88,7 @@ namespace winrt::Player::implementation
         auto theme{ ActualTheme() };
         auto dialog{ winrt::Microsoft::UI::Xaml::Controls::ContentDialog{} };
         dialog.XamlRoot(XamlRoot());
-        dialog.Title(winrt::box_value(fast_io::wconcat_winrt_hstring(resource.GetString(L"Reset/Text"), fast_io::manipulators::chvw(L' '), resource.GetString(L"ApplicationData/Text"))));
+        dialog.Title(winrt::box_value(util::hformat(L"{} {}", resource.GetString(L"Reset/Text"), resource.GetString(L"ApplicationData/Text"))));
         dialog.CloseButtonText(resource.GetString(L"Cancel"));
         dialog.DefaultButton(winrt::Microsoft::UI::Xaml::Controls::ContentDialogButton::Close);
         dialog.PrimaryButtonText(resource.GetString(L"Reset/Text"));
