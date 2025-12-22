@@ -68,11 +68,10 @@ namespace winrt::Player::implementation
         });
         // sync play_list_ to music_view_
         music_view_.GetAt(play_list_.CurrentItemIndex()).SetState(true);
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = DispatcherQueue()](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;
-            co_await ui_thread;
             auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
             for (auto element : self.music_view_)
             {
@@ -87,7 +86,7 @@ namespace winrt::Player::implementation
             }
         });
         // register events
-        sync_mv_ = music_view_.VectorChanged([&self = *this, strong = this->get_strong(), ui_thread = winrt::apartment_context{}](decltype(music_view_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_mv_ = music_view_.VectorChanged([&self = *this, strong = this->get_strong()](decltype(music_view_) const&, winrt::Windows::Foundation::Collections::IVectorChangedEventArgs const& args) {
             auto operate{ args.CollectionChange() };
             auto index{ args.Index() };
             switch (operate)
@@ -134,7 +133,6 @@ namespace winrt::Player::implementation
                 text = util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count());
             else if (hms.minutes().count())
                 text = util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count());
-            co_await ui_thread;
             self.DurationCount().Text(text);
         });
         MusicViewList().ItemsSource(music_view_);

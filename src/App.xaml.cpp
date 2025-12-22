@@ -51,7 +51,7 @@ namespace winrt::Player::implementation
         window_.Content(root_page_);
         auto player_view_model{ root_page_.PlayerViewModel() };
         window_.Title(player_view_model.Title());
-        player_view_model.PropertyChanged([&self = *this, ui_thread = winrt::apartment_context{}](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
+        player_view_model.PropertyChanged([&self = *this](winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Data::PropertyChangedEventArgs const& args) {
             if (args.PropertyName() != L"AppTitle")
                 return;
             self.window_.Title(sender.try_as<winrt::Player::PlayerViewModel>().AppTitle());

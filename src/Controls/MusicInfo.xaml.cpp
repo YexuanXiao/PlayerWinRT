@@ -24,14 +24,13 @@ namespace winrt::Player::implementation
         if (library_.protocol == L"local")
         {
             Loaded([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
-                auto ui_thread{ winrt::apartment_context{} };
                 using namespace std::chrono_literals;
                 co_await 1s;
                 auto graph{ winrt::Windows::Media::Audio::AudioGraph::CreateAsync(winrt::Windows::Media::Audio::AudioGraphSettings{ winrt::Windows::Media::Render::AudioRenderCategory::Media }).get() };
                 auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.Path()).get() };
                 auto result{ graph.Graph().CreateFileInputNodeAsync(file).get() };
                 auto properties{ result.FileInputNode().EncodingProperties() };
-                co_await ui_thread;
+                co_await wil::resume_foreground(self.DispatcherQueue());
                 self.SampleRate().Text(util::hformat(L"{}Hz", properties.SampleRate()));
                 self.BitDepth().Text(util::hformat(L"{}", properties.BitsPerSample()));
             });

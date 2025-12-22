@@ -96,7 +96,7 @@ namespace winrt::Player::implementation
         }
     }
 
-    winrt::Windows::Foundation::IAsyncAction LibraryEditor::PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const&, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const& args)
+    winrt::Windows::Foundation::IAsyncAction LibraryEditor::PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const& sender, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const& args)
     {
         // Cancel = true keep Dialog show after click
         args.Cancel(true);
@@ -106,8 +106,6 @@ namespace winrt::Player::implementation
         Progress().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
         Editor().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
         PrimaryButtonText(winrt::hstring{});
-        // capture ui thread
-        auto ui_thread{ winrt::apartment_context{} };
 
         auto info{ winrt::Data::Library{ Library().Text(), winrt::unbox_value<winrt::hstring>(Protocol().Tag()), Address().Text(), Icon().Glyph() } };
         auto library{ winrt::Windows::Data::Json::JsonObject{ nullptr } };
@@ -126,10 +124,10 @@ namespace winrt::Player::implementation
         }
 
         co_await SettingsHelper::StoreLibrary(library);
-
-        libraries_.Append(info);
         // switch back to ui thread
-        co_await ui_thread;
+        co_await wil::resume_foreground(DispatcherQueue());
+        // 
+        libraries_.Append(info);
         Hide();
     }
 

@@ -130,6 +130,7 @@ namespace winrt::Player::implementation
                     infos.emplace_back(info);
                 }
             }
+            co_await wil::resume_foreground(self.DispatcherQueue());
             // set data
             self.player_view_model_.Library(self.library_);
             self.info_list_.ReplaceAll(infos);
@@ -141,12 +142,11 @@ namespace winrt::Player::implementation
             self.MusicViewList().IsItemClickEnabled(true);
         });
         // register play list event to update selected item
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = winrt::apartment_context{}](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_pl_ = play_list_.CurrentItemChanged([&self = *this](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;
             auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            co_await ui_thread;
             // update FolderView UI
             for (auto element : self.music_view_)
             {

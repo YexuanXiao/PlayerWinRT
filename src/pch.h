@@ -51,6 +51,8 @@
 #include <format>
 #include <ranges>
 
+#include <wil/cppwinrt_helpers.h>
+
 namespace winrt::Player
 {
 }
