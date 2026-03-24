@@ -12,8 +12,8 @@ namespace winrt::Player::implementation
         LibraryEditor(winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library> const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&, winrt::hstring const&);
 
         void ProtocolMenu_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
-        winrt::Windows::Foundation::IAsyncAction PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const&, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const&);
-        winrt::Windows::Foundation::IAsyncAction SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
+        winrt::fire_and_forget PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const&, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const&);
+        winrt::fire_and_forget SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&);
 
     private:
         bool CheckInfoLegal();

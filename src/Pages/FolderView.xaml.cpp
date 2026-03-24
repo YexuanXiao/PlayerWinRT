@@ -16,7 +16,7 @@ namespace winrt::Player::implementation
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
 
-    winrt::Windows::Foundation::IAsyncAction FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
+    winrt::fire_and_forget FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
     {
         if (args.Parameter() == nullptr)
             co_return;
@@ -90,7 +90,7 @@ namespace winrt::Player::implementation
             (because ListView is almost always in click mode,
             so changing selected item programmatically does not trigger single selection events)
         */
-        sync_mvl_click_ = MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_mvl_click_ = MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::fire_and_forget {
             // important code to make such effect
             auto view_list{ self.MusicViewList() };
             view_list.SelectionMode(winrt::Microsoft::UI::Xaml::Controls::ListViewSelectionMode::Single);
@@ -142,7 +142,7 @@ namespace winrt::Player::implementation
             self.MusicViewList().IsItemClickEnabled(true);
         });
         // register play list event to update selected item
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_pl_ = play_list_.CurrentItemChanged([&self = *this](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::fire_and_forget {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;

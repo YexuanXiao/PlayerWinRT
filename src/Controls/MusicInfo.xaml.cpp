@@ -23,7 +23,7 @@ namespace winrt::Player::implementation
 
         if (library_.protocol == L"local")
         {
-            Loaded([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+            Loaded([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> winrt::fire_and_forget {
                 using namespace std::chrono_literals;
                 co_await 1s;
                 auto graph{ winrt::Windows::Media::Audio::AudioGraph::CreateAsync(winrt::Windows::Media::Audio::AudioGraphSettings{ winrt::Windows::Media::Render::AudioRenderCategory::Media }).get() };

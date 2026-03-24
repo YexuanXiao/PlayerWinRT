@@ -11,7 +11,7 @@ namespace winrt::Player::implementation
         // binding helper
         winrt::hstring CalculateTrueFolderCount(std::size_t);
         // event handlers
-        winrt::Windows::Foundation::IAsyncAction OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
+        winrt::fire_and_forget OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const&);
 
     private:
         // data for private use

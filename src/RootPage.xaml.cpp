@@ -91,7 +91,7 @@ namespace winrt::Player::implementation
             }
         });
         // slider
-        session_.PlaybackStateChanged([&self = *this](decltype(session_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
+        session_.PlaybackStateChanged([&self = *this](decltype(session_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::fire_and_forget {
             co_await wil::resume_foreground(self.DispatcherQueue());
             while (self.session_.PlaybackState() == decltype(self.session_.PlaybackState())::Playing) [[likely]]
             {
@@ -120,7 +120,7 @@ namespace winrt::Player::implementation
                 self.session_.Position(std::chrono::duration_cast<decltype(self.session_.Position())>(winrt::clock::duration{ static_cast<int64_t>(self.player_view_model_.Position()) }));
         });
         // when switch to new music, make button ui on
-        play_list_.CurrentItemChanged([&self = *this, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::Windows::Foundation::IAsyncAction {
+        play_list_.CurrentItemChanged([&self = *this, strong = this->get_strong()](decltype(play_list_) const&, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const& args) -> winrt::fire_and_forget {
             co_await wil::resume_foreground(self.DispatcherQueue());
             auto item{ self.play_list_.CurrentItem() };
             if (item == nullptr)
@@ -174,15 +174,15 @@ namespace winrt::Player::implementation
             }
         });
         // register play and pause event to update button ui
-        commander_.PlayReceived([&self = *this](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        commander_.PlayReceived([&self = *this](decltype(commander_), winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPlayReceivedEventArgs const&) -> winrt::fire_and_forget {
             co_await wil::resume_foreground(self.DispatcherQueue());
             self.PlayButtonOn();
         });
-        commander_.PauseReceived([&self = *this](decltype(commander_) const&, winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        commander_.PauseReceived([&self = *this](decltype(commander_) const&, winrt::Windows::Media::Playback::MediaPlaybackCommandManagerPauseReceivedEventArgs const&) -> winrt::fire_and_forget {
             co_await wil::resume_foreground(self.DispatcherQueue());
             self.PlayButtonOff();
         });
-        player_.MediaEnded([&self = *this](decltype(player_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::Windows::Foundation::IAsyncAction {
+        player_.MediaEnded([&self = *this](decltype(player_) const&, winrt::Windows::Foundation::IInspectable const&) -> winrt::fire_and_forget {
             co_await wil::resume_foreground(self.DispatcherQueue());
             self.PlayButtonOff();
         });
@@ -247,7 +247,7 @@ namespace winrt::Player::implementation
             RootFrame().Navigate(winrt::xaml_typename<Player::Settings>());
     }
 
-    winrt::Windows::Foundation::IAsyncAction RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::fire_and_forget RootPage::MusicInfo_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
         auto index{ play_list_.CurrentItemIndex() };
@@ -444,7 +444,7 @@ namespace winrt::Player::implementation
         }
     }
 
-    winrt::Windows::Foundation::IAsyncAction RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::fire_and_forget RootPage::Add_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 
@@ -455,7 +455,7 @@ namespace winrt::Player::implementation
         static_cast<void>(co_await dialog.ShowAsync());
     }
 
-    winrt::Windows::Foundation::IAsyncAction RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::fire_and_forget RootPage::About_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 
@@ -466,7 +466,7 @@ namespace winrt::Player::implementation
         static_cast<void>(co_await dialog.ShowAsync());
     }
 
-    winrt::Windows::Foundation::IAsyncAction RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    winrt::fire_and_forget RootPage::Equalizer_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
 

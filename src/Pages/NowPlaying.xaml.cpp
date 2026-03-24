@@ -18,7 +18,7 @@ namespace winrt::Player::implementation
         return player_view_model_;
     }
 
-    winrt::Windows::Foundation::IAsyncAction NowPlaying::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
+    winrt::fire_and_forget NowPlaying::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
     {
         if (args.Parameter() == nullptr)
             co_return;
@@ -68,7 +68,7 @@ namespace winrt::Player::implementation
         });
         // sync play_list_ to music_view_
         music_view_.GetAt(play_list_.CurrentItemIndex()).SetState(true);
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = DispatcherQueue()](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::Windows::Foundation::IAsyncAction {
+        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = DispatcherQueue()](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::fire_and_forget {
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;

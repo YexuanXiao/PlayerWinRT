@@ -25,7 +25,7 @@ namespace winrt::Player::implementation
         }
     }
 
-    winrt::Windows::Foundation::IAsyncAction Welcome::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
+    winrt::fire_and_forget Welcome::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
     {
         if (args.Parameter() == nullptr)
             co_return;
@@ -33,7 +33,7 @@ namespace winrt::Player::implementation
         libraries_ = args.Parameter().try_as<winrt::Windows::Foundation::Collections::IObservableVector<winrt::Data::Library>>();
     }
 
-    winrt::Windows::Foundation::IAsyncAction Welcome::AddLibrary_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
+    winrt::fire_and_forget Welcome::AddLibrary_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const&)
     {
         // show edit library dialog
         auto dialog{ LibraryEditor{ nullptr } };
