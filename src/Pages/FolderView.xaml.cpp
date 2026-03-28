@@ -16,10 +16,11 @@ namespace winrt::Player::implementation
         // because constructor cannot be coroutine, so initialize in Loaded event
     }
 
-    winrt::fire_and_forget FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
+    util::fire_and_forget FolderView::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
     {
         if (args.Parameter() == nullptr)
             co_return;
+        auto strong = get_strong();
 
         auto argument{ args.Parameter().try_as<winrt::Data::ControlPageParameter>() };
 
@@ -90,15 +91,16 @@ namespace winrt::Player::implementation
             (because ListView is almost always in click mode,
             so changing selected item programmatically does not trigger single selection events)
         */
-        sync_mvl_click_ = MusicViewList().ItemClick([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> winrt::fire_and_forget {
+        sync_mvl_click_ = MusicViewList().ItemClick([this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::ItemClickEventArgs const& args) -> util::fire_and_forget {
             // important code to make such effect
-            auto view_list{ self.MusicViewList() };
+            auto self = this->get_strong();
+            auto view_list{ self->MusicViewList() };
             view_list.SelectionMode(winrt::Microsoft::UI::Xaml::Controls::ListViewSelectionMode::Single);
             view_list.IsItemClickEnabled(false);
             view_list.SelectedItem(args.ClickedItem());
 
             // find index of clicked item
-            auto view{ self.music_view_.GetView() };
+            auto view{ self->music_view_.GetView() };
             auto current{ args.ClickedItem().try_as<winrt::Player::InfoViewModel>().Get() };
             // swith to backgroud thread
             co_await winrt::resume_background();
@@ -122,37 +124,39 @@ namespace winrt::Player::implementation
                 auto size{ view.Size() };
                 items.reserve(size);
                 infos.reserve(size);
-                for (auto const& i : self.music_view_.GetView())
+                for (auto const& i : self->music_view_.GetView())
                 {
                     auto info{ i.Get() };
-                    auto const& file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.library_.address + info.Path) };
+                    auto const& file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self->library_.address + info.Path) };
                     items.emplace_back(winrt::Windows::Media::Core::MediaSource::CreateFromStorageFile(file));
                     infos.emplace_back(info);
                 }
             }
-            co_await wil::resume_foreground(self.DispatcherQueue());
+            co_await wil::resume_foreground(self->DispatcherQueue());
             // set data
-            self.player_view_model_.Library(self.library_);
-            self.info_list_.ReplaceAll(infos);
-            self.music_list_.ReplaceAll(items);
-            self.play_list_.MoveTo(static_cast<uint32_t>(index));
+            self->player_view_model_.Library(self->library_);
+            self->info_list_.ReplaceAll(infos);
+            self->music_list_.ReplaceAll(items);
+            self->play_list_.MoveTo(static_cast<uint32_t>(index));
         });
         sync_mvl_select_ = MusicViewList().SelectionChanged([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const&) {
             // make click event effective
             self.MusicViewList().IsItemClickEnabled(true);
         });
         // register play list event to update selected item
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::fire_and_forget {
+        sync_pl_ = play_list_.CurrentItemChanged([this](decltype(play_list_) const sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> util::fire_and_forget {
+            auto self = this->get_strong();
+            co_await wil::resume_foreground(self->DispatcherQueue());
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;
-            auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
+            auto info{ self->info_list_.GetAt(sender.CurrentItemIndex()) };
             // update FolderView UI
-            for (auto element : self.music_view_)
+            for (auto element : self->music_view_)
             {
                 if (info.Duration == element.Duration())
                 {
-                    self.MusicViewList().SelectedItem(element);
+                    self->MusicViewList().SelectedItem(element);
                     element.SetState(true);
                 }
                 else
@@ -189,9 +193,9 @@ namespace winrt::Player::implementation
             auto const hms{ std::chrono::hh_mm_ss{ count } };
 
             if (hms.hours().count()) [[likely]]
-                DurationCount().Text(util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count()));
+                DurationCount().Text(util::hformat(L"{:02}:{:02}:{:02}", hms.hours().count(), hms.minutes().count(), hms.seconds().count()));
             else if (hms.minutes().count())
-                DurationCount().Text(util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count()));
+                DurationCount().Text(util::hformat(L"{:02}:{:02}", hms.minutes().count(), hms.seconds().count()));
         }
         // set music count
         MusicCount().Text(util::hformat(L"{}", music.size()));

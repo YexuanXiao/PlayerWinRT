@@ -96,10 +96,11 @@ namespace winrt::Player::implementation
         }
     }
 
-    winrt::fire_and_forget LibraryEditor::PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const& sender, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const& args)
+    util::fire_and_forget LibraryEditor::PrimaryButton_Click(winrt::Microsoft::UI::Xaml::Controls::ContentDialog const& sender, winrt::Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const& args)
     {
         // Cancel = true keep Dialog show after click
         args.Cancel(true);
+        auto strong = get_strong();
         if (!CheckInfoLegal())
             co_return;
 
@@ -131,8 +132,9 @@ namespace winrt::Player::implementation
         Hide();
     }
 
-    winrt::fire_and_forget LibraryEditor::SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    util::fire_and_forget LibraryEditor::SelectButton_Tapped(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
+        auto strong = get_strong();
         args.Handled(true);
         auto picker{ winrt::Windows::Storage::Pickers::FolderPicker{} };
         picker.ViewMode(winrt::Windows::Storage::Pickers::PickerViewMode::List);

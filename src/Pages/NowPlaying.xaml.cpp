@@ -18,10 +18,10 @@ namespace winrt::Player::implementation
         return player_view_model_;
     }
 
-    winrt::fire_and_forget NowPlaying::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
+    void NowPlaying::OnNavigatedTo(winrt::Microsoft::UI::Xaml::Navigation::NavigationEventArgs const& args)
     {
         if (args.Parameter() == nullptr)
-            co_return;
+            return;
 
         auto argument{ args.Parameter().try_as<winrt::Data::ControlPageParameter>() };
         player_view_model_root_ = argument.PlayerViewModel();
@@ -68,12 +68,13 @@ namespace winrt::Player::implementation
         });
         // sync play_list_ to music_view_
         music_view_.GetAt(play_list_.CurrentItemIndex()).SetState(true);
-        sync_pl_ = play_list_.CurrentItemChanged([&self = *this, ui_thread = DispatcherQueue()](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> winrt::fire_and_forget {
+        sync_pl_ = play_list_.CurrentItemChanged([this](decltype(play_list_) const& sender, winrt::Windows::Media::Playback::CurrentMediaPlaybackItemChangedEventArgs const&) -> util::fire_and_forget {
+            auto self{ this->get_strong() };
             auto item{ sender.CurrentItem() };
             if (item == nullptr)
                 co_return;
-            auto info{ self.info_list_.GetAt(sender.CurrentItemIndex()) };
-            for (auto element : self.music_view_)
+            auto info{ self->info_list_.GetAt(sender.CurrentItemIndex()) };
+            for (auto element : self->music_view_)
             {
                 if (info.Duration == element.Duration())
                 {
@@ -130,9 +131,9 @@ namespace winrt::Player::implementation
             auto text{ winrt::hstring{} };
             auto const hms{ std::chrono::hh_mm_ss{ winrt::clock::duration{ self.count_ } } };
             if (hms.hours().count()) [[likely]]
-                text = util::hformat(L"{}\u2005{}\u2005{}", hms.hours().count(), hms.minutes().count(), hms.seconds().count());
+                text = util::hformat(L"{:02}:{:02}:{:02}", hms.hours().count(), hms.minutes().count(), hms.seconds().count());
             else if (hms.minutes().count())
-                text = util::hformat(L"{}\u2005{}", hms.minutes().count(), hms.seconds().count());
+                text = util::hformat(L"{:02}:{:02}", hms.minutes().count(), hms.seconds().count());
             self.DurationCount().Text(text);
         });
         MusicViewList().ItemsSource(music_view_);

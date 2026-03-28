@@ -81,7 +81,7 @@ namespace winrt::Player::implementation
             winrt::Windows::Globalization::ApplicationLanguages::PrimaryLanguageOverride(lang);
     }
 
-    winrt::fire_and_forget Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
+    util::fire_and_forget Settings::Reset_Tapped(winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const& args)
     {
         args.Handled(true);
         auto resource{ winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader{} };

@@ -53,9 +53,6 @@
 
 #include <wil/cppwinrt_helpers.h>
 
-namespace winrt::Player
-{
-}
 
 inline winrt::hstring operator""_hs(wchar_t const* begin, std::size_t const size)
 {
@@ -68,4 +65,13 @@ namespace util
     {
         return winrt::hstring{ std::vformat(fmt, std::make_wformat_args(args...)) };
     }
+    struct fire_and_forget {
+        struct promise_type {
+            fire_and_forget get_return_object() const noexcept { return {}; }
+            std::suspend_never initial_suspend() const noexcept { return {}; }
+            std::suspend_never final_suspend() const noexcept { return {}; }
+            void return_void() const noexcept {}
+            void unhandled_exception() const noexcept {}
+        };
+    };
 }

@@ -23,16 +23,15 @@ namespace winrt::Player::implementation
 
         if (library_.protocol == L"local")
         {
-            Loaded([&self = *this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> winrt::fire_and_forget {
-                using namespace std::chrono_literals;
-                co_await 1s;
-                auto graph{ winrt::Windows::Media::Audio::AudioGraph::CreateAsync(winrt::Windows::Media::Audio::AudioGraphSettings{ winrt::Windows::Media::Render::AudioRenderCategory::Media }).get() };
-                auto file{ winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self.Path()).get() };
-                auto result{ graph.Graph().CreateFileInputNodeAsync(file).get() };
+            Loaded([this](winrt::Windows::Foundation::IInspectable const&, winrt::Microsoft::UI::Xaml::RoutedEventArgs const&) -> util::fire_and_forget {
+                auto self = this->get_strong();
+                auto graph{ co_await winrt::Windows::Media::Audio::AudioGraph::CreateAsync(winrt::Windows::Media::Audio::AudioGraphSettings{ winrt::Windows::Media::Render::AudioRenderCategory::Media }) };
+                auto file{ co_await winrt::Windows::Storage::StorageFile::GetFileFromPathAsync(self->Path()) };
+                auto result{ co_await graph.Graph().CreateFileInputNodeAsync(file) };
                 auto properties{ result.FileInputNode().EncodingProperties() };
-                co_await wil::resume_foreground(self.DispatcherQueue());
-                self.SampleRate().Text(util::hformat(L"{}Hz", properties.SampleRate()));
-                self.BitDepth().Text(util::hformat(L"{}", properties.BitsPerSample()));
+                co_await wil::resume_foreground(self->DispatcherQueue());
+                self->SampleRate().Text(util::hformat(L"{}Hz", properties.SampleRate()));
+                self->BitDepth().Text(util::hformat(L"{}", properties.BitsPerSample()));
             });
         }
     }
